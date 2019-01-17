@@ -1,0 +1,27 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    TVD[$1]=$2;	#weise $1 auf $5 zu
+	   
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	ID="0";
+	ID=TVD[$1]; 
+	
+	if(ID!=""){
+	    print ID" "$2
+	}
+    }
+}
+
+
+

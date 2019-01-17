@@ -1,0 +1,85 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=";" #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    SIRE[$1]=$2;	#weise $1 auf $5 zu
+	    DAM[$1]=$3;
+ 	    TVD[$1]=$5;	#weise $2 auf $1 zu
+            ITB[$1]=$4;
+            GEBDAT[$1]=$6;
+            SEK[$1]=$7;
+	}
+    }
+#    else if(FILENAME==ARGV[2]){
+#        if(NR>0){
+#            sub("\015$","",$(NF)) #avoid CR problem
+#            agate[$1]=$5; #weise $2 auf $1 zu;
+#        }
+#    }
+    
+    else {
+	sub("\015$","",$(NF));
+	#erste zuweisung
+	ID="0";
+	ID=TVD[$1]; 
+	IDINTER="0";
+        IDINTER=ITB[$1];
+        BD="0";
+        BD=GEBDAT[$1];
+        KTION="0";
+        KTION=SEK[$1];
+        SID="0";
+        SID=SIRE[$1];
+	SIREID="0";
+	SIREID=TVD[SID];
+        SIREIDINTER="0";
+        SIREIDINTER=ITB[SID];
+        DID="0";
+        DID=DAM[$1];
+        DAMID="0";
+        DAMID=TVD[DID];
+        DAMIDINTER="0";
+        DAMIDINTER=ITB[DID];
+        GEBS="0";
+        GEBS=GEBDAT[SID]
+        SK="0";
+        SK=SEK[$1];	
+        if(SK == "BV" || SK == "OB" || SK == "ROB" || SK == "BS" ){
+        print $1";"ID";""BSW"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else if(SK == "HO" || SK == "RF" || SK == "RH" ){
+        print $1";"ID";""HOL"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else if(SK == "JE" ){
+        print $1";"ID";""JER"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else if(SK == "60" || SK == "70" || SK == "MO" || SK == "SI" || SK == "SF" ){
+        print $1";"ID";""SIM"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        } 
+        else if(SK == "EV" || SK == "OEV" || SK == "INC" || SK == "KR" || SK == "UF" || SK == "UM" || SK == " " || SK == "" ){
+        print $1";"ID";""XXX"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else if(SK == "LM" ){
+        print $1";"ID";""LIM"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else if(SK == "DR" ){
+        print $1";"ID";""DXT"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else if(SK == "AN" ){
+        print $1";"ID";""AAN"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+        else {
+        print $1";"ID";""XXX"IDINTER";""DUMMYNAME"";"BD";"substr(IDINTER,4,1)";"SIREID";""XXX"SIREIDINTER";""DUMMYSIRENAME"";"GEBS";"SK";"DAMID";""XXX"DAMIDINTER";""DUMMYDAMNAME"
+        }
+#add breeds in case breeds are added into the system e.g. VMS
+}
+}
+
+
+

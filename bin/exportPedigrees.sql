@@ -1,0 +1,13 @@
+BEGIN PA_SYS.SETUSERCONTEXT(PA_CONST.CONTEXT_MANDANT_IDX, TO_CHAR(PA_CONST.MANDANT_MANDANTTNADNAM)); END;
+/
+-- Pedigree-Export
+
+
+BEGIN
+  
+      PA_OPERAT.callJobById(pnJobId => XXXXXXXXXX
+                            , psMail  => 'YYYYYYYYYY' );
+     
+END;
+/
+EXIT;

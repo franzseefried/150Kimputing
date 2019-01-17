@@ -1,0 +1,27 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    status[$1]=$1;	#weise $1 auf $1 zu
+	    
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	STAT="0";
+	STAT=status[$1];
+	
+        if(STAT!=""){
+	    print $1" "$2" "$3" "$4
+	}
+    }
+}
+
+
+

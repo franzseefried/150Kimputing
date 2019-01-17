@@ -1,0 +1,31 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+    	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+   	    gt[$1]=$2;
+
+	}
+    }
+    
+    else {
+	sub("\015$","",$(NF)); 
+	MARKER="--";
+	MARKER=gt[$1]; 
+	
+	if(MARKER!=""){
+	    print $2,MARKER
+	}
+	else{
+	    print $2,"--"
+    }
+}
+}
+
+
+

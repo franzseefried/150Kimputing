@@ -1,0 +1,29 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=";" #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    idanim[$1]=$15;	#weise $3 auf $1 zu
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	IDanimal="0";
+#	IDanimal=idanim[substr($2,4,16)]; 
+	IDanimal=idanim[$2]; 
+	if(IDanimal!=""){
+	    print $1";"IDanimal";"$3";"$4
+	}
+	else{
+	    print $1" ######## "$2" "$3" "$4
+	}
+    }
+}
+
+
+
