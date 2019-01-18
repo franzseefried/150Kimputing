@@ -134,7 +134,6 @@ crossreffile=Samplesheet_${run}.txt
 REFTAB_FiRepTest=/qualstorzws01/data_zws/snp/einzelgen/argus/glossar/GeneSeekSingleTestsInFinalReport.txt
 REFTAB_SiTeAr=/qualstorzws01/data_zws/parameterfiles/Reftab_markeridArgus_GeneSeek1seq.txt
 REFTAB_CHIPS=/qualstorzws01/data_zws/parameterfiles/CDCBchipCodes1seq.lst
-EINZELGENMAPFILEFROMFINALRP=/qualstorzws01/data_zws/snp/einzelgen/data/SNP_Map-GGPLDv4.txt
 ISAGPARENTAGESBOLIST=/qualstorzws01/data_zws/parameterfiles/GenoEx-PSE_SNP_List_Details_withOwnSNPnames.csv
 CLLRT=0.948
 HTRT=0.45
