@@ -38,9 +38,9 @@ breed=${1}
 
 
 #define breed loop
-colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD50K | awk '{print $1}')
+colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD150K | awk '{print $1}')
 colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
-DENSITIES=$(awk -v cc=${colDENSITY} 'BEGIN{FS=";"}{ if(NR > 1) print $cc }' ${REFTAB_CHIPS} | sort -T ${SRT_DIR} -u | awk '{if($1 != "") print}')
+DENSITIES=$(awk -v cc=${colDENSITY} 'BEGIN{FS=";"}{ if(NR > 1) print $cc }' ${REFTAB_CHIPS} | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | awk '{if($1 != "") print}')
 
 
 #echo ${DENSITIES}

@@ -40,8 +40,8 @@ if [ -z ${numberOfParallelRJobs} ] ;then
 echo numberOfParallelRJobs is missing which is not allowed. Check ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 exit 1
 fi
-sort -T ${SRT_DIR} -u $WORK_DIR/animal.overall.info -o $WORK_DIR/animal.overall.info
-awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2 | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$1}' | sort -T ${SRT_DIR} -u > $WORK_DIR/samplesheet.TVDzuID.umcod
+sort -T ${SRT_DIR} -T ${SRT_DIR} -u $WORK_DIR/animal.overall.info -o $WORK_DIR/animal.overall.info
+awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2 | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$1}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $WORK_DIR/samplesheet.TVDzuID.umcod
 
 
 for chip in LD 50K 80K 150K 850K F250V1;do
@@ -84,7 +84,7 @@ if [ ${kopfz} -gt 0 ] && [ ${kopfz} -lt 21 ]; then
     echo $cutting
 #check if samples in labfile have plausible chip data. This chech was introduced here after one sample was shipped twice within one orderID
 echo "checke an Hand der Anzahl SNP den Chip fuer jedes Tier in ${labfile}"
-  awk -v krow=${kopfz} 'BEGIN{FS="\t"}{if(NR > krow)print $2}' $TMP_DIR/${labfile}.linux  | sort -T ${SRT_DIR} |uniq -c | awk '{print $1,$2}' |\
+  awk -v krow=${kopfz} 'BEGIN{FS="\t"}{if(NR > krow)print $2}' $TMP_DIR/${labfile}.linux  | sort -T ${SRT_DIR} -T ${SRT_DIR} |uniq -c | awk '{print $1,$2}' |\
   while IFS=" "; read v animal; do
   if [ ${v} -eq 54609 ]; then
      schip=50KV2
@@ -121,7 +121,7 @@ echo "checke an Hand der Anzahl SNP den Chip fuer jedes Tier in ${labfile}"
 done
 
      echo "check if sample-snp connections are ALL uniq"
-     #alt: nuni=$(awk -v krow=${kopfz} 'BEGIN{FS="\t"}{if(NR > krow) print $1,$2}' $TMP_DIR/${labfile}.linux  | sort -T ${SRT_DIR} |uniq -c | awk '{print $1,$2}' | awk '{if($1 > 1) print}' | wc -l | awk '{print $1}')
+     #alt: nuni=$(awk -v krow=${kopfz} 'BEGIN{FS="\t"}{if(NR > krow) print $1,$2}' $TMP_DIR/${labfile}.linux  | sort -T ${SRT_DIR} -T ${SRT_DIR} |uniq -c | awk '{print $1,$2}' | awk '{if($1 > 1) print}' | wc -l | awk '{print $1}')
      awk -v krow=${kopfz} 'BEGIN{FS="\t"}{if(NR > krow) print $1,$2}' $TMP_DIR/${labfile}.linux > $TMP_DIR/${labfile}.uniqtest
      $BIN_DIR/unique.sh $TMP_DIR/${labfile}.uniqtest
      err=$(echo $?)
@@ -137,8 +137,8 @@ done
     awk -v g=${labfile} 'BEGIN{FS=";"}{ \
       if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));sp[$1]=$15;}} \
       else {sub("\015$","",$(NF));bpT=sp[$2]; \
-      if   (bpT != "") print $2";"bpT";"g}}' $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp | sort -T ${SRT_DIR} -u -T $SRT_DIR > $CHCK_DIR/${run}/${labfile}.linklist.genoexPSE
-    $BIN_DIR/awk_umkodierungSAMPLEidIDanimalgeneseek_GGPLDv3 $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp  | sed 's/ //g' | tee  $TMP_DIR/${labfile}.tvd | cut -d';' -f2 | sort -T ${SRT_DIR} -u -T ${SRT_DIR} > $TMP_DIR/${labfile}.tiere
+      if   (bpT != "") print $2";"bpT";"g}}' $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $CHCK_DIR/${run}/${labfile}.linklist.genoexPSE
+    $BIN_DIR/awk_umkodierungSAMPLEidIDanimalgeneseek_GGPLDv3 $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp  | sed 's/ //g' | tee  $TMP_DIR/${labfile}.tvd | cut -d';' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T ${SRT_DIR} > $TMP_DIR/${labfile}.tiere
 
    #weglegen B-Allele und LogR ins Archiv
     cat $TMP_DIR/${labfile}.linux | tr '\t' ';' |\
@@ -244,20 +244,20 @@ done
 cn=$(grep " OOOPS" $CHCK_DIR/${run}/*.check.${labfile} | wc -l  | awk '{print $1}' )
 if [ ${cn} -gt 0 ]; then
     echo "Es hat Tiere in ${labfile} die mindestens einen check nicht erfuellen:"
-    grep " OOOPS" $CHCK_DIR/${run}/*.check.${labfile} | sort -T ${SRT_DIR} -t' ' -k1,1 
+    grep " OOOPS" $CHCK_DIR/${run}/*.check.${labfile} | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 
 else
     echo "Alle Tiere in ${labfile} sind gut :-D"
 fi
 
 #########################################################
 echo "Loesche Tiere die Callrate, GCSore oder Heterozygotie nicht erfuellen"
-$BIN_DIR/awk_keepGoodSamplesOnly <(cat  $TMP_DIR/${labfile}.tiereTOremove | sort -T ${SRT_DIR} -u | awk '{print $1" r"}' | sort -T ${SRT_DIR} -t' ' -k1,1) <(awk 'BEGIN{FS=";"}{print $1,$2,$4,$5}' $TMP_DIR/${labfile}.tvd | sort -T ${SRT_DIR} -t' ' -k2,2 -T ${SRT_DIR}) |\
-        tee $LAB_DIR/${labfile}.tvd.toWorkWith | cut -d' ' -f2 | sort -T ${SRT_DIR} -u -T ${SRT_DIR} > $TMP_DIR/${labfile}.tiere.toWorkWith
+$BIN_DIR/awk_keepGoodSamplesOnly <(cat  $TMP_DIR/${labfile}.tiereTOremove | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | awk '{print $1" r"}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) <(awk 'BEGIN{FS=";"}{print $1,$2,$4,$5}' $TMP_DIR/${labfile}.tvd | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -T ${SRT_DIR}) |\
+        tee $LAB_DIR/${labfile}.tvd.toWorkWith | cut -d' ' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T ${SRT_DIR} > $TMP_DIR/${labfile}.tiere.toWorkWith
 fi
 
 #########################################################
 echo "check no of SNPs being uniq within labfile"
-SNPnUNIQ=$(awk '{if(NR > 1) print $2}' $CHCK_DIR/${run}/nSNPs.check.${labfile} | sort -T ${SRT_DIR} -u -T $SRT_DIR | wc -l | awk '{print $1}' )
+SNPnUNIQ=$(awk '{if(NR > 1) print $2}' $CHCK_DIR/${run}/nSNPs.check.${labfile} | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR | wc -l | awk '{print $1}' )
 if [ ${SNPnUNIQ} != 1 ]; then
 echo " "
 echo "OOOPS $labfile includes samples which differ interms of No. of SNPs. This is not allowed: reject labfile and order new one in the lab"

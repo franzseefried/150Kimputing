@@ -2,7 +2,7 @@
 args<-commandArgs(trailingOnly = TRUE)
 if(length(args)!=2) stop("didn't receive 2 arguments")
 
-#variable <- read.table(file="/qualstore03/data_zws/snp/50Kimputing/parFiles/steuerungsvariablen.ctr.sh", sep="=", fill=TRUE)
+#variable <- read.table(file="/qualstore03/data_zws/snp/50Kimputing/parfiles/steuerungsvariablen.ctr.sh", sep="=", fill=TRUE)
 #k <- nrow(variable)
 # for (i in 1:k) {
 #   if (variable[i,1] == "BAT_DIR")      { INDIR <- variable[i,2] }

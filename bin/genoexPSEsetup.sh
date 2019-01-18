@@ -84,7 +84,7 @@ for labfile in $(find *) ; do
 
   
 #rechne callingrate aus. achtung es brauchte eine anpassung in Eingangscheck.R. zur entwickl des skripts
-  for j in $(awk '{print $2}' ${labfile} | sort -T ${SRT_DIR} -u -T $SRT_DIR); do
+  for j in $(awk '{print $2}' ${labfile} | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR); do
   nSNP=$(awk -v jj=${j} '{if($1 == jj) print $2}' $CHCK_DIR/${run}/nSNPs.check.*)
   CLRT=$(awk -v jj=${j} '{if($1 == jj) print $2}' $CHCK_DIR/${run}/callingrate* | awk '{if($1 <= 1) printf "%3.1f\n", $1*100; else printf "%3.1f\n", $1}')
   #idanimal
@@ -104,7 +104,7 @@ for labfile in $(find *) ; do
    awk 'BEGIN{FS=" "}{ \
       if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));sp[$1]=$2;ss[$1]=$3}} \
       else {sub("\015$","",$(NF));bpT=sp[toupper($1)];spT=ss[toupper($1)]; \
-      if   (bpT != "" && bpT == "Y" && spT != "") print toupper($1),$2,$3$4,spT}}' $TMP_DIR/${labfile}.outmap.isagsnplst ${labfile} | tee $TMP_DIR/${labfile}.genoexpse | awk '{print $2}' | sort -T ${SRT_DIR} -u > $TMP_DIR/${labfile}.genoexpse.samples
+      if   (bpT != "" && bpT == "Y" && spT != "") print toupper($1),$2,$3$4,spT}}' $TMP_DIR/${labfile}.outmap.isagsnplst ${labfile} | tee $TMP_DIR/${labfile}.genoexpse | awk '{print $2}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/${labfile}.genoexpse.samples
 
 
 #auffuellen der fehlenden SNPs zur Sicherheit 
@@ -132,7 +132,7 @@ echo " "
       ANZSNP=$(awk -v m=${tier} 'BEGIN{FS=";"}{if($1 == m) print $3}' $TMP_DIR/genoexpse.CLRT.NSNP.SAMPLEID.${labfile} )
       CALL=$(awk -v m=${tier} 'BEGIN{FS=";"}{if($1 == m) print $4}' $TMP_DIR/genoexpse.CLRT.NSNP.SAMPLEID.${labfile} )
       SNPID=$(awk -v m=${tier} 'BEGIN{FS=";"}{if($1 == m) print $6}' $TMP_DIR/genoexpse.CLRT.NSNP.SAMPLEID.${labfile} )
-      gt=$(awk -v tierchen=${tier} '{if ($2 == tierchen) print $1,$3,$4}' $TMP_DIR/${labfile}.genoexpse.full | sort -T ${SRT_DIR} -t' ' -k3,3n | awk '{gsub("AA","0",$2);gsub("AB","1",$2);gsub("BB","2",$2);gsub("--","5",$2); print $2}' | tr '\n' ' ' | sed 's/ //g')
+      gt=$(awk -v tierchen=${tier} '{if ($2 == tierchen) print $1,$3,$4}' $TMP_DIR/${labfile}.genoexpse.full | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k3,3n | awk '{gsub("AA","0",$2);gsub("AB","1",$2);gsub("BB","2",$2);gsub("--","5",$2); print $2}' | tr '\n' ' ' | sed 's/ //g')
 	  nGENOSNP=$(echo $gt | wc -c | awk '{print $1-1}' )
       notcall=$(echo $gt | sed 's/[0-2]//g' | wc -c | awk '{print $1-1}' )
       #callrate 95 Prozent siehe Praesi vanDoormal Tallin 2017
@@ -200,7 +200,7 @@ wc -l ${BAT_DIR}/${outtime}.${run}.GenoExPSEsnp
 echo " "
 echo " "
 echo "the worst 10 ones in Callrate:"
-sort -T ${SRT_DIR} -t';' -k5,5nr ${BAT_DIR}/${outtime}.${run}.GenoExPSEsnp | tail
+sort -T ${SRT_DIR} -T ${SRT_DIR} -t';' -k5,5nr ${BAT_DIR}/${outtime}.${run}.GenoExPSEsnp | tail
 echo " "
 echo " "
 echo "Calc SampleCallrates"

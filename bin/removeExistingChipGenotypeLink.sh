@@ -36,7 +36,7 @@ if [[ ${labfile} == *Qualitas* ]]; then
 ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' )
 else
 ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | sed 's/\.built/ /g' | cut -d' ' -f1 | cut -d'-' -f2-)
-awk '{print $2}' $labfile | sort -T ${SRT_DIR} -u > $TMP_DIR/${ll}.tiere.toWorkWith
+awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/${ll}.tiere.toWorkWith
 fi
 nSNPfile=$(echo $CHCK_DIR/${run}/nSNPs.check.${ll} )
 #ls -trl $nSNPfile
@@ -92,7 +92,7 @@ echo $labfile
   
   #define Chipdichte
   colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
-  colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD50K | awk '{print $1}')
+  colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD150K | awk '{print $1}')
   incomingdichte=$(awk -v cc=${colDENSITY} -v dd=${colNAME} -v ee=${chip} 'BEGIN{FS=";"}{if( $dd == ee ) print $cc }' ${REFTAB_CHIPS})
   #echo "$idanimal # ${existingDICHTE} # ${incomingdichte} ${chip}"
   #wenn neue incoming chipdichte gleich ist wie existing chipdichte, dann unlink
@@ -124,7 +124,7 @@ echo $labfile
 done
 done
 
-sort -T ${SRT_DIR} -u ${HIS_DIR}/ReplacedAnimals.${run}.txt -o ${HIS_DIR}/ReplacedAnimals.${run}.txt    
+sort -T ${SRT_DIR} -T ${SRT_DIR} -u ${HIS_DIR}/ReplacedAnimals.${run}.txt -o ${HIS_DIR}/ReplacedAnimals.${run}.txt    
 cd ${lokal}
 echo " "
 RIGHT_END=$(date )

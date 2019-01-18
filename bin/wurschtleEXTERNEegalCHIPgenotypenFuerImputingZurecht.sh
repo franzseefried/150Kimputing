@@ -26,7 +26,7 @@ fi
     
 for i in 03_V1 20_V1 26_V1 30_V1 50_V1 139_V1 HD_V1 09_V1 50_V2 77_V1 LD_V1 ; do
 #for i in 03_V1 20_V1 26_V1 30_V1 50_V1 139_V1 09_V1 50_V2 77_V1 LD_V1;do
-    awk '{ sub("\r$", ""); print }' $MAP_DIR/intergenomics/SNPindex_${i}_new_order.txt | sed 's/Dominant Red/Dominant_Red/g' |  awk '{print $1,$2,$3}' | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/MAP${i}.srt
+    awk '{ sub("\r$", ""); print }' $MAP_DIR/intergenomics/SNPindex_${i}_new_order.txt | sed 's/Dominant Red/Dominant_Red/g' |  awk '{print $1,$2,$3}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/MAP${i}.srt
 done
 	for folder in LD80K 50K 150K 850K; do
     cd ${EXT_DIR}/${1}/${folder}
@@ -95,7 +95,7 @@ done
                   awk '{print $1";"$2";"$3";"$4}' > $TMP_DIR/${labfile}.tmp
 
 	    rm -f $TMP_DIR/${labfile}.linux $TMP_DIR/${labfile}.linuxNEU $TMP_DIR/${labfile}.spalteSNP.tmp $TMP_DIR/${labfile}.spalteTIER.tmp $TMP_DIR/${labfile}.spalteALLELA.tmp $TMP_DIR/${labfile}.spalteALLELB.tmp
-	    $BIN_DIR/awk_umkodierungITBIDzuTVD $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp  | tee  $TMP_DIR/${labfile}.tvd | cut -d';' -f2 | sort -T ${SRT_DIR} -u > $WORK_DIR/${labfile}.tiere
+	    $BIN_DIR/awk_umkodierungITBIDzuTVD $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp  | tee  $TMP_DIR/${labfile}.tvd | cut -d';' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $WORK_DIR/${labfile}.tiere
 	else
 	    echo "Habe keinen Header gefunden"
 	    exit 1
@@ -103,8 +103,8 @@ done
 
 	
 #kleine Kontrolle auf der Konsole ob alle umkodierungen funktioniert haben:
-	fgrep "#####" $TMP_DIR/${labfile}.tvd | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$3}' | sort -T ${SRT_DIR} -u
-	kontr=$(fgrep "#####" $TMP_DIR/${labfile}.tvd  | cut -d';' -f2 | sort -T ${SRT_DIR} -u | wc -l | awk '{print $1}')
+	fgrep "#####" $TMP_DIR/${labfile}.tvd | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$3}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -u
+	kontr=$(fgrep "#####" $TMP_DIR/${labfile}.tvd  | cut -d';' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | wc -l | awk '{print $1}')
 	
 	if [ ${kontr} != 0 ]; then
 	    echo "Umkodierung unvollstaendig $labfile"
@@ -126,7 +126,7 @@ done
 	    tail ${h} $TMP_DIR/${labfile}.linux | tr '\t' ',' | tr ${spt} ';' | cut -d';' -f${cutting2} | awk 'BEGIN{FS=";"}{print $1";"$2}' > $WORK_DIR/1stgcscore.forR
 	    $BIN_DIR/awk_umkodierungSAMPLEidIDanimalgeneseek $WORK_DIR/crossref.txt $WORK_DIR/1stgcscore.forR | sed 's/ //g' | tr ';' ' ' > $WORK_DIR/2ndgcscore.forR ;
 	    rm -f $WORK_DIR/1stgcscore.forR;
-	    cut -d' ' -f1  $WORK_DIR/2ndgcscore.forR | sort -T ${SRT_DIR} -u |\
+	    cut -d' ' -f1  $WORK_DIR/2ndgcscore.forR | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |\
            while read muni; do
 		awk -v moggel=${muni} '{if ($1 == moggel) print $1,$2}' $WORK_DIR/2ndgcscore.forR > $WORK_DIR/gcscore.forR
 		nSNP=$(cat $WORK_DIR/gcscore.forR | wc -l | awk '{print $1}' )
@@ -147,7 +147,7 @@ done
 	    
 #########################################################
 	    echo "Rechne Callingrate und Heterozygotie"
-	    awk 'BEGIN{FS=";"}{print $2}' $TMP_DIR/${labfile}.tvd | sort -T ${SRT_DIR} -u |\
+	    awk 'BEGIN{FS=";"}{print $2}' $TMP_DIR/${labfile}.tvd | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |\
            while read line; do
 		notcalled=$(awk -v munele=${line} 'BEGIN{FS=";"}{if($2 == munele && $3 == "-" ) print }' $TMP_DIR/${labfile}.tvd | wc -l | awk '{print $1}')
 		nsnp=$(awk -v munele=${line} 'BEGIN{FS=";"}{if($2 == munele) print }' $TMP_DIR/${labfile}.tvd | wc -l | awk '{print $1}')
@@ -177,9 +177,9 @@ done
 	    
 #########################################################
 	    echo "Loesche Tiere die Callrate, GCSore oder Heterozygotie nicht erfuellen"
-	    cat $WORK_DIR/${labfile}.tiereTOremove | sort -T ${SRT_DIR} -u | awk '{print $1," r"}' | sort -T ${SRT_DIR} -t' ' -k1,1  >  $WORK_DIR/${labfile}.tiereTOremove.uniq
-	    cat $TMP_DIR/${labfile}.tvd | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2 | join -t' ' -o'1.1 1.2 1.3 1.4' -1 2 -2 1 -v1 -  $WORK_DIR/${labfile}.tiereTOremove.uniq |\
-        sort -T ${SRT_DIR} -t' ' -k2,2 -k1,1 | tee $TMP_DIR/${labfile}.tvd.toWorkWith | cut -d' ' -f2 | sort -T ${SRT_DIR} -u > $WORK_DIR/${labfile}.tiere.toWorkWith
+	    cat $WORK_DIR/${labfile}.tiereTOremove | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | awk '{print $1," r"}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1  >  $WORK_DIR/${labfile}.tiereTOremove.uniq
+	    cat $TMP_DIR/${labfile}.tvd | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 | join -t' ' -o'1.1 1.2 1.3 1.4' -1 2 -2 1 -v1 -  $WORK_DIR/${labfile}.tiereTOremove.uniq |\
+        sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -k1,1 | tee $TMP_DIR/${labfile}.tvd.toWorkWith | cut -d' ' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $WORK_DIR/${labfile}.tiere.toWorkWith
 	    rm -f $TMP_DIR/${labfile}.tvd
 	fi
 
@@ -193,8 +193,8 @@ done
 	    	echo "Echo weglegen ${nnSNPs}; GGPLDv3 aus GGPHD fuer ${labfile}"
 			$BIN_DIR/awk_umkodierungTVDzuidanimal $WORK_DIR/samplesheet.TVDzuID.umcod $TMP_DIR/${labfile}.tvd.toWorkWith | sed 's/ -/ Z/g' | sed 's/\.//g' | sed 's/-//g' | sed 's/_//g' | sed 's/ Z/ -/g' > /qualstore03/data_archiv/SNP/Illumina/80K/NewRoutineFiles_starting_fromMay2015/${1}_SNPs_${labfile}.gt
 		    awk '{if($3 == "") print $1,$2,"- -"; else print $1,$2,$3,$4}' $TMP_DIR/${labfile}.tvd.toWorkWith |\
-		      sort -T ${SRT_DIR} -t' ' -k1,1 |\
-              join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2 - $TMP_DIR/MAP30_V1.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.builtGGPLDv3
+		      sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+              join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2 - $TMP_DIR/MAP30_V1.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.builtGGPLDv3
 			mv ${EXT_DIR}/${1}/${folder}/${labfile} ${STR_DIR}/80K/extern/.
 		rm -f ${STR_DIR}/80K/extern/${labfile}.gz    
                 gzip ${STR_DIR}/80K/extern/${labfile}
@@ -204,8 +204,8 @@ done
 	    	echo "Echo weglegen ${nnSNPs}; UHD fuer ${labfile}"
 			$BIN_DIR/awk_umkodierungTVDzuidanimal $WORK_DIR/samplesheet.TVDzuID.umcod $TMP_DIR/${labfile}.tvd.toWorkWith | sed 's/ -/ Z/g' | sed 's/\.//g' | sed 's/-//g' | sed 's/_//g' | sed 's/ Z/ -/g' > /qualstore03/data_archiv/SNP/Illumina/150K/NewRoutineFiles_starting_fromMay2015/${1}_SNPs_${labfile}.gt
     		awk '{if($3 == "") print $1,$2,"- -"; else print $1,$2,$3,$4}' $TMP_DIR/${labfile}.tvd.toWorkWith |\
-    		  sort -T ${SRT_DIR} -t' ' -k1,1 |\
-              join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2 - $TMP_DIR/MAP139_V1.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.built150K
+    		  sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+              join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2 - $TMP_DIR/MAP139_V1.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.built150K
             mv ${EXT_DIR}/${1}/${folder}/${labfile} ${STR_DIR}/150K/extern/.
 	        rm -f ${STR_DIR}/150K/extern/${labfile}.gz	
                 gzip ${STR_DIR}/150K/extern/${labfile}
@@ -215,8 +215,8 @@ done
     		echo "Echo weglegen ${nnSNPs}; HD fuer ${labfile}"
     		$BIN_DIR/awk_umkodierungTVDzuidanimal $WORK_DIR/samplesheet.TVDzuID.umcod $TMP_DIR/${labfile}.tvd.toWorkWith | sed 's/ -/ Z/g' | sed 's/\.//g' | sed 's/-//g' | sed 's/_//g' | sed 's/ Z/ -/g' > /qualstore03/data_archiv/SNP/Illumina/HD/NewRoutineFiles_starting_fromFeb2014/${1}_SNPs_${labfile}.gt
    		    awk '{if($3 == "") print $1,$2,"- -"; else print $1,$2,$3,$4}' $TMP_DIR/${labfile}.tvd.toWorkWith |\
-   		    sort -T ${SRT_DIR} -t' ' -k1,1 |\
-               join -t' ' -o'2.1 2.2 1.2 1.3 1.4' -1 1 -2 1 -a2 - $TMP_DIR/MAPHD_V1.srt | awk -v tt=${tvdid} '{if($3 == "") print $1,$2,tt" - -"}' | awk '{if($2 != "NA") print $1,$3,$4,$5}' | sort -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.builtHD
+   		    sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+               join -t' ' -o'2.1 2.2 1.2 1.3 1.4' -1 1 -2 1 -a2 - $TMP_DIR/MAPHD_V1.srt | awk -v tt=${tvdid} '{if($3 == "") print $1,$2,tt" - -"}' | awk '{if($2 != "NA") print $1,$3,$4,$5}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.builtHD
 	    	mv ${EXT_DIR}/${1}/${folder}/${labfile} ${STR_DIR}/HD/extern/.
                 rm -f ${STR_DIR}/HD/extern/${labfile}.gz
 		gzip ${STR_DIR}/HD/extern/${labfile}
@@ -231,8 +231,8 @@ done
 	    	  outfolder=shb
 	    	fi
 		    awk '{if($3 == "") print $1,$2,"- -"; else print $1,$2,$3,$4}'  $TMP_DIR/${labfile}.tvd.toWorkWith |\
-		    sort -T ${SRT_DIR} -t' ' -k1,1 |\
-               join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2  - $TMP_DIR/MAP50_V2.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.built50KV2
+		    sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+               join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2  - $TMP_DIR/MAP50_V2.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.built50KV2
  		    mv ${EXT_DIR}/${1}/${folder}/${labfile} ${STR_DIR}/50K/extern/.
 		    rm -f ${STR_DIR}/50K/extern/${labfile}.gz
                     gzip ${STR_DIR}/50K/extern/${labfile}
@@ -242,8 +242,8 @@ done
     		echo "Echo weglegen ${nnSNPs}; GGPLDv3 fuer ${labfile}"
     		#$BIN_DIR/awk_umkodierungTVDzuidanimal $WORK_DIR/samplesheet.TVDzuID.umcod $TMP_DIR/${labfile}.tvd.toWorkWith | sed 's/ -/ Z/g' | sed 's/\.//g' | sed 's/-//g' | sed 's/_//g' | sed 's/ Z/ -/g' > /qualstore03/data_archiv/SNP/Illumina/HD/NewRoutineFiles_starting_fromFeb2014/${1}_SNPs_${labfile}.gt
    		    awk '{if($3 == "") print $1,$2,"- -"; else print $1,$2,$3,$4}' $TMP_DIR/${labfile}.tvd.toWorkWith |\
-               sort -T ${SRT_DIR} -t' ' -k1,1 |\
-               join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2  - $TMP_DIR/MAP30_V1.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.builtGGPLDv3
+               sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+               join -t' ' -o'2.1 1.2 1.3 1.4' -1 1 -2 1 -a2  - $TMP_DIR/MAP30_V1.srt | awk -v tt=${tvdid} '{if($2 == "") print $1,tt" - -"; else print $1,$2,$3,$4}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -k1,1 > $LAB_DIR/${1}-${labfile}.tvd.toWorkWith.builtGGPLDv3
 	    	mv ${EXT_DIR}/${1}/${folder}/${labfile} ${STR_DIR}/LD/extern/.
                 rm -f ${STR_DIR}/LD/extern/${labfile}.gz
 		gzip ${STR_DIR}/LD/extern/${labfile}

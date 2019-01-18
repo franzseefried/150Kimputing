@@ -118,11 +118,11 @@ nSNPfile=$(echo $CHCK_DIR/${run}/nSNPs.check.${ll} )
 
   ##prep map:
   imap=$(awk -v cc=${colcc} -v dd=${coldd} -v hh=${chip} 'BEGIN{FS=";"}{if($cc == hh) print $dd}' ${REFTAB_CHIPS})
-  awk '{ sub("\r$", ""); print }' $MAP_DIR/intergenomics/SNPindex_${imap}_new_order.txt | sed 's/Dominant Red/Dominant_Red/g' |  awk '{print $1,$2,$3}' | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/MAP${imap}.srt  
+  awk '{ sub("\r$", ""); print }' $MAP_DIR/intergenomics/SNPindex_${imap}_new_order.txt | sed 's/Dominant Red/Dominant_Red/g' |  awk '{print $1,$2,$3}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/MAP${imap}.srt  
   nmap=$(wc -l $TMP_DIR/MAP${imap}.srt | awk '{print $1}')
 
 
-  join -t' ' -o'1.1 2.1' -1 1 -2 2 <(sort -T ${SRT_DIR} -t' ' -k1,1 ${tierefile}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-2 | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2) | sort -T ${SRT_DIR} -u > $TMP_DIR/intergenomics.id.lst.${labfile}
+  join -t' ' -o'1.1 2.1' -1 1 -2 2 <(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 ${tierefile}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-2 | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2) | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/intergenomics.id.lst.${labfile}
 nover=$(wc -l $TMP_DIR/intergenomics.id.lst.${labfile} | awk '{print $1}' )
 if [ ${nover} -gt 0 ]; then
 #########################################################

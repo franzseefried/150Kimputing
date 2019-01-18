@@ -7,7 +7,7 @@ date
 
 ##############################################################
 lokal=$(pwd | awk '{print $1}')
-source  ${lokal}/parFiles/steuerungsvariablen.ctr.sh
+source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 
 

@@ -64,7 +64,7 @@ done
 cd ${LAB_DIR}
 ls -trl
 filearray=$(find -maxdepth 1 -type f -exec basename {} \;)
-breedarray=$(echo $filearray | awk '{for(i=1;i<=NF;i++) print substr($i,1,3)}'| sort -T ${SRT_DIR} -u) 
+breedarray=$(echo $filearray | awk '{for(i=1;i<=NF;i++) print substr($i,1,3)}'| sort -T ${SRT_DIR} -T ${SRT_DIR} -u) 
 
 #validate breedarray
 valbreed=$(echo "BSW HOL VMS")
@@ -101,10 +101,10 @@ for labfile in $(ls ${rasse}*) ; do
   getColmnNrSemicl IntergenomicsCode ${REFTAB_CHIPS}; coldd=${colNr_};
   if [[ ${labfile} == *Qualitas* ]]; then
     ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | cut -d'-' -f2- )
-    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
+    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
   else
     ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | sed 's/\.built/ /g' | cut -d' ' -f1 | cut -d'-' -f2-)
-    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
+    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
   fi
   nSNPfile=$(echo $CHCK_DIR/${run}/nSNPs.check.${ll} )
   ls -trl $nSNPfile
@@ -152,7 +152,7 @@ for labfile in $(ls ${rasse}*) ; do
   fi
   ##prep map:
   imap=$(awk -v cc=${colcc} -v dd=${coldd} -v hh=${chip} 'BEGIN{FS=";"}{if($cc == hh) print $dd}' ${REFTAB_CHIPS})
-  awk '{ sub("\r$", ""); print }' $MAP_DIR/intergenomics/SNPindex_${imap}_new_order.txt | sed 's/Dominant Red/Dominant_Red/g' |  awk '{print $1,$2,$3}' | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/MAP${imap}.srt  
+  awk '{ sub("\r$", ""); print }' $MAP_DIR/intergenomics/SNPindex_${imap}_new_order.txt | sed 's/Dominant Red/Dominant_Red/g' |  awk '{print $1,$2,$3}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/MAP${imap}.srt  
   nmap=$(wc -l $TMP_DIR/MAP${imap}.srt | awk '{print $1}')
 #  echo $imap $nmap
 
@@ -168,7 +168,7 @@ for labfile in $(ls ${rasse}*) ; do
     aimfolder=vms
   fi
 
-join -t' ' -o'1.1 2.1' -a1 -1 1 -2 2 <(sort -T ${SRT_DIR} -t' ' -k1,1 ${tierefile}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-2 | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2) | sort -T ${SRT_DIR} -u > $TMP_DIR/archivestorage.id.lst.${labfile}
+join -t' ' -o'1.1 2.1' -a1 -1 1 -2 2 <(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 ${tierefile}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-2 | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2) | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/archivestorage.id.lst.${labfile}
 nNULL=$(awk '{if($2 == "") print}' $TMP_DIR/archivestorage.id.lst.${labfile} | wc -l | awk '{print $1}')
 if [ ${nNULL} -gt 0 ]; then echo "mindestens ein Tier ist nicht in $WORK_DIR/animal.overall.info -> IDANIMAL == NULL which is not allowed"; exit 1; fi 
 nover=$(wc -l $TMP_DIR/archivestorage.id.lst.${labfile} | awk '{print $1}' )

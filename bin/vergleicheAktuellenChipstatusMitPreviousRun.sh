@@ -18,8 +18,8 @@ elif [ ${1} == "BSW" ] || [ ${1} == "HOL" ] || [ ${1} == "VMS" ]; then
 #set -o nounset
   breed=${1}
   echo "jetzt Typisierungsstatus mit letzter Imputation vergleichen"
-  sort -T ${SRT_DIR} -t' ' -k1,1 $WRK_DIR/${breed}Typisierungsstatus${run}.txt    > $TMP_DIR/${breed}Typisierungsstatuscurrent.srt
-  sort -T ${SRT_DIR} -t' ' -k1,1 $WRK_DIR/${breed}Typisierungsstatus${oldrun}.txt > $TMP_DIR/${breed}Typisierungsstatusprevious.srt
+  sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $WRK_DIR/${breed}Typisierungsstatus${run}.txt    > $TMP_DIR/${breed}Typisierungsstatuscurrent.srt
+  sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $WRK_DIR/${breed}Typisierungsstatus${oldrun}.txt > $TMP_DIR/${breed}Typisierungsstatusprevious.srt
  	  
 #  echo "previous LD Tiere now 50K"
   join -t' ' -o'1.1 1.2 2.2' -1 1 -2 1 $TMP_DIR/${breed}Typisierungsstatusprevious.srt $TMP_DIR/${breed}Typisierungsstatuscurrent.srt |\

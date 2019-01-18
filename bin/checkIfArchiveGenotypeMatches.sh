@@ -90,7 +90,7 @@ for labfile in $(find *) ; do
 
   
 #rechne callingrate aus. achtung es brauchte eine anpassung in Eingangscheck.R. zur entwickl des skripts
-  for j in $(awk '{print $2}' ${labfile} | sort -T ${SRT_DIR} -u -T $SRT_DIR); do
+  for j in $(awk '{print $2}' ${labfile} | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR); do
   #idanimal
   IDANIMAL=$(awk -v ID=${j} 'BEGIN{FS=";"}{if($2 == ID) print $1}' $WORK_DIR/animal.overall.info | sed 's/ //g' |  head -1)
   #neue typisierung
@@ -104,7 +104,7 @@ for labfile in $(find *) ; do
          else {sub("\015$","",$(NF));bpT=sp[$1];spT=ss[$1];mpT=mp[$1]; \
          if   (bpT != "") print $1,bpT,spT,mpT;
          else print $1,indi,"--",$3}}' $TMP_DIR/${labfile}.${IDANIMAL}.initial $TMP_DIR/${labfile}.outmap.isagsnplst > $TMP_DIR/${labfile}.${IDANIMAL}.sekundaer
-    gtNEU=$(sort -T ${SRT_DIR} -t' ' -k4,4n $TMP_DIR/${labfile}.${IDANIMAL}.sekundaer | awk '{gsub("AA","0",$3);gsub("AB","1",$3);gsub("BB","2",$3);gsub("--","5",$3); print $3}' | tr '\n' ' ')
+    gtNEU=$(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k4,4n $TMP_DIR/${labfile}.${IDANIMAL}.sekundaer | awk '{gsub("AA","0",$3);gsub("AB","1",$3);gsub("BB","2",$3);gsub("--","5",$3); print $3}' | tr '\n' ' ')
    # rm -f $TMP_DIR/${labfile}.${IDANIMAL}.initial $TMP_DIR/${labfile}.${IDANIMAL}.sekundaer
     echo "${IDANIMAL}n ${gtNEU}" > $TMP_DIR/${labfile}.${IDANIMAL}.tertiaer
 
@@ -125,23 +125,23 @@ for labfile in $(find *) ; do
         #aufbau pedfile
         cat ${fileloc} | sed 's/ /o /1' | sed 's/ / 0 0 9 9 /1' | sed 's/^/1 /g' > $TMP_DIR/${IDANIMAL}.${labfile}.ped
         #schneiden der 200 AbstammungsSNP
-        cat $TMP_DIR/${labfile}.outmap.isagsnplst | sort -T ${SRT_DIR} -t' ' -k1,1 |\
-          join -t' ' -o'1.1 1.2 1.3' -1 1 -2 1 - <(sed 's/Dominant Red/Dominant_Red/g' $MAP_DIR/intergenomics/SNPindex_${intname}_new_order.txt | awk '{print toupper($1),"a"}' | sort -T ${SRT_DIR} -t' ' -k1,1 ) | sort -T ${SRT_DIR} -t' ' -k3,3n | awk '{print $1}' | tee $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap | awk '{print $1,"B"}' > $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount
+        cat $TMP_DIR/${labfile}.outmap.isagsnplst | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+          join -t' ' -o'1.1 1.2 1.3' -1 1 -2 1 - <(sed 's/Dominant Red/Dominant_Red/g' $MAP_DIR/intergenomics/SNPindex_${intname}_new_order.txt | awk '{print toupper($1),"a"}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 ) | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k3,3n | awk '{print $1}' | tee $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap | awk '{print $1,"B"}' > $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount
         #wc -l $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap
         #wc -l $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount
-        $BINLIN_DIR/plink_linux64bit_v1.09 --ped $TMP_DIR/${IDANIMAL}.${labfile}.ped --map $TMP_DIR/${IDANIMAL}.${labfile}.map --allow-no-sex --missing-genotype '0' --missing-phenotype '9' --cow --extract $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap  --recodeA --reference-allele $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount --out $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE > /dev/null
+        $FRG_DIR/plink --ped $TMP_DIR/${IDANIMAL}.${labfile}.ped --map $TMP_DIR/${IDANIMAL}.${labfile}.map --allow-no-sex --missing-genotype '0' --missing-phenotype '9' --cow --extract $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap  --recodeA --reference-allele $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount --out $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE > /dev/null
         #zuerst umsortieren des gtstrings aus dem archiv
-        head -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | sed -s "s/_[A-Z]$//g" | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' |sort -T ${SRT_DIR} -t' ' -k1,1 |\
-         join -t' '  -o'1.1 1.2 2.3' -1 1 -2 1 - <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${labfile}.outmap.isagsnplst) | sort -T ${SRT_DIR} -t' ' -k2,2 |\
-         join -t' ' -o'1.1 1.2 1.3 2.1' -1 2 -2 2 - <(tail -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | cut -d'_' -f1 | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' | sort -T ${SRT_DIR} -t' ' -k2,2) |\
-         sort -T ${SRT_DIR} -t' ' -k3,3n | awk -v ii=${IDANIMAL} '{print $1,ii,$3,$4}' > $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse
+        head -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | sed -s "s/_[A-Z]$//g" | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' |sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+         join -t' '  -o'1.1 1.2 2.3' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${labfile}.outmap.isagsnplst) | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 |\
+         join -t' ' -o'1.1 1.2 1.3 2.1' -1 2 -2 2 - <(tail -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | cut -d'_' -f1 | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2) |\
+         sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k3,3n | awk -v ii=${IDANIMAL} '{print $1,ii,$3,$4}' > $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse
         #auffuellen fehlende SNP neue Typisierung
         awk -v indi=${IDANIMAL} 'BEGIN{FS=" "}{ \
              if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));sp[$1]=$2;ss[$1]=$4;mp[$1]=$3}} \
              else {sub("\015$","",$(NF));bpT=sp[$1];spT=ss[$1];mpT=mp[$1]; \
              if   (bpT != "") print $1,bpT,spT,mpT;
              else print $1,indi,"--",$3}}' $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse $TMP_DIR/${labfile}.outmap.isagsnplst > $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse.full
-        gtALT=$(sort -T ${SRT_DIR} -t' ' -k4,4n $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse.full | awk '{gsub("AA","0",$3);gsub("AB","1",$3);gsub("BA","1",$3);gsub("BB","2",$3);gsub("--","5",$3);gsub("NA","5",$3); print $3}' | tr '\n' ' ')
+        gtALT=$(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k4,4n $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse.full | awk '{gsub("AA","0",$3);gsub("AB","1",$3);gsub("BA","1",$3);gsub("BB","2",$3);gsub("--","5",$3);gsub("NA","5",$3); print $3}' | tr '\n' ' ')
         echo "${IDANIMAL}o ${gtALT}" > $TMP_DIR/${labfile}.${IDANIMAL}.quartaer
         #Aufbau des Vergleichfiles. zuerst der neu herienkommende genotyp dann der existierende, nimme alle 200 SNPs obwohl ICAR nur 196 SNPS verwendet
         (cat  $TMP_DIR/${labfile}.${IDANIMAL}.tertiaer; cat $TMP_DIR/${labfile}.${IDANIMAL}.quartaer) | cut -d' ' -f2- > $TMP_DIR/${labfile}.${IDANIMAL}.forAnalysis
@@ -191,23 +191,23 @@ for labfile in $(find *) ; do
              #aufbau pedfile
              cat ${fileloc} | sed 's/ /o /1' | sed 's/ / 0 0 9 9 /1' | sed 's/^/1 /g' > $TMP_DIR/${IDANIMAL}.${labfile}.ped
              #schneiden der 200 AbstammungsSNP
-             cat $TMP_DIR/${labfile}.outmap.isagsnplst | sort -T ${SRT_DIR} -t' ' -k1,1 |\
-               join -t' ' -o'1.1 1.2 1.3' -1 1 -2 1 - <(sed 's/Dominant Red/Dominant_Red/g' $MAP_DIR/intergenomics/SNPindex_${intname}_new_order.txt | awk '{print toupper($1),"a"}' | sort -T ${SRT_DIR} -t' ' -k1,1 ) | sort -T ${SRT_DIR} -t' ' -k3,3n | awk '{print $1}' | tee $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap | awk '{print $1,"B"}' > $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount
+             cat $TMP_DIR/${labfile}.outmap.isagsnplst | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+               join -t' ' -o'1.1 1.2 1.3' -1 1 -2 1 - <(sed 's/Dominant Red/Dominant_Red/g' $MAP_DIR/intergenomics/SNPindex_${intname}_new_order.txt | awk '{print toupper($1),"a"}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 ) | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k3,3n | awk '{print $1}' | tee $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap | awk '{print $1,"B"}' > $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount
              #wc -l $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap
              #wc -l $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount
-             $BINLIN_DIR/plink_linux64bit_v1.09 --ped $TMP_DIR/${IDANIMAL}.${labfile}.ped --map $TMP_DIR/${IDANIMAL}.${labfile}.map --allow-no-sex --missing-genotype '0' --missing-phenotype '9' --cow --extract $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap  --recodeA --reference-allele $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount --out $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE > /dev/null
+             $FRG_DIR/plink --ped $TMP_DIR/${IDANIMAL}.${labfile}.ped --map $TMP_DIR/${IDANIMAL}.${labfile}.map --allow-no-sex --missing-genotype '0' --missing-phenotype '9' --cow --extract $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSEmap  --recodeA --reference-allele $TMP_DIR/${IDANIMAL}.${labfile}.map.force.Bcount --out $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE > /dev/null
              #zuerst umsortieren des gtstrings aus dem archiv
-             head -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | sed -s "s/_[A-Z]$//g" | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' |sort -T ${SRT_DIR} -t' ' -k1,1 |\
-              join -t' '  -o'1.1 1.2 2.3' -1 1 -2 1 - <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${labfile}.outmap.isagsnplst) | sort -T ${SRT_DIR} -t' ' -k2,2 |\
-              join -t' ' -o'1.1 1.2 1.3 2.1' -1 2 -2 2 - <(tail -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | cut -d'_' -f1 | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' | sort -T ${SRT_DIR} -t' ' -k2,2) |\
-              sort -T ${SRT_DIR} -t' ' -k3,3n | awk -v ii=${IDANIMAL} '{print $1,ii,$3,$4}' > $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse
+             head -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | sed -s "s/_[A-Z]$//g" | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' |sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+              join -t' '  -o'1.1 1.2 2.3' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${labfile}.outmap.isagsnplst) | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 |\
+              join -t' ' -o'1.1 1.2 1.3 2.1' -1 2 -2 2 - <(tail -1 $TMP_DIR/${IDANIMAL}.${labfile}.GENOEXPSE.raw | tr ' ' '\n' | cut -d'_' -f1 | awk '{if(NR > 6) print $1}' | awk '{print $1,NR}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2) |\
+              sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k3,3n | awk -v ii=${IDANIMAL} '{print $1,ii,$3,$4}' > $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse
              #auffuellen fehlende SNP neue Typisierung
              awk -v indi=${IDANIMAL} 'BEGIN{FS=" "}{ \
                   if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));sp[$1]=$2;ss[$1]=$4;mp[$1]=$3}} \
                   else {sub("\015$","",$(NF));bpT=sp[$1];spT=ss[$1];mpT=mp[$1]; \
                   if   (bpT != "") print $1,bpT,spT,mpT;
                   else print $1,indi,"--",$3}}' $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse $TMP_DIR/${labfile}.outmap.isagsnplst > $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse.full
-             gtALT=$(sort -T ${SRT_DIR} -t' ' -k4,4n $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse.full | awk '{gsub("AA","0",$3);gsub("AB","1",$3);gsub("BA","1",$3);gsub("BB","2",$3);gsub("--","5",$3);gsub("NA","5",$3); print $3}' | tr '\n' ' ')
+             gtALT=$(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k4,4n $TMP_DIR/${IDANIMAL}.${labfile}.neugenoexpse.full | awk '{gsub("AA","0",$3);gsub("AB","1",$3);gsub("BA","1",$3);gsub("BB","2",$3);gsub("--","5",$3);gsub("NA","5",$3); print $3}' | tr '\n' ' ')
              echo "${IDANIMAL}o ${gtALT}" > $TMP_DIR/${labfile}.${IDANIMAL}.quartaer
              #Aufbau des Vergleichfiles. zuerst der neu herienkommende genotyp dann der existierende, nimm alle 200 SNPs obwohl ICAR nur 196 SNPS verwendet
              (cat  $TMP_DIR/${labfile}.${IDANIMAL}.tertiaer; cat $TMP_DIR/${labfile}.${IDANIMAL}.quartaer) | cut -d' ' -f2- > $TMP_DIR/${labfile}.${IDANIMAL}.forAnalysis

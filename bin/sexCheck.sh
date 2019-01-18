@@ -54,7 +54,7 @@ done
 #define breed loop
 cd ${LAB_DIR}
 filearray=$(find -maxdepth 1 -type f -exec basename {} \;)
-breedarray=$(echo $filearray | awk '{for(i=1;i<=NF;i++) print substr($i,1,3)}'| sort -T ${SRT_DIR} -u -r) 
+breedarray=$(echo $filearray | awk '{for(i=1;i<=NF;i++) print substr($i,1,3)}'| sort -T ${SRT_DIR} -T ${SRT_DIR} -u -r) 
 
 #validate breedarray
 valbreed=$(echo "BSW HOL VMS")
@@ -88,10 +88,10 @@ for rasse in $breedarray ; do
 for labfile in $(ls ${rasse}*) ; do
    if [[ ${labfile} == *Qualitas* ]]; then
     ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | cut -d'-' -f2- )
-    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
+    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
   else
     ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | sed 's/\.built/ /g' | cut -d' ' -f1 | cut -d'-' -f2-)
-    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
+    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
   fi
   nSNPfile=$(echo $CHCK_DIR/${run}/nSNPs.check.${ll} )
   ls -trl $nSNPfile
@@ -153,7 +153,7 @@ for labfile in $(ls ${rasse}*) ; do
   gesecode=$(awk -v cc=${colCHIP} -v dd=${colGESE} -v ee=${chip} 'BEGIN{FS=";"}{if( $cc == ee ) print $dd }' ${REFTAB_CHIPS})
 
 
-  join -t' ' -o'1.1 2.1' -a1 -1 1 -2 2 <(sort -T ${SRT_DIR} -t' ' -k1,1 ${tierefile}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-2 | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2) | sort -T ${SRT_DIR} -u > $TMP_DIR/sexcheck.id.lst.${labfile}
+  join -t' ' -o'1.1 2.1' -a1 -1 1 -2 2 <(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 ${tierefile}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-2 | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2) | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/sexcheck.id.lst.${labfile}
   nNULL=$(awk '{if($2 == "") print}' $TMP_DIR/sexcheck.id.lst.${labfile} | wc -l | awk '{print $1}')
   if [ ${nNULL} -gt 0 ]; then echo "mindestens ein Tier ist nicht in $WORK_DIR/animal.overall.info -> IDANIMAL == NULL which is not allowed"; exit 1; fi 
   nover=$(wc -l $TMP_DIR/sexcheck.id.lst.${labfile} | awk '{print $1}' )

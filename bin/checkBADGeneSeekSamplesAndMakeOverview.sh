@@ -16,7 +16,7 @@ mails=$(echo "marina.kraus@qualitasag.ch franz.seefried@qualitasag.ch madeleine.
 
 
 #if test -s $LOG_DIR/masterskriptHandleNewSNPdata.log && test -s $LOG_DIR/skript1.log ; then
-nBAD=$(awk '{if($0 ~ "OOOPS") print}' $LOG_DIR/masterskriptHandleNewSNPdata.log |cut -d':' -f2|cut -d' ' -f1 | sort -T ${SRT_DIR} -u |wc -l | awk '{print $1}')
+nBAD=$(awk '{if($0 ~ "OOOPS") print}' $LOG_DIR/masterskriptHandleNewSNPdata.log |cut -d':' -f2|cut -d' ' -f1 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |wc -l | awk '{print $1}')
 nALL=$(awk '{if($0 ~ "Printing Sum of all newly delivered GeneSeek samples across all chips") print $13}' $LOG_DIR/skript1.log)
 #echo $nBAD $nALL
 echo "##############################"
@@ -26,8 +26,8 @@ echo "##############################"
 
 echo "#####################################################"
 echo "print summary No of rejected samples across breeding organisations and chips"
-RP=$(awk '{if($0 ~ "OOOPS") print}' $LOG_DIR/masterskriptHandleNewSNPdata.log  | cut -d':' -f2 | cut -d' ' -f1 | sort -T ${SRT_DIR} -u |while read line; do grep $line $WRK_DIR/crossref.txt ; done | cut -d';' -f2-6,16,25 | sed 's/ //g' |sort|uniq -c |\
-  sort -T ${SRT_DIR} -k1,1nr | awk '{print $1,$2}' | sed 's/\;/ /5' | sed 's/\;/ /5' | awk '{print $1"_"$3"_"$4,$2}' | sed 's/_ /_/g' | tr ' ' ';' |\
+RP=$(awk '{if($0 ~ "OOOPS") print}' $LOG_DIR/masterskriptHandleNewSNPdata.log  | cut -d':' -f2 | cut -d' ' -f1 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |while read line; do grep $line $WRK_DIR/crossref.txt ; done | cut -d';' -f2-6,16,25 | sed 's/ //g' |sort|uniq -c |\
+  sort -T ${SRT_DIR} -T ${SRT_DIR} -k1,1nr | awk '{print $1,$2}' | sed 's/\;/ /5' | sed 's/\;/ /5' | awk '{print $1"_"$3"_"$4,$2}' | sed 's/_ /_/g' | tr ' ' ';' |\
   awk 'BEGIN{FS=";"}{if($2 ~ "X")print $1,"150K";if($3 ~ "X")print $1,"HD";if($4 ~ "X")print $1,"LD";if($6 ~ "X")print $1,"F250K"}' | tr '_' ' ' | awk '{printf "%-20s%-20s%-10s%+15s\n", $1,$2,$3,$4}')
 echo "#####################################################"
 

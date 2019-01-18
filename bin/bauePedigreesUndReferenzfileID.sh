@@ -67,12 +67,12 @@ for breed in ${1}; do
 	fi
 	sed 's/ /_/g' /qualstore03/data_zws/pedigree/work/${rasse}/RenumMergedPedi_${DatPEDIbvch}.txt |\
   	awk '{print substr($0,1,10),substr($0,12,10),substr($0,23,10),substr($0,41,16),substr($0,58,14),substr($0,82,3)}' | sed 's/_//g' > $WORK_DIR/ped_umcodierung.txt.${breed}
-	sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/ped_umcod.${breed}.srt
+	sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/ped_umcod.${breed}.srt
 	cat  /qualstore03/data_zws/pedigree/work/${rasse}/RenumMergedPedi_${DatPEDIbvch}.txt | tr ' ' '_' |\
-	   awk '{print substr($0,39,18),substr($0,82,3)}' | sed 's/_//g' | sort -T ${SRT_DIR} -t' ' -k1,1 >  $TMP_DIR/breedcodesMixedPedi.${breed}
+	   awk '{print substr($0,39,18),substr($0,82,3)}' | sed 's/_//g' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 >  $TMP_DIR/breedcodesMixedPedi.${breed}
 	(echo "IMPUTEID IMPUTEIDVAT IMPUTEIDMUT SHORTITBID TVDID ARGUSID ITBID  RasseMixedPedi";
-	    awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2,3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2 |\
-               join -t' ' -e'-' -o'2.1 2.2 2.3 2.4 2.5 1.1 1.3 2.6' -a2 -1 2 -2 5 - $TMP_DIR/ped_umcod.${breed}.srt | sort -T ${SRT_DIR} -u | sort -T ${SRT_DIR} -t' ' -k5,5) > $WRK_DIR/Run${run}.alleIDS_${breed}.txt
+	    awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2,3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 |\
+               join -t' ' -e'-' -o'2.1 2.2 2.3 2.4 2.5 1.1 1.3 2.6' -a2 -1 2 -2 5 - $TMP_DIR/ped_umcod.${breed}.srt | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5) > $WRK_DIR/Run${run}.alleIDS_${breed}.txt
     fi
 
 
@@ -123,12 +123,12 @@ for breed in ${1}; do
 	fi
 	sed 's/ /_/g' /qualstore03/data_zws/pedigree/work/${rasse}/RenumMergedPedi_${DatPEDIshb}.txt |\
   	awk '{print substr($0,1,10),substr($0,12,10),substr($0,23,10),substr($0,41,16),substr($0,58,14),substr($0,82,3)}' | sed 's/_//g' > $WORK_DIR/ped_umcodierung.txt.${breed}
-	sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/ped_umcod.${breed}.srt
+	sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/ped_umcod.${breed}.srt
 	cat  /qualstore03/data_zws/pedigree/work/${rasse}/RenumMergedPedi_${DatPEDIshb}.txt | tr ' ' '_' |\
-	   awk '{print substr($0,39,18),substr($0,82,3)}' | sed 's/_//g' | sort -T ${SRT_DIR} -t' ' -k1,1 >  $TMP_DIR/breedcodesMixedPedi.${breed}
+	   awk '{print substr($0,39,18),substr($0,82,3)}' | sed 's/_//g' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 >  $TMP_DIR/breedcodesMixedPedi.${breed}
 	(echo "IMPUTEID IMPUTEIDVAT IMPUTEIDMUT SHORTITBID TVDID ARGUSID ITBID RasseMixedPedi";
-	    awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2,3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2 |\
-               join -t' ' -e'-' -o'2.1 2.2 2.3 2.4 2.5 1.1 1.3 2.6' -1 2 -2 5 -a2 - $TMP_DIR/ped_umcod.${breed}.srt | sort -T ${SRT_DIR} -u | sort -T ${SRT_DIR} -t' ' -k5,5) > $WRK_DIR/Run${run}.alleIDS_${breed}.txt
+	    awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2,3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 |\
+               join -t' ' -e'-' -o'2.1 2.2 2.3 2.4 2.5 1.1 1.3 2.6' -1 2 -2 5 -a2 - $TMP_DIR/ped_umcod.${breed}.srt | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5) > $WRK_DIR/Run${run}.alleIDS_${breed}.txt
 
     fi
     
@@ -171,12 +171,12 @@ for breed in ${1}; do
 
 	sed 's/ /_/g' /qualstore03/data_zws/pedigree/work/${rasse}/RenumMergedPedi_${DatPEDIvms}.txt |\
   	awk '{print substr($0,1,10),substr($0,12,10),substr($0,23,10),substr($0,41,16),substr($0,58,14),substr($0,82,3)}' | sed 's/_//g' > $WORK_DIR/ped_umcodierung.txt.${breed}
-	sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/ped_umcod.${breed}.srt
+	sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/ped_umcod.${breed}.srt
 	cat  /qualstore03/data_zws/pedigree/work/${rasse}/RenumMergedPedi_${DatPEDIvms}.txt | tr ' ' '_' |\
-	   awk '{print substr($0,39,18),substr($0,82,3)}' | sed 's/_//g' | sort -T ${SRT_DIR} -t' ' -k1,1 >  $TMP_DIR/breedcodesMixedPedi.${breed}
+	   awk '{print substr($0,39,18),substr($0,82,3)}' | sed 's/_//g' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 >  $TMP_DIR/breedcodesMixedPedi.${breed}
 	(echo "IMPUTEID IMPUTEIDVAT IMPUTEIDMUT SHORTITBID TVDID ARGUSID ITBID  RasseMixedPedi";
-	    awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2,3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2 |\
-               join -t' ' -e'-' -o'2.1 2.2 2.3 2.4 2.5 1.1 1.3 2.6' -a2 -1 2 -2 5 - $TMP_DIR/ped_umcod.${breed}.srt | sort -T ${SRT_DIR} -u | sort -T ${SRT_DIR} -t' ' -k5,5) > $WRK_DIR/Run${run}.alleIDS_${breed}.txt
+	    awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2,3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 |\
+               join -t' ' -e'-' -o'2.1 2.2 2.3 2.4 2.5 1.1 1.3 2.6' -a2 -1 2 -2 5 - $TMP_DIR/ped_umcod.${breed}.srt | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5) > $WRK_DIR/Run${run}.alleIDS_${breed}.txt
     fi
     
 $BIN_DIR/checkPedigreeProcessLogfiles.sh ${breed}

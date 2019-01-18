@@ -119,7 +119,7 @@ fi
 #(
 idin=$(awk -v m=${tvd} '{if($1 == m) print $2}' $TMP_DIR/intergenomics.id.lst.${labfile} )
 awk -v tierchen=${tvd} '{if ($2 == tierchen) print $1,$3$4}' ${LAB_DIR}/${labfile} > ${TMP_DIR}/${tvd}.${labfile}
-gt=$($BIN_DIR/awk_snporder ${TMP_DIR}/${tvd}.${labfile} $TMP_DIR/MAP${imap}.srt | sort -T ${SRT_DIR} -t' ' -k1,1n | awk '{gsub("AA","2",$2);gsub("AB","1",$2);gsub("BB","0",$2);gsub("--","5",$2); print $2}' | tr '\n' ' ' | sed 's/ //g')
+gt=$($BIN_DIR/awk_snporder ${TMP_DIR}/${tvd}.${labfile} $TMP_DIR/MAP${imap}.srt | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1n | awk '{gsub("AA","2",$2);gsub("AB","1",$2);gsub("BB","0",$2);gsub("--","5",$2); print $2}' | tr '\n' ' ' | sed 's/ //g')
 if ! test -z ${gt} ;then
    nSNP=$(echo $gt | wc -c | awk '{print $1-1}' )
    notcall=$(echo $gt | sed 's/[0-2]//g' | wc -c | awk '{print $1-1}' )

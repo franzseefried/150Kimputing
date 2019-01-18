@@ -131,7 +131,7 @@ fi
 IDANIMAL=$(awk -v ID=${tvd} 'BEGIN{FS=";"}{if($2 == ID) print $1}' $WORK_DIR/animal.overall.info | sed 's/ //g' |  head -1)
 if [ -z ${IDANIMAL} ]; then echo "Variable IDANIMAL is NULL for ${tvd} im ${labfile}";exit 1; fi
 awk -v tierchen=${tvd} '{if ($2 == tierchen) print $1,$3$4}' ${LAB_DIR}/${labfile} > ${TMP_DIR}/${tvd}.${labfile}
-gt=$($BIN_DIR/awk_snporder ${TMP_DIR}/${tvd}.${labfile} $TMP_DIR/MAP${imap}.srt | sort -T ${SRT_DIR} -t' ' -k1,1n | awk '{gsub("AA","A_A_",$2);gsub("AB","A_B_",$2);gsub("BB","B_B_",$2);gsub("--","0_0_",$2); print $2}' | tr '\n' ' ' | sed 's/_$//g'| sed 's/ //g' | sed 's/_/ /g')
+gt=$($BIN_DIR/awk_snporder ${TMP_DIR}/${tvd}.${labfile} $TMP_DIR/MAP${imap}.srt | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1n | awk '{gsub("AA","A_A_",$2);gsub("AB","A_B_",$2);gsub("BB","B_B_",$2);gsub("--","0_0_",$2); print $2}' | tr '\n' ' ' | sed 's/_$//g'| sed 's/ //g' | sed 's/_/ /g')
 gtc=$(echo $gt | sed 's/ //g')
 #echo $gt | cut -b1-100
 echo $gtc | cut -b1-100 | awk '{print $1"...."}'

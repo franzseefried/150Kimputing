@@ -1,0 +1,59 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    TVD[$1]=$2;	#weise $1 auf $5 zu
+	   
+	}
+    }
+    else if(FILENAME==ARGV[2]){
+    #zweite zuweisung aus pedumcodierung
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    IDIMPUTE[$5]=$1;	#weise $1 auf $5 zu
+	    SEX[$5]=substr($4,4,1)
+#	    SIRE[$5]=$2
+#	    DAM[$5]=$3
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	#erste zuweisung
+	ID="0";
+	ID=TVD[$1]; 
+	#alle weitern infos dann via zweite zuweisung und nutze dabei zuweisung1
+	IDd="0";
+	IDd=IDIMPUTE[ID];
+	Sx="0";
+	Sx=SEX[ID];
+	Vat="0";
+	#vater und mutter werden hier dummy gesetzt, wenn der richtige elter genommen werden soll, zeile 38 / 40 /42 oeffnen
+#	Vat=SIRE[ID];
+	Mut="0";
+#	Mut=DAM[ID];
+	#schreibe idanimal als dummy phaenotyp
+	#dummyPHENO=9
+	
+	if(IDd!=""){
+#	    print ID" "IDd" "Vat" "Mut" "Sx" "substr($0, index($0,$2))
+		if(Sx=="F"){
+	   	    #print "1"" "IDd" "Vat" "Mut" ""2"" "dummyPHENO" "substr($0, index($0,$2))
+	   	    print "1"" "IDd" "Vat" "Mut" ""2"" "$0
+		}
+		if(Sx=="M"){
+#	   	    print "1"" "IDd" "Vat" "Mut" ""1"" "dummyPHENO" "substr($0, index($0,$2))
+	   	    print "1"" "IDd" "Vat" "Mut" ""1"" "$0	   	    
+		}
+	}
+    }
+}
+
+
+

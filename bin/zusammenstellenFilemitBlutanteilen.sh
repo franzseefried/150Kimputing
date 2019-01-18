@@ -70,13 +70,13 @@ if [ ${breed} == "BSW" ]; then
 	#die relevanten Blutanteile zur vereinfachten Rasseberechnung wurden von USN definiert uns werden hier abgearbeitet
 	for i in OB BV BS; do
     	echo "consider ${i} fuer BSW"
-    	awk -v m=${i} '{if($2 == m) print $1,$2,$3}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/blutfile${i}.out 
+    	awk -v m=${i} '{if($2 == m) print $1,$2,$3}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/blutfile${i}.out 
 	done
 
 	echo "struktur output iitbid16;tvd;ob-anteil;bs-anteil;bv-anteil"
-	awk '{print $1" l"}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -u |  sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileOB.out  |\
-   		sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileBS.out |\
-   		sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 1.3 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileBV.out |\
+	awk '{print $1" l"}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |  sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileOB.out  |\
+   		sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileBS.out |\
+   		sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 1.3 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileBV.out |\
    		tr ' ' ';' | sed 's/\;/ /1' > $TMP_DIR/${breed}.Blutanteile.tmp
 	$BIN_DIR/awk_umcodeVonEINSaufZWEImitLeerschlag $TMP_DIR/${breed}idTVD.ped $TMP_DIR/${breed}.Blutanteile.tmp | awk '{print $1,$1";"$2}'  > $TMP_DIR/${breed}.Blutanteile.tvd
 	$BIN_DIR/awk_umcodeVonEINSaufZWEImitLeerschlag $TMP_DIR/${breed}ITB16TVD.ped  $TMP_DIR/${breed}.Blutanteile.tvd | tr ' ' ';' | awk 'BEGIN{FS=";"}{print $1";"$2";"$3/1000";"$4/1000";"$5/1000}' > $TMP_DIR/${breed}.Blutanteile.txt
@@ -90,13 +90,13 @@ if [ ${breed} == "HOL" ]; then
 	sed 's/SIM/SI/g' $TMP_DIR/${breed}blutfile.out | sed 's/HOL/HO/g' | sed 's/MON/MO/g' > $TMP_DIR/${breed}blutfile.out.mod
 	for i in SI MO HO; do
     	echo "consider ${i} fuer HOL"
-    	awk -v m=${i} '{if($2 == m) print $1,$2,$3}' $TMP_DIR/${breed}blutfile.out.mod | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/blutfile${i}.out 
+    	awk -v m=${i} '{if($2 == m) print $1,$2,$3}' $TMP_DIR/${breed}blutfile.out.mod | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/blutfile${i}.out 
 	done
 
 	echo "struktur output itbid16;tvd;si-anteil;mo-anteil;ho-anteil"
-	awk '{print $1" l"}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -u |  sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileSI.out  |\
-   		sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileMO.out |\
-   		sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 1.3 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileHO.out |\
+	awk '{print $1" l"}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |  sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileSI.out  |\
+   		sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileMO.out |\
+   		sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 1.3 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileHO.out |\
    		tr ' ' ';' | sed 's/\;/ /1' > $TMP_DIR/${breed}.Blutanteile.tmp
 	$BIN_DIR/awk_umcodeVonEINSaufZWEImitLeerschlag $TMP_DIR/${breed}idTVD.ped $TMP_DIR/${breed}.Blutanteile.tmp | awk '{print $1,$1";"$2}'  > $TMP_DIR/${breed}.Blutanteile.tvd
 	$BIN_DIR/awk_umcodeVonEINSaufZWEImitLeerschlag $TMP_DIR/${breed}ITB16TVD.ped  $TMP_DIR/${breed}.Blutanteile.tvd | tr ' ' ';' | awk 'BEGIN{FS=";"}{print $1";"$2";"$3/1000";"$4/1000";"$5/1000}'  > $TMP_DIR/${breed}.Blutanteile.txt
@@ -108,13 +108,13 @@ if [ ${breed} == "VMS" ]; then
 	#die relevanten Blutanteile zur vereinfachten Rasseberechnung wurden von USN definiert uns werden hier abgearbeitet
 	for i in LM DR AN ; do
     	echo "consider ${i} fuer VMS"
-    	awk -v m=${i} '{if($2 == m) print $1,$2,$3}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/blutfile${i}.out 
+    	awk -v m=${i} '{if($2 == m) print $1,$2,$3}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/blutfile${i}.out 
 	done
 
 	echo "struktur output iitbid16;tvd;lm-anteil;dr-anteil;an-anteil"
-	awk '{print $1" l"}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -u |  sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileLM.out  |\
-   		sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileDR.out |\
-   		sort -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 1.3 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileAN.out |\
+	awk '{print $1" l"}' $TMP_DIR/${breed}blutfile.out | sort -T ${SRT_DIR} -T ${SRT_DIR} -u |  sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileLM.out  |\
+   		sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileDR.out |\
+   		sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 | join -t' ' -o'1.1 1.2 1.3 2.3' -a1 -e'0' -1 1 -2 1 - $TMP_DIR/blutfileAN.out |\
    		tr ' ' ';' | sed 's/\;/ /1' > $TMP_DIR/${breed}.Blutanteile.tmp
 	$BIN_DIR/awk_umcodeVonEINSaufZWEImitLeerschlag $TMP_DIR/${breed}idTVD.ped $TMP_DIR/${breed}.Blutanteile.tmp | awk '{print $1,$1";"$2}'  > $TMP_DIR/${breed}.Blutanteile.tvd
 	$BIN_DIR/awk_umcodeVonEINSaufZWEImitLeerschlag $TMP_DIR/${breed}ITB16TVD.ped  $TMP_DIR/${breed}.Blutanteile.tvd | tr ' ' ';' | awk 'BEGIN{FS=";"}{print $1";"$2";"$3/1000";"$4/1000";"$5/1000}' > $TMP_DIR/${breed}.Blutanteile.txt

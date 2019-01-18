@@ -33,7 +33,7 @@ fi
 set -o nounset
 breed=${1};
 
-awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2 | sed 's/ //g' | tr ';' ' ' |  sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/${breed}.ovlinfo.umcd
+awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2 | sed 's/ //g' | tr ';' ' ' |  sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -u > $TMP_DIR/${breed}.ovlinfo.umcd
 #awk '{print substr($0,1,10)";"substr($0,58,14)}' ${natpedi} | sed 's/ //g' | tr ';' ' '  > $TMP_DIR/${breed}.status.umcd
 awk '{print substr($0,1,10)";"substr($0,58,14)}' ${mixpedi} | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$1}' > $TMP_DIR/${breed}.mixpedi.umcd
 
@@ -48,15 +48,15 @@ for dicht in LD HD; do
     cd $SNP_DIR/dataWide${chip}/${zofol}
     linkarray=$(find -maxdepth 1 -type l -exec basename {} \;)
     echo ${linkarray} | grep "[0-9]" |  sed 's/\.lnk//g' | tr ' ' '\n' 
-  done | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -u | awk -v dd=${dicht} '{print $1,dd}' > $TMP_DIR/${breed}.startanimallst.${dicht}
+  done | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -u | awk -v dd=${dicht} '{print $1,dd}' > $TMP_DIR/${breed}.startanimallst.${dicht}
 done
 
 
 (awk '{print $1,"s"}' $TMP_DIR/${breed}.startanimallst.HD; 
-   awk '{print $1,"s"}' $TMP_DIR/${breed}.startanimallst.LD;) |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
-   join -t' ' -o'1.1 2.2' -a1 -e'-' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -T ${SRT_DIR} -k1,1 $TMP_DIR/${breed}.startanimallst.HD) |\
-   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
-   join -t' ' -o'1.1 1.2 2.2' -a1 -e'-' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -T ${SRT_DIR} -k1,1 $TMP_DIR/${breed}.startanimallst.LD) |\
+   awk '{print $1,"s"}' $TMP_DIR/${breed}.startanimallst.LD;) |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+   join -t' ' -o'1.1 2.2' -a1 -e'-' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -T ${SRT_DIR} -k1,1 $TMP_DIR/${breed}.startanimallst.HD) |\
+   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+   join -t' ' -o'1.1 1.2 2.2' -a1 -e'-' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -T ${SRT_DIR} -k1,1 $TMP_DIR/${breed}.startanimallst.LD) |\
    awk '{if      ($2 == "-" && $3 == "LD") print $1,$3; \
          else if ($2 == "HD" && $3 == "-") print $1,"DB"; \
          else if ($2 == "HD" && $3 == "LD") print $1,"DB"; \
