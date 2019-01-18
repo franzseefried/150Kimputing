@@ -45,7 +45,7 @@ getColmnNrSemicl () {
 
 #get Info about SNP from Reftab
 getColmnNrSemicl IntergenomicsCode ${REFTAB_CHIPS} ; colITGX=$colNr_
-getColmnNrSemicl QuagCode ${REFTAB_CHIPS} ; colQUG=$colNr__
+getColmnNrSemicl QuagCode ${REFTAB_CHIPS} ; colQUG=$colNr_
 #echo $colITGX $colQUG
 ncONE=$(awk -v cc=${colQUG} -v dd=${colITGX} -v nc=${NewChip1} 'BEGIN{FS=";"}{if( $dd == nc ) print $cc }' ${REFTAB_CHIPS})
 ncTWO=$(awk -v cc=${colQUG} -v dd=${colITGX} -v nc=${NewChip2} 'BEGIN{FS=";"}{if( $dd == nc ) print $cc }' ${REFTAB_CHIPS})
@@ -62,25 +62,26 @@ ncTWO=$(awk -v cc=${colQUG} -v dd=${colITGX} -v nc=${NewChip2} 'BEGIN{FS=";"}{if
 echo "allelfrequenzen berechnen ausgehend von den tailpopulations"
 
 #prep für GCTA, trennen nach Rasse und behalte nur LD-SNPs geregelt ueber callrate snp --geno 0.01
-$BIN_DIR/awk_grepLDSNP $WORK_DIR/${breed}Typisierungsstatus${run}.txt <(join -t' ' -o'2.5 2.1 1.3 1.4 1.5' -e'-' -1 2 -2 5 <(cat $TMP_DIR/${breed}.Blutanteile.txt | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2) <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed}) | sed 's/ /\;/2') | tr ';' ' ' | awk '{print $2,$1,$3,$4,$5}'  > $TMP_DIR/obsianteil.${breed}.srt
+$BIN_DIR/awk_grepLDSNP $WORK_DIR/${breed}Typisierungsstatus${run}.txt <(join -t' ' -o'2.5 2.1 1.3 1.4 1.5' -e'-' -1 2 -2 5 <(cat $TMP_DIR/${breed}.Blutanteile.txt | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2) <(sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed}) | sed 's/ /\;/2') | tr ';' ' ' | awk '{print $2,$1,$3,$4,$5}'  > $TMP_DIR/obsianteil.${breed}.srt
+
 
 #liste fuer die berechnung der allelfrequenzen
 if [ ${breed} == "BSW" ]; then
-   awk -v blood=${blutanteilsgrenze} '{if($3 >  blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/higher.animals.${breed}
+   awk -v blood=${blutanteilsgrenze} '{if($3 >= blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/higher.animals.${breed}
    awk -v blood=${blutanteilsgrenze} '{if($4 >= blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/lower.animals.${breed}
 fi
 if [ ${breed} == "HOL" ]; then
-   awk -v blood=${blutanteilsgrenze} '{if($3 >  blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/higher.animals.${breed}
+   awk -v blood=${blutanteilsgrenze} '{if($3 >= blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/higher.animals.${breed}
    awk -v blood=${blutanteilsgrenze} '{if($5 >= blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/lower.animals.${breed}
 fi
 if [ ${breed} == "VMS" ]; then
-   awk -v blood=${blutanteilsgrenze} '{if($3 >  blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/higher.animals.${breed}
+   awk -v blood=${blutanteilsgrenze} '{if($3 >= blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/higher.animals.${breed}
    awk -v blood=${blutanteilsgrenze} '{if($5 >= blood) print "1",$1}' $TMP_DIR/obsianteil.${breed}.srt > $TMP_DIR/lower.animals.${breed}
 fi
    
 wc -l $TMP_DIR/higher.animals.${breed}
 wc -l $TMP_DIR/lower.animals.${breed}   
-
+echo " "
 
 for chip in ${ncONE} ${ncTWO} ; do
    #reduktion auf gut gecallte Tiere, darf eigentlich keine grosse rolle spielen: --geno _> per variant / --mind _> per sample
@@ -127,7 +128,10 @@ join -t' ' -o'1.1 1.2 1.3 1.4 2.2' -a1 -e'0' -1 1 -2 1 <(sort -T ${SRT_DIR} -T $
   awk '{printf "%-53s%+6s%+10s%+15s%+10s\n", $1,$2,$3,$4,$5}' > $HIS_DIR/${breed}.RUN${fixSNPdatum}snp_info.txt
 
 wc -l $HIS_DIR/*.txt
-
+rm -f $TMP_DIR/higher.animals.${breed}
+rm -f $TMP_DIR/lower.animals.${breed}
+rm -f $TMP_DIR/${breed}.HD.newmap.txt
+rm -f $TMP_DIR/${breed}.LD.newmap.txt
 
 
 echo " "

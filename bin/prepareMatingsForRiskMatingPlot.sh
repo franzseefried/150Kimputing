@@ -97,7 +97,7 @@ namesOffiles=FER
 awk '{if(substr($0,74,2) != "  " && substr($0,41,14) != "              ") print substr($0,1,14),substr($0,33,8),substr($0,41,14),substr($0,74,2)}' ${inputfolder}/${namesOffiles}*.txt > $TMP_DIR/${breed}.lastInseminations.shzv
 (cat $TMP_DIR/${breed}.lastInseminations.shzv;
 cat $TMP_DIR/${breed}.lastInseminations.shb) |\
- sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr -k3,3 > $TMP_DIR/${breed}.lastInseminations.lst
+ sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr -k3,3 > $TMP_DIR/${breed}.lastInseminations.lst
 rm -f $TMP_DIR/${breed}.lastInseminations.shb $TMP_DIR/${breed}.lastInseminations.shzv
 fi
 

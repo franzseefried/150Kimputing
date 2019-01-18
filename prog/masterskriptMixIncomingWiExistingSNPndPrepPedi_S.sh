@@ -121,7 +121,6 @@ done
 sleep 300
 ##################################
 echo Step 10
-for chden in HD LD; do
 $BIN_DIR/waitTillGenotypesHaveBeenPrepared.sh $1 2>&1 #> $LOG_DIR/prepareGenotypesforPLINKAcrossAllChips.${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
@@ -151,19 +150,6 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 ##################################
-#if [ ${1} == "BSW" ] || [ ${1} == "HOL" ]; then
-#echo Step 11
-#nohup $BIN_DIR/startePCA.sh $1 2>&1 > $LOG_DIR/2bstartePCA.${1}.log &
-#err=$(echo $?)
-#if [ ${err} -gt 0 ]; then
-#        echo "ooops Fehler 11"
-#        $BIN_DIR/sendErrorMail.sh $BIN_DIR/startePCA.sh $1
-#        exit 1
-#fi
-#echo "----------------------------------------------------"
-#fi
-##################################
-if false; then
 echo Step 13
 $BIN_DIR/barplotSNPtrend.sh $1 2>&1 #> $LOG_DIR/2bstartePCA.${1}.log
 err=$(echo $?)
@@ -184,7 +170,6 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-fi
 fi
 ##################################
 echo Step 7

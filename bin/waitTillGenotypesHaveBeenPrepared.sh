@@ -9,6 +9,8 @@ lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 set -o errexit
+set -o nounset
+set -o pipefail
 START_DIR=$(pwd)
 
 

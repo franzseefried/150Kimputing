@@ -7,7 +7,7 @@ echo " "
 
 ##############################################################
 lokal=$(pwd | awk '{print $1}')
-source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
+source  ${lokal}/parFiles/steuerungsvariablen.ctr.sh
 ###############################################################
 
 if [ -z $1 ]; then

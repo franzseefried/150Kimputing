@@ -31,14 +31,14 @@ for i in $(ls $WRK_DIR/${breed}Typisierungsstatus*); do
 ilename=$(basename ${i})
 runStamp=$(echo $ilename | cut -d'.' -f1 | cut -d'K' -f2)
 #echo $ilename $runStamp
-join -t' ' -o'2.3 1.2' -1 1 -2 2 <(sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 ${i}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2)|\
+join -t' ' -o'2.3 1.2' -1 1 -2 2 <(sort -T ${SRT_DIR} -t' ' -k1,1 ${i}) <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1-3 | sed 's/ //g' | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2)|\
 awk '{print substr($1,7,1),$2}'|sort | uniq -c | awk -v g=${runStamp} '{print substr(g,1,2),substr(g,3,2),$1,$2,$3}'
-done | awk '{if($1 != 77) print $1+0,$2,$3,$4,$5}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2n -k1,1n -k5,5 -k4,4 | sed 's/ //1' ) > $TMP_DIR/snp.trend.${breed}
+done | awk '{if($1 != 77) print $1+0,$2,$3,$4,$5}' | sort -T ${SRT_DIR} -t' ' -k2,2n -k1,1n -k5,5 -k4,4 | sed 's/ //1' ) > $TMP_DIR/snp.trend.${breed}
 
-cat $BIN_DIR/barplotSNPtrend.R | sed "s/XXXXXXXXXX/${breed}/g" > $TMP_DIR/bplt.${breed}.R
-chmod 777 $TMP_DIR/bplt.${breed}.R
-Rscript $TMP_DIR/bplt.${breed}.R
+Rscript $BIN_DIR/barplotSNPtrend.R ${TMP_DIR}/snp.trend.${breed} ${PDF_DIR}/${breed}.SNPtrend.pdf
 
+
+rm -f $TMP_DIR/snp.trend.${breed}
 
 echo " "
 RIGHT_END=$(date )
