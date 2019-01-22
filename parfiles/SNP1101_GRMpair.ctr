@@ -1,0 +1,36 @@
+title
+       "GRM for WWWWWWWWWW";
+
+pedfile
+       "WWWWWWWWWW.SNP1101FImpute.ped"
+       prune off
+       skip 1;
+
+gfile
+       "WWWWWWWWWW.SNP1101FImpute.geno"
+       skip 1;
+
+mapfile
+       "WWWWWWWWWW.SNP1101FImpute.snplst"
+       skip 1;
+
+afreq file "WWWWWWWWWW-AFC/afreq_higher.txt" name "freq1";
+afreq file "WWWWWWWWWW-AFC/afreq_lower.txt" name "freq2";
+
+
+kinship
+       matrix
+       method vanraden
+       method_diag vanraden
+       name "kin1"
+       afreq_name "freq1" > group list "grm.higher.animals.WWWWWWWWWW"
+       afreq_name "freq2" > group list "grm.lower.animals.WWWWWWWWWW"
+       nthread 30;
+
+kinship 
+      pair list "WWWWWWWWWW.GPpairsInRows.toBechecked"
+      afreq_name "freq1" > group list "grm.higher.animals.WWWWWWWWWW"
+      afreq_name "freq2" > group list "grm.lower.animals.WWWWWWWWWW";
+
+output_folder
+       "WWWWWWWWWW-GRM-pair";
