@@ -10,7 +10,7 @@ source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 set -o errexit
 set -o nounset
-set -o pipefail
+
 START_DIR=pwd
 
 if [ -z $1 ]; then
@@ -45,7 +45,7 @@ else
 fi
 
 set -o nounset
-set -o pipefail
+
 set -o nounset
 breed=${1}
 

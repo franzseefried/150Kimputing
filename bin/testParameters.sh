@@ -62,6 +62,10 @@ if [[ "$ipar" ~ [a-zA-Z] ]]; then
 fi
 done
 
+#test parameter HDimuting
+if [ -z ${HDfol} ]; then echo "Parameter HDfollows fehlt"; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows; exit 1; fi
+if [ ${HDfol} != "Y" ] && [ ${HDfollows} != "N" ]; then echo Parameter HDfollows falsch angegeben, must be Y or N; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows;exit 1fi
+
 
 #loeschen von Abfragefiles falls ein run wiederholt wird
 for ifile in $TMP_DIR/${breed}HD.bed $TMP_DIR/${breed}LD.bed ; do

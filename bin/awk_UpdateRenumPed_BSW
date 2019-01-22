@@ -1,0 +1,64 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+	FS=" ";
+	}
+{
+   if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    DAD[$1]=substr($0,11,11);    #weise $4 auf $1 zu
+	    MUM[$1]=substr($0,22,11);
+	    BRD[$1]=substr($0,83,2);
+	    FLG[$1]=substr($0,85,2);
+	    IBR[$1]=substr($0,90,3); 
+	    
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+
+	DADDY="0";
+	DADDY=DAD[$1];
+	MUMMY="0";
+	MUMMY=MUM[$1];
+	BREED="0";
+	BREED=BRD[$1];
+	FLA="0";
+	FLA=FLG[$1];
+        IBE="0";
+        IBE=IBR[$1];
+	
+	if(DADDY=="" && MUMMY==""){
+	    #print $1,$2,$3,BY,ITBID,TVDID,BD,BREED,UNB,HBS
+	    #printf "%+10s%+11s%+11s%+5s%+19s%+15s%+9s%+4s%+2s%+2s\n", $1,$2,$3,$4,$5,$6,$7,$8,$9,$10
+         print substr($0,1,10)substr($0,11,11)substr($0,22,11)substr($0,33,5)substr($0,38,3)substr($0,41,16)substr($0,57,15)substr($0,72,9)"  "substr($0,81,2)substr($0,85,2)substr($0,87,2)substr($0,89,4)    
+        }
+	else{
+	    #print $1,$2,$3,BY,ITBID,TVDID,BD,BREED,UNB,HBS
+		#abfangen dass der upgedatete Elter juenger sein kann als das Tier, setze dann den Elter 0
+		#Update in Imputation greift das nicht ab
+	    if($1 > (DADDY+0) && $1 > (MUMMY+0)){
+		    #printf "%+10s%+11s%+11s%+5s%+2s%+16s%+15s%+9s%+4s%+2s%+2s\n", $1,DADDY,MUMMY,$4,BREED,substr($5,3,16),$6,$7,BREED,$9,$10
+              print substr($0,1,10)DADDY";"MUMMY";"substr($0,33,5)" "BREED";"substr($0,41,16)substr($0,57,15)substr($0,72,9)"  "BREED";"substr($0,85,2)substr($0,87,2)" "IBE
+                }
+		if($1 > (DADDY+0) && $1 < (MUMMY+0)){
+   		      print substr($0,1,10)substr($0,11,11)"          0"substr($0,33,5)" "BREED";"substr($0,41,16)substr($0,57,15)substr($0,72,9)"  "BREED";"substr($0,85,2)substr($0,87,2)" "IBE
+              #printf "%+10s%+11s%+11s%+5s%+2s%+16s%+15s%+9s%+4s%+2s%+2s\n", $1,DADDY,"0",$4,BREED,substr($5,3,16),$6,$7,BREED,$9,$10
+		}
+		if($1 < (DADDY+0) && $1 > (MUMMY+0)){
+		    #printf "%+10s%+11s%+11s%+5s%+2s%+16s%+15s%+9s%+4s%+2s%+2s\n", $1,"0",MUMMY,$4,BREED,substr($5,3,16),$6,$7,BREED,$9,$10
+               print substr($0,1,10)"          0"substr($0,22,11)substr($0,33,5)" "BREED";"substr($0,41,16)substr($0,57,15)substr($0,72,9)"  "BREED";"substr($0,85,2)substr($0,87,2)" "IBE
+                }
+		if($1 < (DADDY+0) && $1 < (MUMMY+0)){
+		    #printf "%+10s%+11s%+11s%+5s%+2s%+16s%+15s%+9s%+4s%+2s%+2s\n", $1,"0","0",$4,BREED,substr($5,3,16),$6,$7,BREED,$9,$10
+		     print substr($0,1,10)"          0""          0"substr($0,33,5)" "BREED";"substr($0,41,16)substr($0,57,15)substr($0,72,9)"  "BREED";"substr($0,85,2)substr($0,87,2)" "IBE
+                }
+
+    }
+
+}
+}
+
+

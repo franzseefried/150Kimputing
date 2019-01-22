@@ -1,0 +1,35 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=";" #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    bp1[$2]=$3;
+	    bp2[$2]=$4;
+	    bp3[$2]=$5;
+	    sex[$2]=substr($1,4,1);
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+
+	STAT=bp1[$2];
+	STATT=bp2[$2];
+	STATTT=bp3[$2];
+	DTAT=bp1[$3];
+	DTATT=bp2[$3];
+	DTATTT=bp3[$3];
+	SEXTIER=sex[$1];
+	
+        if(STAT != ""){
+	    print $1" "$2" "STAT" "STATT" "STATTT" "$3" "DTAT" "DTATT" "DTATTT" "SEXTIER
+	}
+    }
+}
+
+
+

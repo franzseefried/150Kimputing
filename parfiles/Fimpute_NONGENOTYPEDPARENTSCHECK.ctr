@@ -1,0 +1,9 @@
+title="BTAX for XXXXXXX und ZZZZZZZ";
+genotype_file="PHANTOMZZZZZZZXXXXXXXBTAX_FImpute.geno";
+snp_info_file="XXXXXXXBTAX_FImpute.snpinfo";
+ped_file="PHANTOMZZZZZZZXXXXXXXFimpute.ped";
+parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;
+add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;
+output_folder="XXXXXXX_NGPCout";
+njob=25;
+

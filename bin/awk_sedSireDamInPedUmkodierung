@@ -1,0 +1,38 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    daddy[$1]=$2;	#weise $4 auf $1 zu
+	    mummy[$1]=$3;	#weise $4 auf $1 zu
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	vater="0";
+	vater=daddy[$1];
+	mutter="0";
+	mutter=mummy[$1];
+		
+	if(vater !="" && mutter != "" ){
+	    print $1" "vater" "mutter" "$4" "$5" "$6" "$7
+	}
+	else if(vater !="" && mutter == "" ){
+		print $1" "vater" "$3" "$4" "$5" "$6" "$7
+	}
+	else if(vater =="" && mutter != "" ){
+		print $1" "$2" "mutter" "$4" "$5" "$6" "$7
+	}
+	else{
+	    print $1" "$2" "$3" "$4" "$5" "$6" "$7
+	}
+    }
+}
+
+
+

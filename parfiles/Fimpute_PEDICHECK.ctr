@@ -1,0 +1,8 @@
+title="BTAX for XXXXXXX und ZZZZZZZ";
+genotype_file="DUMMYZZZZZZZXXXXXXXBTAX_FImpute.geno";
+snp_info_file="XXXXXXXBTAX_FImpute.snpinfo";
+ped_file="DUMMYZZZZZZZXXXXXXXFimpute.ped";
+parentage_test /ert_mm=0.01 /ert_m=0.005 /find_match_cnflt /remove_conflict;
+output_folder="XXXXXXX_PEDICHECKout";
+njob=25;
+

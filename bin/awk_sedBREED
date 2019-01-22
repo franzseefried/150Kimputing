@@ -1,0 +1,30 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    bdcd[$1]=$4;	#weise $4 auf $1 zu
+
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	breed="0";
+	breed=bdcd[$5];
+		
+	if(breed !="" ){
+	    print $1" "$2" "$3" "$4" "$5" "breed" U"
+	}
+	else{
+	    print $1" "$2" "$3" "$4" "$5" "$6" O"
+	}
+    }
+}
+
+
+

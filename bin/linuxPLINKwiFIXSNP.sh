@@ -24,7 +24,7 @@ else
 	exit 1
 fi
 set -o nounset
-set -o pipefail
+
 if ! test -s $HIS_DIR/${1}.RUN${fixSNPdatum}snp_info.txt; then
    echo "you have choosen a fixSNPdatum, where I tried to take the SNPmap now"
    echo "that map $HIS_DIR/${1}.RUN${fixSNPdatum}snp_info.txt does not exist or has size ZERO"

@@ -1,0 +1,31 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    VAT[$1]=$2; #weise $2 auf $1 zu
+        MUT[$1]=$3;
+	    
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+
+	DADDY="0";
+    DADDY=VAT[$2];
+    MUMMY="0";
+    MUMMY=MUT[$2];
+            
+    if(DADDY!="" && MUMMY!=""){
+            print $1" "$2" "$3" "DADDY" "$4" "MUMMY
+    }
+    }
+}
+
+
+

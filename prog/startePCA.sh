@@ -41,9 +41,9 @@ for rasse in ${1}LD ${1}HD ; do
 	join -t' ' -o'1.2 1.3 2.1' -1 2 -2 5 <(cat $TMP_DIR/${breed}.Blutanteile.txt | tr ';' ' ' | sort -T ${SRT_DIR} -t' ' -k2,2) <(sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed})) > $TMP_DIR/${rasse}blut.txt
 
         
-    $FRG_DIR/plink --bfile $TMP_DIR/${rasse} --nonfounders --cow --noweb --geno 0.01 --maf 0.35 --hwe 0.00001 --recode --out $TMP_DIR/${rasse}_PCA
+    $FRG_DIR/plink --bfile $TMP_DIR/${rasse} --nonfounders --cow --noweb --geno 0.1 --maf 0.35 --hwe 0.00001 --recode --out $TMP_DIR/${rasse}_PCA
     awk '{if($1 > 29) print $2}' $TMP_DIR/${rasse}_PCA.map > $TMP_DIR/${rasse}_PCA.SNP.exclude
-    $FRG_DIR/plink --bfile $TMP_DIR/${rasse} --nonfounders --cow --noweb --exclude $TMP_DIR/${rasse}_PCA.SNP.exclude --geno 0.01 --maf 0.35 --hwe 0.00001 --make-bed --out $TMP_DIR/${rasse}_PCA
+    $FRG_DIR/plink --bfile $TMP_DIR/${rasse} --nonfounders --cow --noweb --exclude $TMP_DIR/${rasse}_PCA.SNP.exclude --geno 0.1 --maf 0.35 --hwe 0.00001 --make-bed --out $TMP_DIR/${rasse}_PCA
     rm -f $TMP_DIR/${rasse}_PCA.ped
     
     $FRG_DIR/gcta64 --bfile $TMP_DIR/${rasse}_PCA --autosome-num 29 --thread-num 30 --make-grm --out $TMP_DIR/${rasse}_PCA 2>&1

@@ -1,0 +1,30 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    daddy[$1]=$4;	#weise $4 auf $1 zu
+
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	vater="0";
+	vater=daddy[$1];
+		
+	if(vater !="" ){
+	    print $1" "vater" "$3" "$4
+	}
+	else{
+	    print $1" "$2" "$3" "$4
+	}
+    }
+}
+
+
+
