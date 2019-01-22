@@ -1,0 +1,21 @@
+title
+       "TWINS for WWWWWWWWWW";
+
+pedfile
+       "WWWWWWWWWW.SNP1101FImpute.ped"
+       prune off
+       skip 1;
+
+gfile
+       "WWWWWWWWWW.SNP1101FImpute.geno"
+       skip 1;
+
+mapfile
+       "WWWWWWWWWW.SNP1101FImpute.snplst"
+       skip 1;
+
+find_identical;
+
+
+output_folder
+       "WWWWWWWWWW-TWIN";
