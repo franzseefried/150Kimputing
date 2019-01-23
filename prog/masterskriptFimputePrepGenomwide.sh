@@ -33,7 +33,7 @@ if  [ ${ort} == "Darwin" ]; then
 elif [ ${ort} == "Linux" ]; then
 ##################################
 echo "Genotypefile now for $1"
-$BIN_DIR/fastFimputeGeno-prepWholeGenome.sh ${1} 2>&1 #> $LOG_DIR/fastFimputeGeno-prepWholeGenome.${1}.log
+$BIN_DIR/fastFimputeGeno-prepWholeGenome.sh ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 1"
@@ -43,7 +43,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "Markermap now for $1"
-$BIN_DIR/fastFimputeMarkermap-prepWholeGenome.sh ${1} 2>&1 #> $LOG_DIR/FimputeMarkermap-prepWholeGenome.${1}.log
+$BIN_DIR/fastFimputeMarkermap-prepWholeGenome.sh ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 2"
@@ -53,7 +53,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "Pedigreefile now for $1"
-$BIN_DIR/fastFimputePedigree-prep.sh ${1} 2>&1 #> $LOG_DIR/FimputePedigree-prep.${1}.log
+$BIN_DIR/fastFimputePedigree-prep.sh ${1} 2>&1 
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 3"
@@ -62,11 +62,21 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
+echo "Check SNPsystem now for $1"
+$BIN_DIR/checkSNPsytem.sh ${1} 2>&1 
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 4"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/checkSNPsytem.sh $1
+        exit 1
+fi
+echo "----------------------------------------------------"
+##################################
 echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh $PROG_DIR/masterskriptFimputePrepGenomwide.sh $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 4"
+        echo "ooops Fehler 5"
         $BIN_DIR/sendErrorMail.sh $BIN_DIR/sendFinishingMail.sh $1
         exit 1
 fi

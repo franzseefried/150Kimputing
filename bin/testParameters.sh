@@ -32,8 +32,11 @@ if [ ${snpstrat} == "S" ] && [ ${ReadGenotypes} == "B" ]; then
    $BIN_DIR/sendErrorMailWOarg2.sh ${SCRIPT}
    exit 1
 fi
-
-check Server
+if [ -z ${compImp} ]; then
+   echo "Paraeter ${compImp} is missing in Parameterfile"
+   exit 1
+fi
+#check Server
 ort=$(uname -a | awk '{print $1}' )
 if  [ ${ort} == "Darwin" ]; then
    echo "oooops :-( ....Change to a Linux-Server. You are not on a Linux Server, but this is required"

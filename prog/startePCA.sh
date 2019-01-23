@@ -52,8 +52,8 @@ for rasse in ${1}LD ${1}HD ; do
     echo "plot Eigenvalues now"
     Rscript $BIN_DIR/PCAplot.R $TMP_DIR/${rasse}.eigenvec $TMP_DIR/${rasse}blut.txt $RES_DIR/${rasse}.PCA.scores.txt $PDF_DIR/${rasse}pcaPlotMitBlut.pdf
   
-    rm -f $TMP_DIR/${rasse}blut.txt $TMP_DIR/${rasse}_PCA*
-    rm -f $GCA_DIR/${rasse}
+#    rm -f $TMP_DIR/${rasse}blut.txt $TMP_DIR/${rasse}_PCA*
+#    rm -f $GCA_DIR/${rasse}
 done
 
 

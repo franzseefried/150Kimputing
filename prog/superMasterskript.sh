@@ -99,11 +99,11 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 7
-$PROG_DIR/masterskriptFimputeRunAndControlGenomwideQUICK.sh ${1} 2>&1 > ${LOG_DIR}/7masterskriptFimputeRunAndControlGenomwideQUICK_${1}.log
+$PROG_DIR/masterskriptFimputeRunStandard.sh ${1} 2>&1 > ${LOG_DIR}/7masterskriptFimputeRunAndControl_${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 7"
-        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptFimputeRunAndControlGenomwideQUICK.sh ${1}
+        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptFimputeRunStandard.sh ${1}
         exit 1
 fi
 echo "----------------------------------------------------"
