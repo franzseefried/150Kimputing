@@ -40,7 +40,7 @@ MAILACCOUNT=franz.seefried@qualitasag.ch
 #folgt eine Effektschaetzung Y fuer yes, N fuer no############
 EFFESTfollows=N
 #Mailversand gegenueber Zuchtverband: normal Y, ausser z.b. in Testruns: N
-sendMails=Y
+sendMails=N
 #In case GWAS and Homozygosoty mapping is used################
 GWAStrait=AllgemeinBlindOB
 GWASpop=OB
