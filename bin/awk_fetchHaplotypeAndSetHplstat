@@ -1,0 +1,29 @@
+#!/usr/bin/awk -f
+#Skript ergänzt zum Tier den Haplotypenstatus
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    haplo[$1]=$1	#definiere Haplotyp
+
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	haploTier="-";
+	haploTier=haplo[$2]; 
+	
+	if(haploTier!=""){
+	  print $1,"1"
+        }
+        else {
+          print $1,"0"
+        }
+}
+}
+
+

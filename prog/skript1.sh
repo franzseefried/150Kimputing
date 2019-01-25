@@ -81,8 +81,6 @@ for file in $( ls * ) ; do
 done
 cd ${MAIN_DIR}
 
-echo "remove SinleGeneReferenceFiles" >> ${LOGFILE}
-$BIN_DIR/cleanUpSingleGeneFilesIfTheyExist.sh 2>&1 >> ${LOGFILE}
 
 echo "copy ARGUS pedigrees to local folders" >> ${LOGFILE}
 $BIN_DIR/copyARGUSpedigreesToLocalfolders.sh 2>&1 >> ${LOGFILE}

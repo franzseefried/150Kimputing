@@ -1,0 +1,10 @@
+title="BTAX for XXXXXXX";
+genotype_file="XXXXXXXBTAXZZZZZZZZZZ_FImpute.geno";
+snp_info_file="XXXXXXXBTAXZZZZZZZZZZ_FImpute.snpinfo";
+ped_file="XXXXXXXFimpute.ped";
+save_genotype;
+parentage_test /ert_mm=0.01 /remove_conflict;
+add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;
+output_folder="XXXXXXXBTAXZZZZZZZZZZ.out";
+njob=25;
+

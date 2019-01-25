@@ -120,11 +120,11 @@ echo "----------------------------------------------------"
 ##################################
 if [ ${1} == "BSW" ] || [ ${1} == "HOL" ] ; then
 echo Step 9
-nohup $PROG_DIR/masterskriptFimputeRunForHaplotypingNDSingleGenePredictions.sh ${1} 2>&1 > ${LOG_DIR}/9masterskriptFimputeRunForHaplotypingNDSingleGenePredictions_${1}.log 2>&1 &
+nohup $PROG_DIR/masterskriptFimputeRunExplicit.sh ${1} 2>&1 > ${LOG_DIR}/9masterskriptFimputeRunExplicit_${1}.log 2>&1 &
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 9"
-        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptFimputeRunForHaplotypingNDSingleGenePredictions.sh ${1}
+        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptFimputeRunExplicit.sh ${1}
         exit 1
 fi
 echo "----------------------------------------------------"

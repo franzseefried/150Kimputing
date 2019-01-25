@@ -103,7 +103,7 @@ numberOfParallelHAPLOTYPEJobs=10
 #No of parallel SingleGeneImputation jobs 
 numberOfParallelSIGEIMPJobs=5
 #Parameter if Crossvalidation in SVM Prediction should be applied YES / NO allowed
-ParCrossVal=YES
+ParCrossVal=NO
 #Maildresse zwsteam###########################
 MAILZWS="beat.bapst@qualitasag.ch;madeleine.berweger@qualitasag.ch;franz.seefried@qualitasag.ch;sophie.kunz@qualitasag.ch;urs.schuler@qualitasag.ch;mirjam.spengeler@qualitasag.ch;peter.vonrohr@qualitasag.ch;urs.schnyder@qualitasag.ch"
 #haplotype segments
@@ -132,7 +132,7 @@ crossreffileOLD=Samplesheet_${old10run}.txt
 crossreffileMV=Samplesheet_${oldrun}.txt
 crossreffile=Samplesheet_${run}.txt
 REFTAB_FiRepTest=/qualstorzws01/data_zws/snp/einzelgen/argus/glossar/GeneSeekSingleTestsInFinalReport.txt
-REFTAB_SiTeAr=/qualstorzws01/data_zws/parameterfiles/Reftab_markeridArgus_GeneSeek1seq.txt
+REFTAB_SiTeAr=/qualstorzws01/data_zws/snp/150Kimputing/parfiles/ReftabGenmarkerArgus.txt
 REFTAB_CHIPS=/qualstorzws01/data_zws/parameterfiles/CDCBchipCodes1seq.lst
 ISAGPARENTAGESBOLIST=/qualstorzws01/data_zws/parameterfiles/GenoEx-PSE_SNP_List_Details_withOwnSNPnames.csv
 CLLRT=0.948

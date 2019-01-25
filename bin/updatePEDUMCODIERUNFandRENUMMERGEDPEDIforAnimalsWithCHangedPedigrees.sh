@@ -177,7 +177,6 @@ rm -f $TMP_DIR/${impbreed}.Korrekturen.summary.id
 rm -f $TMP_DIR/${impbreed}.Korrekturen.summary.idvatmut
 rm -f $TMP_DIR/${impbreed}.Korrekturen.final
 rm -f $TMP_DIR/${impbreed}.Blutanteile.ForUpdate
-rm -f $TMP_DIR/${impbreed}.Blutanteile.mod
 rm -f $WORK_DIR/${impbreed}.sedBreed
 rm -f $WORK_DIR/${impbreed}.sedBreed.sektionscodeUpdate
 rm -f $TMP_DIR/ped_umcodierung.txt.${impbreed}.updated
