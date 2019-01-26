@@ -145,11 +145,11 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "run Fimpute SingleGeneImputation fuer $s $b"
-$BIN_DIR/runningFimputeBTAwise.sh ${b} ${BTA} ${s} 2>&1 >> $LOG_DIR/${SCRIPT}.${b}.${s}.log
+$BIN_DIR/runningFimpute.sh -b ${b} -o genotypes -c ${BTA} 2>&1 >> $LOG_DIR/${SCRIPT}.${b}.${s}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler SingleLocus_3"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/runningFimputeBTAwise.sh ${1}
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/runningFimpute.sh ${1}
         exit 1
 fi
 echo "----------------------------------------------------"

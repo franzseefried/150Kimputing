@@ -40,7 +40,7 @@ for breed in ${1}; do
 	sed 's/ /#/1' $WORK_DIR/${breed}LD_routine_BTAwholeGenome.raw | sed -n '2,$p' | sed 's/ /#/1' | sed 's/ /#/4' | cut -d'#' -f2,4 | sed 's/ //g' | sed 's/NA/5/g' | tr '#' ' ' | awk '{print $1,"2",$2}';) > $FIM_DIR/${breed}BTA${BTA}_FImpute.geno
     
     echo "Verteilung Chip Genotypenfile:"
-    sed -n '2,$p' $FIM_DIR/${breed}BTA${BTA}_FImpute.geno | awk '{print $2}' | sort -T ${SRT_DIR} | uniq -c | awk '{print $1,$2}' | sort -T ${SRT_DIR} -t' ' -k2,2
+    awk '{if(NR > 1) print $2}' $FIM_DIR/${breed}BTA${BTA}_FImpute.geno | sort -T ${SRT_DIR} | uniq -c | awk '{print $1,$2}' | sort -T ${SRT_DIR} -t' ' -k2,2
 
    rm -f $TMP_DIR/${breed}Typisierungsstatus${run}.srtFIFTYK
    rm -f $TMP_DIR/${breed}Typisierungsstatus${run}.srtLD

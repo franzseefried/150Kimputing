@@ -43,11 +43,11 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "Run FImpute now for $1"
-$BIN_DIR/runningFimputeGENOMEwide.sh ${1} 2>&1 
+$BIN_DIR/runningFimpute.sh -b ${1} -o genotypes -c wholeGenome 2>&1 
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 2"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/runningFimputeGENOMEwide.sh $1
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/runningFimpute.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"

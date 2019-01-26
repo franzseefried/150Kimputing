@@ -78,7 +78,17 @@ rm -f ${breed}_PEDICHECKout/*
 rm -rf ${breed}_PEDICHECKout
 mkdir ${breed}_PEDICHECKout
 
-cat ${PAR_DIR}/Fimpute_PEDICHECK.ctr | sed "s/BTAX/BTA${BTA}/g" | sed "s/XXXXXXX/${breed}/g" | sed "s/ZZZZZZZ/${parent}/g" >  ${breed}_PEDICHECK.ctr
+(echo "title=\"BTAX for ${breed} and ${parent}\";"
+echo "genotype_file=\"DUMMY${parent}${breed}BTA${BTA}_FImpute.geno\";"
+echo "snp_info_file=\"${breed}BTA${BTA}_FImpute.snpinfo\";"
+echo "ped_file=\"DUMMY${parent}${breed}Fimpute.ped\";"
+echo "parentage_test /ert_mm=0.01 /ert_m=0.005 /find_match_cnflt /remove_conflict;"
+echo "output_folder=\"${breed}_PEDICHECKout\";"
+echo "njob=25;" ) > ${breed}_PEDICHECK.ctr
+echo " "
+echo "Parameters are as follows:"
+cat ${breed}_PEDICHECK.ctr
+echo " "
 
 nohup $FRG_DIR/FImpute_Linux ${breed}_PEDICHECK.ctr -o > Fimpute${breed}.log 2>&1 &	
 
