@@ -7,7 +7,7 @@ MarkerID;Kennung;Bezeichnung;GeneSeekBezeichnung;Testtyp;BezeichnungFinalReport;
 31;SDM;SDM;SDM;Gentest;SDM;BSW;11;14742184;300;0;N;N;Y;GENOMEWIDE;;;SDMSNP
 34;SMA;SMA;SMA;Gentest;SMA;BSW;24;61620374;300;0;N;N;;GENOMEWIDE;;;SMASNP
 35;BH2;BH2;BH2;Gentest;BH2;BSW;19;10833921;300;0;Y;;Y;SVM;linear;;TUBD1SNP
-37;ARA;Arachnomelie;Arachnomelia-BS;Gentest;Arachnomelia-BS;BSW;5;57316731;900;0;Y;Y;Y;SINGLEGENE;;Y;SUOXSNP
+37;ARA;Arachnomelie;Arachnomelia-BS;Gentest;Arachnomelia-BS;BSW;5;57316731;900;0;Y;Y;Y;GENOMEWIDE;;Y;SUOXSNP
 106;P;Hornlos;POLLED;Haplotypen;;BSW;1;2000000;10;1;Y;;Y;SVM;linear;;POLLED202BPINDEL
 106;P;Hornlos;POLLED;Haplotypen;;HOL;1;1400851;10;1;N;;;;;;
 121;KK;Kappa_Kasein;Kappa_Casein;Gentest;;BSW,HOL;;;0;0;;;;;;;

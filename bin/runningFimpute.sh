@@ -20,6 +20,8 @@ usage () {
   echo "  where <string> specifies the Output: haplotypes or genotypes"
   echo "Usage: $SCRIPT -c <string>"
   echo "  where <string> specifies the chromosome: numerical chromosome code or wholeGenome"
+  echo "Usage: $SCRIPT -d <string>"
+  echo "  where <string> specifies the specific variant: e.g. CSN1_A1A2"
   exit 1
 }
 
@@ -30,7 +32,7 @@ if [ $NUMARGS -lt 0 ]  ; then
   usage 'No command line arguments specified'
 fi
 
-while getopts :b:o:c: FLAG; do
+while getopts :b:o:c:d: FLAG; do
   case $FLAG in
     b) # set option "b"
       export breed=$(echo $OPTARG | awk '{print toupper($1)}')
@@ -49,6 +51,9 @@ while getopts :b:o:c: FLAG; do
           usage "Output Parameter not correct, must be specified: genotypes / haplotypes using option -o <string>"
           exit 1
       fi
+      ;;
+     d) # set option "o"
+      export SNP=$(echo $OPTARG)
       ;;
      c) # set option "c"
       export BTA=$(echo $OPTARG)
@@ -77,7 +82,8 @@ fi
 if [ -z "${BTA}" ]; then
       usage 'code for chromosome not specified, must be specified using option -c <string>'   
 fi
-
+#$SNP kann leer sein!!!
+echo "Hallo ; ${SNP} ; "
 set -o errexit
 set -o nounset
 
@@ -85,26 +91,25 @@ echo "running runFimpute BTA ${BTA} for breed ${breed}:"
 
 cd $FIM_DIR
 (echo "title=\"${BTA} Imputation for ${breed}\";"
-echo "genotype_file=\"${breed}BTA${BTA}_FImpute.geno\";"
-echo "snp_info_file=\"${breed}BTA${BTA}_FImpute.snpinfo\";"
+echo "genotype_file=\"${breed}BTA${BTA}${SNP}_FImpute.geno\";"
+echo "snp_info_file=\"${breed}BTA${BTA}${SNP}_FImpute.snpinfo\";"
 echo "ped_file=\"${breed}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert\";"
 echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
 if [ ${output} == "genotypes" ] ;then
 echo "save_genotype;"
 fi
 echo "add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;"
-echo "output_folder=\"${breed}BTA${BTA}.out\";"
-echo "njob=30;")> ${breed}Fimpute_standard.ctr
+echo "output_folder=\"${breed}BTA${BTA}${SNP}.out\";"
+echo "njob=30;")> ${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 echo " "
 echo "FImpute Parameters are as follows"
-cat ${breed}Fimpute_standard.ctr
+cat ${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 
 $FRG_DIR/FImpute_Linux ${breed}Fimpute_standard.ctr -o
 
 cd $lokal
-
 
 
 

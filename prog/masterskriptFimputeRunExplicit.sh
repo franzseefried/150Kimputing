@@ -64,7 +64,7 @@ echo "----------------------------------------------------"
 done
 ##########################################################################################
 echo "Run Fimpute Genomewide safe haplotypes ${1}"
-$BIN_DIR/runningFimpute.sh -b ${1} -o haplotypes -c wholeGenome 2>$1
+$BIN_DIR/runningFimpute.sh -b ${1} -o haplotypes -c wholeGenome -d "" 2>$1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 1"
@@ -130,7 +130,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "Call distinct Haplotypes for ${1}"
-runsHH=$(echo $TMP_DIR/${1}.HAPLOTYPE.selected)
+runsHH=$(cat $TMP_DIR/${1}.HAPLOTYPE.selected)
 if [ ! -z "${runsHH}" ]; then
 pids=
 nJobs=0
@@ -170,7 +170,7 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##########################################################################################
-runsGI=$(echo $TMP_DIR/${1}.SINGLEGENE.selected)
+runsGI=$(cat $TMP_DIR/${1}.SINGLEGENE.selected)
 if [ ! -z "${runsGI}" ]; then
 #runsGI="CSN2_AB CSN2_A1A2 BLG_AA"
 pids=
@@ -210,7 +210,7 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##########################################################################################
-runsGW=$(echo $TMP_DIR/${breed}.GENOMEWIDE.selected)
+runsGW=$(cat $TMP_DIR/${1}.GENOMEWIDE.selected)
 if [ ! -z "${runsGW}" ]; then
 pids=
 pids=
@@ -278,7 +278,7 @@ fi
 echo "----------------------------------------------------"
 ##########################################################################################
 #echo "RUN SVMbased RYF Prediction for ${1}"
-#runSVM=$(echo $TMP_DIR/${breed}.SVM.selected)
+#runSVM=$(echo $TMP_DIR/${1}.SVM.selected)
 #if [ ! -z "${runsSVM}" ]; then
 #pids=
 #nJobs=0
@@ -307,7 +307,7 @@ echo "----------------------------------------------------"
 #done
 ##########################################################################################
 echo "RUN SVMbased Prediction for BV and OB together"
-runsSVM=$(echo $TMP_DIR/${1}.SVM.selected)
+runsSVM=$(cat $TMP_DIR/${1}.SVM.selected)
 if [ ! -z "${runsSVM}" ]; then
 pids=
 nJobs=0
