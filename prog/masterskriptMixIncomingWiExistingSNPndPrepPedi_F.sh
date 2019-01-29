@@ -133,7 +133,6 @@ if [ ${err} -gt 0 ]; then
         $BIN_DIR/sendErrorMail.sh $BIN_DIR/waitTillGenotypesHaveBeenPrepared.sh $1
         exit 1
 fi
-done
 echo "----------------------------------------------------"
 ##################################
 sleep 60

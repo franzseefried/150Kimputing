@@ -21,17 +21,18 @@ set -o nounset
 
     cp $FIM_DIR/${breed}BTAwholeGenome.out/snp_info.txt  $HIS_DIR/${breed}.RUN${run}snp_info.txt
 	#aktuelles Ergebnis Tierliste
-    awk '{print $1,$2}' $FIM_DIR/${breed}BTAwholeGenome.out/genotypes_imp.txt > $TMP_DIR/${breed}.Tierresult
+    awk '{print $1,$2}' $FIM_DIR/MASK${breed}BTAwholeGenome.out/genotypes_imp.txt > $TMP_DIR/${breed}.Tierresult
     (echo "TVD Chip";
-	$BIN_DIR/awk_umkodierungID1zuID2 $TMP_DIR/${breed}id1id2.reftab  $TMP_DIR/${breed}.Tierresult ) >  $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis
+	$BIN_DIR/awk_umkodierungID1zuID2 $TMP_DIR/${breed}id1id2.reftab  $TMP_DIR/${breed}.Tierresult ) >  $HIS_DIR/MASK${breed}.RUN${run}.IMPresult.tierlis
     sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${oldrun}.IMPresult.tierlis > $TMP_DIR/${breed}.imres.${oldrun}
-    echo "Uebersicht Ergebnis Imputation $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis"
+    echo "Uebersicht Ergebnis Imputation"
     echo " "
     echo "n ChipTyp"
-    cut -d' ' -f2 $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis | grep -v -i chip | sort -T ${SRT_DIR}  | uniq -c | awk '{print $1,$2}' | sort -T ${SRT_DIR} -t' ' -k2,2n
+    cut -d' ' -f2 $HIS_DIR/MASK${breed}.RUN${run}.IMPresult.tierlis | grep -v -i chip | sort -T ${SRT_DIR}  | uniq -c | awk '{print $1,$2}' | sort -T ${SRT_DIR} -t' ' -k2,2n
     echo " "
-    rm -f $TMP_DIR/${breed}.Tierresult
-    rm -f $TMP_DIR/${breed}id1id2.reftab
+    echo "Check list $HIS_DIR/MASK${breed}.RUN${run}.IMPresult.tierlis"
+
+
 else
     echo "komischer breedcode :-("
     exit 1

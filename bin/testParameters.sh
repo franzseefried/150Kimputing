@@ -58,7 +58,9 @@ done
 
 #test if parameters which need to be without alphanumeric signs are without alphabetical signs
 for ipar in ${GWASmaf} ${GWASgeno} ${GWASmind} ${GWAShwe} ${MaxLthHTL} ${relshipthreshold} ${AIMSAMPLESIZE} ${propBad} ${compImp} ${minchipstatus} ${maxAllowedRelship} ${YthrldM} ${YthrldF} ${PARthrld} ${ISAGCLRT} ${BADISAG} ${blutanteilsgrenze} ${minplausibleMVrelship} ${minInbreedOnMVrelship} ${gnrmcoeffTWINS} ${numberOfParallelHAPLOTYPEJobs} ${numberOfParallelSIGEIMPJobs} ${CLLRT} ${HTRT} ${GCSCR} ${fixSNPdatum} ${HDfixSNPdatum} ;do
-if [[ "$ipar" ~ [a-zA-Z] ]]; then
+#https://unix.stackexchange.com/questions/92445/bash-script-check-if-a-variable-is-in-a-z
+re='[a-zA-Z]'
+if [[ "${ipar}" =~ $re ]]; then
   echo "INVALID PARAMETER ${ipar} from ${lokal}/parfiles/steuerungsvariablen.ctr.sh "
   $BIN_DIR/sendErrorMailWOarg2.sh ${SCRIPT}
   exit 1
@@ -66,15 +68,15 @@ fi
 done
 
 #test parameter HDimuting
-if [ -z ${HDfol} ]; then echo "Parameter HDfollows fehlt"; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows; exit 1; fi
-if [ ${HDfol} != "Y" ] && [ ${HDfollows} != "N" ]; then echo Parameter HDfollows falsch angegeben, must be Y or N; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows;exit 1fi
+if [ -z ${HDfollows} ]; then echo "Parameter HDfollows fehlt"; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows; exit 1; fi
+if [ ${HDfollows} != "Y" ] && [ ${HDfollows} != "N" ]; then echo Parameter HDfollows falsch angegeben, must be Y or N; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows;exit 1;fi
 
 
 #loeschen von Abfragefiles falls ein run wiederholt wird
 for ifile in $TMP_DIR/${breed}HD.bed $TMP_DIR/${breed}LD.bed ; do
   if test -s ${ifile}; then
-     echo "loeschen von ${i} da es existiert"
-     rm -f ${i}
+     echo "loeschen von ${ifile} da es existiert"
+     rm -f ${ifile}
    fi
 done
 
@@ -89,9 +91,7 @@ if test -s $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis; then rm $HIS_DIR/${bre
 #anlegen von sexcheck falls es nicht existiert
 if ! test -s $ZOMLD_DIR/${run}.BADsexCheck.lst; then touch  $ZOMLD_DIR/${run}.BADsexCheck.lst; fi
 #echo "Make directory for CHECKLogs from CurrentIMPRUN falls ohne neue Proben ein run laeuft und kopiere dann de alten ins neue directory snst geht die Info im Logfile verloren"
-if test -d ${CHCK_DIR}/${run} ; then
-mkdir -p ${CHCK_DIR}/${run}
-fi
+if test -d ${CHCK_DIR}/${run} ; then mkdir -p ${CHCK_DIR}/${run} ;fi
 #echo "make Run-Directory fuer Einzelgenfiles falls ohne neue Proben ein run laeuft" 
 mkdir -p $RES_DIR/${run}
 mkdir -p ${DEUTZ_DIR}/swissherdbook/dsch/in/${run}

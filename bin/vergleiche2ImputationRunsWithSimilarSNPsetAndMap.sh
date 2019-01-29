@@ -41,12 +41,12 @@ fi;
 
 
     cut -d' ' -f1,5 $WORK_DIR/ped_umcodierung.txt.${breed} > $TMP_DIR/${breed}id1id2.reftab
-if false; then
+#if false; then
     #definiere Schnittmenge Tiere die sowohl im aktuelle Monat als auch im Vormonat LD-Tiere waren
     join -t' ' -o'1.1 1.2 2.2' -1 1 -2 1 <(sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis) <(sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${oldrun}.IMPresult.tierlis) | awk '{if($2 == 2 && $3 == 2) print $1,"LD"}' | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}.imputierteLDtiere.schnittmenge
     join -t' ' -o'1.1 1.2 2.2' -1 1 -2 1 <(sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis) <(sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${oldrun}.IMPresult.tierlis) | awk '{if($2 == 1 && $3 == 1) print $1,"DB" }' | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}.imputierteHDtiere.schnittmenge
     join -t' ' -o'1.1 1.2 2.2' -1 1 -2 1 <(sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis) <(sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.RUN${oldrun}.IMPresult.tierlis) | awk '{if($2 == 0 && $3 == 0) print $1,"P" }' | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}.imputierteUNGENOTYPEDtiere.schnittmenge
-fi
+#fi
 #ableiten des Chipstatus ausgehend vom Parameter im parameterfile
 if [ -z ${compImp} ]; then
    echo "ooops ${compImp} is missing in Parameterfile"
@@ -84,9 +84,9 @@ fi
 	Nsnp=$(wc -l $HIS_DIR/${breed}.RUN${run}snp_info.txt | awk '{print $1}')
 	thresholdToBeBad=$(echo ${Nsnp} | awk -v p=${propBad} '{printf "%8.0f\n", $1*p}' | awk '{print $1}')
 	readableProb=$(echo ${propBad} | awk '{print $1*100}')
-    done
-fi
-exit 1
+#    done
+#fi
+#exit 1
     rm -f  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
  #   for tiere in imputierteLDtiere imputierteUNGENOTYPEDtiere ; do
 #    for tiere in ${vglfile} ; do

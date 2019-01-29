@@ -27,18 +27,18 @@ if [ -z $4 ]; then
     echo "brauche den Code fuer die Loopnummer "
     exit 1
 fi
-set -o nounset
 
 
-awk -v s=${2} -v p=${3} '{if(NR >= s && NR <= p) print $3}'     $TMP_DIR/${1}.fmptrgb.txt > $TMP_DIR/${1}.fmptrgb.txt.${4}
-awk -v s=${2} -v p=${3} '{if(NR >= s && NR <= p) print $1,"2"}' $TMP_DIR/${1}.fmptrgb.txt > $TMP_DIR/${1}.fergeb.animals.txt.${4}
+
+awk -v s=${2} -v p=${3} '{if(NR >= s && NR <= p) print $3}'     $TMP_DIR/MASK${1}BTAwholeGenome_FImpute.gts > $TMP_DIR/${1}.fmptrgb.txt.${4}
+awk -v s=${2} -v p=${3} '{if(NR >= s && NR <= p) print $1,"2"}' $TMP_DIR/MASK${1}BTAwholeGenome_FImpute.gts > $TMP_DIR/${1}.fergeb.animals.txt.${4}
 rm -f $TMP_DIR/${1}.fmptrgb.txt.${4}.out $TMP_DIR/${1}LD.fimpute.ergebnis.${run}.${4}
-Rscript $BIN_DIR/selectSNPsfromFimputeErgebnis.R $TMP_DIR/${1}.selectedColsforGTfile $TMP_DIR/${1}.fmptrgb.txt.${4}
+Rscript $BIN_DIR/selectSNPsforMASKING.R  $TMP_DIR/${1}.selectedColsforGTfile $TMP_DIR/${1}.fmptrgb.txt.${4} 
 sed -i 's/ //g' $TMP_DIR/${1}.fmptrgb.txt.${4}.out
 sed -i "s/[5-9]/5/g" $TMP_DIR/${1}.fmptrgb.txt.${4}.out
-paste -d' ' $TMP_DIR/${1}.fergeb.animals.txt.${4} $TMP_DIR/${1}.fmptrgb.txt.${4}.out > $TMP_DIR/${1}LD.fimpute.ergebnis.${run}.${4}
+paste -d' ' $TMP_DIR/${1}.fergeb.animals.txt.${4} $TMP_DIR/${1}.fmptrgb.txt.${4}.out > $TMP_DIR/${1}LD.fimpute.MASKED.${run}.${4}
 
-rm -f $TMP_DIR/${1}.fergeb.animals.txt.${4} $TMP_DIR/${1}.fmptrgb.txt.${4}.out 
+rm -f $TMP_DIR/${1}.fergeb.animals.txt.${4} $TMP_DIR/${1}.fmptrgb.txt.${4}.out
 
 echo " "
 RIGHT_END=$(date)

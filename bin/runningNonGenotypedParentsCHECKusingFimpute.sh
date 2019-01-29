@@ -79,17 +79,17 @@ rm -rf ${breed}_NGPCout
 mkdir ${breed}_NGPCout
 
 
-(echo title=\"BTA${wholeGenome} for ${breed} and ${parent}\";"
+(echo "title=\"BTA${BTA} for ${breed} and ${parent}\";"
 echo "genotype_file=\"PHANTOM${parent}${breed}BTA${BTA}_FImpute.geno\";"
 echo "snp_info_file=\"${breed}BTA${BTA}_FImpute.snpinfo\";"
 echo "ped_file=\"PHANTOM${parent}${breed}Fimpute.ped\";"
 echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
 echo "output_folder=\"${breed}_NGPCout\";"
-echo "njob=25;) > ${breed}_NONGENOTYPEDPARENTSCHECK.ctr
+echo "njob=25;") > ${breed}_NONGENOTYPEDPARENTSCHECK.ctr
 echo " "
 
-echo "Parameters are as follows:
-cat ${breed}_NONGENOTYPEDPARENTSCHECK.ctr"
+echo "Parameters are as follows:"
+cat ${breed}_NONGENOTYPEDPARENTSCHECK.ctr
 echo " "
 nohup $FRG_DIR/FImpute_Linux ${breed}_NONGENOTYPEDPARENTSCHECK.ctr -o > Fimpute${breed}.log 2>&1 &	
 

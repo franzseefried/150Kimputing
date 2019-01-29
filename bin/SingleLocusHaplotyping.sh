@@ -97,9 +97,6 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-#echo "Log file from ${b} ${c} ${d} from next record on" >> $LOG_DIR/9masterskriptFimputeRunExplicit_${b}.log
-#cat $LOG_DIR/${SCRIPT}.${b}.${d}.log >> $LOG_DIR/9masterskriptFimputeRunExplicit_${b}.log
-#echo "Log file from ${b} ${c} ${d} till here" >> $LOG_DIR/9masterskriptFimputeRunExplicit_${b}.log
 ##################################
 echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh $PROG_DIR/${SCRIPT}.sh ${d}

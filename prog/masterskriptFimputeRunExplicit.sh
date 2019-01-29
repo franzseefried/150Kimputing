@@ -134,8 +134,7 @@ runsHH=$(cat $TMP_DIR/${1}.HAPLOTYPE.selected)
 if [ ! -z "${runsHH}" ]; then
 pids=
 nJobs=0
-for locus in ${runsHH[@]}; do
-ch=$(echo ${locus} | cut -d'-' -f1)
+for hlocus in ${runsHH[@]}; do
   while [ $nJobs -ge ${numberOfParallelHAPLOTYPEJobs} ]; do
     pids_old=${pids[@]}
     pids=
@@ -149,8 +148,7 @@ ch=$(echo ${locus} | cut -d'-' -f1)
     sleep 10
   done
   (
-  echo -c ${ch} -d ${locus}
-  $BIN_DIR/SingleLocusHaplotyping.sh -b ${1} -d ${locus} 2>&1
+  $BIN_DIR/SingleLocusHaplotyping.sh -b ${1} -d ${hlocus} 2>&1
   )&
   pid=$!
 # echo $pid
@@ -172,11 +170,9 @@ echo "----------------------------------------------------"
 ##########################################################################################
 runsGI=$(cat $TMP_DIR/${1}.SINGLEGENE.selected)
 if [ ! -z "${runsGI}" ]; then
-#runsGI="CSN2_AB CSN2_A1A2 BLG_AA"
-pids=
 pids=
 nJobs=0
-for locus in ${runsGI[@]}; do
+for slocus in ${runsGI[@]}; do
   while [ $nJobs -ge ${numberOfParallelSIGEIMPJobs} ]; do
     pids_old=${pids[@]}
     pids=
@@ -190,8 +186,7 @@ for locus in ${runsGI[@]}; do
     sleep 10
   done
   (
-  echo -s ${locus}
-  $BIN_DIR/SingleGeneImputation.sh -b ${1} -s ${locus} 2>&1
+  $BIN_DIR/SingleGeneImputation.sh -b ${1} -s ${slocus} 2>&1
   )&
   pid=$!
 # echo $pid
@@ -213,9 +208,8 @@ echo "----------------------------------------------------"
 runsGW=$(cat $TMP_DIR/${1}.GENOMEWIDE.selected)
 if [ ! -z "${runsGW}" ]; then
 pids=
-pids=
 nJobs=0
-for locus in ${runsGI[@]}; do
+for glocus in ${runsGW[@]}; do
   while [ $nJobs -ge ${numberOfParallelSIGEIMPJobs} ]; do
     pids_old=${pids[@]}
     pids=
@@ -229,8 +223,7 @@ for locus in ${runsGI[@]}; do
     sleep 10
   done
   (
-  echo -s ${locus}
-  $BIN_DIR/PullVariantFromGenomewideSystem.sh -b ${1} -s ${locus} 2>&1
+  $BIN_DIR/PullVariantFromGenomewideSystem.sh -b ${1} -s ${glocus} 2>&1
   )&
   pid=$!
 # echo $pid
@@ -277,35 +270,6 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##########################################################################################
-#echo "RUN SVMbased RYF Prediction for ${1}"
-#runSVM=$(echo $TMP_DIR/${1}.SVM.selected)
-#if [ ! -z "${runsSVM}" ]; then
-#pids=
-#nJobs=0
-#for svmlc in ${runsSVM[@]}; do
-#ch=$(echo ${svmlc} | cut -d'-' -f1)
-#  while [ $nJobs -ge ${numberOfParallelHAPLOTYPEJobs} ]; do
-#    pids_old=${pids[@]}
-#    pids=
-#    nJobs=0
-#    for pid in ${pids_old[@]}; do
-#      if kill -0 $pid > /dev/null 2>&1; then # kill -0 $pid ist true falls der Job noch laeuft
-#        nJobs=$(($nJobs+1))
-#        pids=(${pids[@]} $pid)
-#      fi
-#    done
-#    sleep 10
-#  done
-#  (
-#  echo -c ${ch} -d ${locus}
-#  $PROG_DIR/masterskriptSVMbasedGenotypePredictionRYF.sh -b BSW -c ${ch} -d ${svmlc} -p BV 2>&1
-#  )&
-#  pid=$!
-# echo $pid
-#  pids=(${pids[@]} $pid)
-#  nJobs=$(($nJobs+1))
-#done
-##########################################################################################
 echo "RUN SVMbased Prediction for BV and OB together"
 runsSVM=$(cat $TMP_DIR/${1}.SVM.selected)
 if [ ! -z "${runsSVM}" ]; then
@@ -325,7 +289,6 @@ for svmlc in ${runsSVM[@]}; do
     sleep 10
   done
   (
-  echo -c ${ch} -d ${locus}
   $BIN_DIR/SVMbasedGenotypePrediction.sh -b ${1} -d ${svmlc} 2>&1
   )&
   pid=$!

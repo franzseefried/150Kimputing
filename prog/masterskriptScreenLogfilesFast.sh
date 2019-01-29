@@ -52,7 +52,7 @@ cat $LOG_DIR/${1}.NewSampleSummary.log >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Keyoutput from FastCheckLOGfirectory for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
-$PROG_DIR/fastCheckLOGdirectory.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
+$BIN_DIR/fastCheckLOGdirectory.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 if [ ${1} != "VMS" ]; then
@@ -85,7 +85,7 @@ done
 for ifile in $(ls ${WRK_DIR}/currentSamplesheet/*.txt);do
 $BIN_DIR/checkSamplesWithNULLresponse.sh -f ${ifile} -b ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 done
-echo "Be happy since you have reached to the end of 50Kimputing" >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "Be happy since you have reached to the end of ${SCRIPT}" >> $WRK_DIR/${1}.LogScreening.${run}.log
 mv $WRK_DIR/${1}.LogScreening.${run}.log $LOG_DIR/${1}.LogScreening.${run}.log
 $BIN_DIR/sendAttentionMailAboutFinalLogSummary.sh ${1}
 fi

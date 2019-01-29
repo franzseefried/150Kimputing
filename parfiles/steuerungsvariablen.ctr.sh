@@ -1,39 +1,39 @@
 #!/bin/sh
 
 #change GeneSeeks NEWDATA######################################
-GeneSeekdata_LD="Qualitas_BOVG50V02_20190104,Qualitas_BOVG50V02_20190102,Qualitas_BOVG50V02_20181226,Qualitas_BOVG50V02_20181220"
+GeneSeekdata_LD="Qualitas_BOVG50V02_20190118,Qualitas_BOVG50V02_20190116,Qualitas_BOVG50V02_20190114,Qualitas_BOVG50V02_20190111,Qualitas_BOVG50V02_20190110,Qualitas_BOVG50V02_20190106"
 GeneSeekdata_F250V1=""
-GeneSeekdata_150K="Qualitas_BOVUHDV03_20190104,Qualitas_BOVUHDV03_20181221"
-GeneSeekdata_850K="Qualitas_BOV770V01_20181228"
+GeneSeekdata_150K="Qualitas_BOVUHDV03_20190117,Qualitas_BOVUHDV03_20190110"
+GeneSeekdata_850K="Qualitas_BOV770V01_20190106"
 GeneSeekdata_50K=""
 GeneSeekdata_80K=""
 # dbsystem benoetigt fuer pedigree-export
 dbsystem=rapid
 #von wo sollen die historischen Genotypen gelesen werden: Archiv "A" oder die binearies aus dem oldrun "B". B is much faster
-ReadGenotypes=B
+ReadGenotypes=A
 #Runshortcuts
-old10run=2018
-old9run=2118
-old8run=2218
-old7run=2318
-old6run=2418
-old5run=2518
-old4run=2618
-old3run=2718
-old2run=2818
-oldrun=2918
+old10run=2118
+old9run=2218
+old8run=2318
+old7run=2418
+old6run=2518
+old5run=2618
+old4run=2718
+old3run=2818
+old2run=2918
+oldrun=0119
 #Imputation run MMYY
-run=0119
+run=0219
 #HDparameter  run shortcuts are as here in LD-Imputation######
 #FHDparameter run shortcuts are as here in LD-Imputation######
 #Datum Pedigree Abzug SHB und BVCH############################
-DatPEDIshb=20190106
-DatPEDIbvch=20190106
-DatPEDIvms=20181219
-DatPEDIjer=20190106
+DatPEDIshb=20190119
+DatPEDIbvch=20190120
+DatPEDIvms=20190120
+DatPEDIjer=20190120
 #shzv pedi: Names muss auf .txt enden!!!
-pedigreeSHZV=Ped_EGcom-20190104.txt
-blutfileSHZV=Rac_EGcom-20190104.txt
+pedigreeSHZV=Ped_EGcom-20190118.txt
+blutfileSHZV=Rac_EGcom-20190118.txt
 #Maildresse or responsible employee###########################
 MAILACCOUNT=franz.seefried@qualitasag.ch
 ##############################################################
@@ -64,7 +64,7 @@ AIMSAMPLESIZE=70
 #Imputationsstrategie: F dann werden fixe snps aus einer alten imputation gelesen (empfohlen fuer routineruns) / S dann werden neue SNP-selektiert
 snpstrat=F
 #folgt eine HD Imputation Y fuer yes, N fuer no###############
-HDfollows=Y
+HDfollows=N
 #Untergenze Anteil geänderter Genotypen im Vgl zur letzen Imputation. Empfehlung geh nicht hoeher als 0.025
 propBad=0.025
 #No. of Chipstatus fuer die das aktuelle Imputationsergebnis mit dem letzen vergleichen werden soll: 3 d.h. alle 3 Status werden verglichen, 2 d.h. Status 0+1 wird verglichen, 1 d.h. nur Status 2 wird verglichen
@@ -106,13 +106,6 @@ numberOfParallelSIGEIMPJobs=5
 ParCrossVal=NO
 #Maildresse zwsteam###########################
 MAILZWS="beat.bapst@qualitasag.ch;madeleine.berweger@qualitasag.ch;franz.seefried@qualitasag.ch;sophie.kunz@qualitasag.ch;urs.schuler@qualitasag.ch;mirjam.spengeler@qualitasag.ch;peter.vonrohr@qualitasag.ch;urs.schnyder@qualitasag.ch"
-#haplotype segments
-runsHHOB="1-25769325-28186000 1-112002445-113573798 2-288663-1812806 4-63656108-73095401 4-45095680-49066662 4-44268015-49483114 5-67939009-69708507 6-1333796-5926377 6-61836407-68986129 8-5306786-7577203 9-83945696-84616331 10-12403519-15518038 11-98921066-104493671 11-100519730-104493671 14-243959-1645654 14-74816570-79273581 16-39981351-52235631 20-59824729-61310753 21-17825892-24537688 23-26021-3975934 24-42144837-50333001 25-7878909-9468764 28-32607986-37174238 29-18998431-24378595 24-18091501-20831872"
-runsHHBS="1-7788418-8492480 1-11400789-12200034 1-16942821-18161089 1-142604853-147739141 2-46525216-54763517 2-78767889-86156766 6-75066888-83580060 7-41391178-47015678 7-41450432-47036565 10-33636986-44032729 12-24302230-31767190 13-22364650-27941473 17-68292838-72912770 19-3385283-11898822 20-56060352-63859798 21-2954141-8431692 22-13018309-17298876 23-38833157-41308785 27-19759721-25777617 29-34038221-43984121 POLLED202BPINDEL 629-RYF BELTSNP"
-runsSVMBSW="FH2 POLLED202BPINDEL BELTSNP PNPLA8SNP SDMSNP SMASNP ARASNP"
-runsHHHO="16-HH6 18-DCM 1-143553801-150040289 3-19884048-29382616 4-32502039-39830409 4-60760468-67374218 4-94623036-101355947 6-10284334-12900652 7-3012704-4080783 7-8299510-11910848 7-18063252-20121357 8-85596091-94009575 9-14528729-18808598 11-79627826-83899253 16-12406183-20840776 17-66606822-72466595 19-18388200-20357327 20-22241467-23338824 20-38982400-40203572 21-60117851-64740700 23-39628508-46408712 25-18712221-27976688"
-runsHHSI="1-78633060-79266686 3-79005322-79513079 5-16294719-18842096 5-78726797-80694126 7-84591131-86862817 8-69696997-71639500 14-29716684-34149105 1-78771750-81241376 2-133710809-134782730 4-20226204-21788150 4-107599054-109206944 6-43588288-49848545 6-92595572-95658607 6-109070928-110463724 10-84164135-88427115 11-50172707-54932791 14-14650790-15345454 15-76818709-81195586 17-52227769-54361991 25-12180728-17746692"
-runsSVMHOL="Mulefoot-4863 RASGRP2SNP COPASNP "
 #if you want to start a new SNP System:
 #Use intergenomics codes here!!
 #HDden aim

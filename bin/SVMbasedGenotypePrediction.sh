@@ -142,10 +142,6 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "---------------------------------------------------"
 ##################################
-echo "Log file from ${b} ${d} from next record on" >> $LOG_DIR/9masterskriptFimputePrepAndRunBTAwise_${b}.log
-cat $LOG_DIR/${SCRIPT}.${b}.${d}.log >> $LOG_DIR/9masterskriptFimputePrepAndRunBTAwise_${b}.log
-echo "Log file from ${b} ${d} till here" >> $LOG_DIR/9masterskriptFimputePrepAndRunBTAwise_${b}.log
-##################################
 echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh $PROG_DIR/${SCRIPT}.sh ${d}
 err=$(echo $?)

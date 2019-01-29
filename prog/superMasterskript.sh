@@ -148,7 +148,7 @@ if [ ${err} -gt 0 ]; then
         $BIN_DIR/sendErrorMail.sh einzelgen/masterskriptProcessDataFiles.sh $1
         exit 1
 fi
-cd ../50Kimputing
+cd ${lokal}
 echo "----------------------------------------------------"
 ##################################
 if [ ${1} == "BSW" ] || [ ${1} == "HOL" ] ; then

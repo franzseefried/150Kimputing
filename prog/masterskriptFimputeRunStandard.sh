@@ -77,7 +77,7 @@ $BIN_DIR/vergleiche2ImputationRunsWithSimilarSNPsetAndMap.sh ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 5"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/vergleiche2ImputationRunswiFIXSNP.sh $1
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/vergleiche2ImputationRunsWithSimilarSNPsetAndMap.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"

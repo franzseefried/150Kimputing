@@ -1,7 +1,7 @@
 MarkerID;Kennung;Bezeichnung;GeneSeekBezeichnung;Testtyp;BezeichnungFinalReport;IMPbreedsWhereTestSegregates;BTA;MapBp;aEffekt;DominanzPropotionOfaEffekt;CountedAllelIsBADone;AlleleBisAimAlleleSingleGeneImputation;OGCrelevant;PredictionAlgorhithm;SVMAlgorithm;ExtractGenotypesFromChipData;CodeResultfile
 7;AA;Alphakasein_AA;;BSW,HOL;;;0;0;;;;;;;;;
 13;BK1;Betakasein_AB;Beta_Casein_AB;Gentest;;BSW,HOL;6;85181830;0;0;Y;;;SINGLEGENE;;;CSN2_AB
-14;BK2;Betakasein_A2;A2_Milk;Gentest;;BSW,HOL;6;85451297;10;0;Y;;;SINGLEGENE;;;CSN2_A1A2
+14;BK2;Betakasein_A2;A2_Milk;Gentest;;BSW,HOL;6;85451297;10;0;Y;;;SVM;linear;;CSN2_A1A2
 19;BLG;B-Lakto-Globulin_AA;BetaLact;Gentest;;BSW,HOL;11;103304757;0;0;Y;Y;;;;;
 28;WE;Weaver;Weaver;Gentest;;BSW;4;49600585;200;0;Y;;;SVM;sigmoid;;PNPLA8SNP
 31;SDM;SDM;SDM;Gentest;SDM;BSW;11;14742184;300;0;N;N;Y;GENOMEWIDE;;;SDMSNP

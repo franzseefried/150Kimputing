@@ -46,7 +46,11 @@ while getopts :b:o:c:d: FLAG; do
      o) # set option "o"
       export output=$(echo $OPTARG)
       if [ ${output} == "genotypes" ] || [ ${output} == "haplotypes" ]; then
-          echo ${breed} > /dev/null
+          if [ ${output} == "genotypes" ]; then
+            outfolder=".out"
+          else
+            outfolder=".haplos"
+          fi
       else
           usage "Output Parameter not correct, must be specified: genotypes / haplotypes using option -o <string>"
           exit 1
@@ -90,27 +94,27 @@ set -o nounset
 echo "running runFimpute BTA ${BTA} for breed ${breed}:"
 
 cd $FIM_DIR
+
 (echo "title=\"${BTA} Imputation for ${breed}\";"
-echo "genotype_file=\"${breed}BTA${BTA}${SNP}_FImpute.geno\";"
-echo "snp_info_file=\"${breed}BTA${BTA}${SNP}_FImpute.snpinfo\";"
-echo "ped_file=\"${breed}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert\";"
+echo "genotype_file=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}_FImpute.geno\";"
+echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}_FImpute.snpinfo\";"
+echo "ped_file=\"${FIM_DIR}/${breed}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert\";"
 echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
 if [ ${output} == "genotypes" ] ;then
 echo "save_genotype;"
 fi
 echo "add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;"
-echo "output_folder=\"${breed}BTA${BTA}${SNP}.out\";"
-echo "njob=30;")> ${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
+echo "output_folder=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}${outfolder}\";"
+echo "njob=30;")> ${FIM_DIR}/${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 echo " "
 echo "FImpute Parameters are as follows"
-cat ${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
+cat ${FIM_DIR}/${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 
-$FRG_DIR/FImpute_Linux ${breed}Fimpute_standard.ctr -o
+$FRG_DIR/FImpute_Linux ${FIM_DIR}/${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr -o
 
 cd $lokal
-
 
 
 echo " "
