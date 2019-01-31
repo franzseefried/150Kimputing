@@ -50,11 +50,11 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
-$BIN_DIR/runningFimpute.sh -b ${1} 2>&1
+$BIN_DIR/runningFimpute.sh -b ${1} ${impacc} -o genotypes -c wholeGenome -d "" -m MASK 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 3"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/MASKrunningFimputeGENOMEwide.sh $1
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/runningFimpute.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"
@@ -67,6 +67,7 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
+##################################
 echo "any evaluation of the imputation accuracy is done by Mirjam spenegeler"
 ##################################
 echo "send finishing mail"

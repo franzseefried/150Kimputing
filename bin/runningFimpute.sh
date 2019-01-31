@@ -22,6 +22,8 @@ usage () {
   echo "  where <string> specifies the chromosome: numerical chromosome code or wholeGenome"
   echo "Usage: $SCRIPT -d <string>"
   echo "  where <string> specifies the specific variant: e.g. CSN1_A1A2"
+  echo "Usage: $SCRIPT -m <string>"
+  echo "  where <string> specifies the Option for Evaluating Imputation Acc.: MASK or nothing is allowed"
   exit 1
 }
 
@@ -32,7 +34,7 @@ if [ $NUMARGS -lt 0 ]  ; then
   usage 'No command line arguments specified'
 fi
 
-while getopts :b:o:c:d: FLAG; do
+while getopts :b:o:c:d:m: FLAG; do
   case $FLAG in
     b) # set option "b"
       export breed=$(echo $OPTARG | awk '{print toupper($1)}')
@@ -56,8 +58,11 @@ while getopts :b:o:c:d: FLAG; do
           exit 1
       fi
       ;;
-     d) # set option "o"
+     d) # set option "d"
       export SNP=$(echo $OPTARG)
+      ;;
+     m) # set option "m"
+      export impacc=$(echo $OPTARG)
       ;;
      c) # set option "c"
       export BTA=$(echo $OPTARG)
@@ -88,15 +93,17 @@ if [ -z "${BTA}" ]; then
 fi
 #$SNP kann leer sein!!!
 #echo "Hallo ; ${SNP} ; "
+#impacc kann leer sein
+#echo "Hallo ; ${impacc} ;"
 set -o errexit
 set -o nounset
 
-echo "running runFimpute BTA ${BTA} for breed ${breed}:"
+echo "running runFimpute BTA ${BTA} for breed ${impacc}${breed}:"
 
 cd $FIM_DIR
 
-(echo "title=\"${BTA} Imputation for ${breed}\";"
-echo "genotype_file=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}_FImpute.geno\";"
+(echo "title=\"${BTA} Imputation for ${impacc}${breed}\";"
+echo "genotype_file=\"${FIM_DIR}/${impacc}${breed}BTA${BTA}${SNP}_FImpute.geno\";"
 echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}_FImpute.snpinfo\";"
 echo "ped_file=\"${FIM_DIR}/${breed}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert\";"
 echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
@@ -104,15 +111,15 @@ if [ ${output} == "genotypes" ] ;then
 echo "save_genotype;"
 fi
 echo "add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;"
-echo "output_folder=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}${outfolder}\";"
-echo "njob=30;")> ${FIM_DIR}/${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
+echo "output_folder=\"${FIM_DIR}/${impacc}${breed}BTA${BTA}${SNP}${outfolder}\";"
+echo "njob=30;")> ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 echo " "
 echo "FImpute Parameters are as follows"
-cat ${FIM_DIR}/${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
+cat ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 
-$FRG_DIR/FImpute_Linux ${FIM_DIR}/${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr -o
+$FRG_DIR/FImpute_Linux ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr -o
 
 cd $lokal
 

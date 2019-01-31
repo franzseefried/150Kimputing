@@ -64,7 +64,7 @@ echo "----------------------------------------------------"
 done
 ##########################################################################################
 echo "Run Fimpute Genomewide safe haplotypes ${1}"
-$BIN_DIR/runningFimpute.sh -b ${1} -o haplotypes -c wholeGenome -d "" 2>$1
+$BIN_DIR/runningFimpute.sh -b ${1} -o haplotypes -c wholeGenome -d "" -m "" 2>$1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 1"
