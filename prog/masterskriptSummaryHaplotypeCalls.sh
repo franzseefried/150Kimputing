@@ -21,7 +21,7 @@ if  [ ${ort} == "Darwin" ]; then
 elif [ ${ort} == "Linux" ]; then
 #################################
 echo Step 0
-for file in $RES_DIR/${breed}.GenomicFcoefficient.${run}.txt $RES_DIR/${breed}.PedigreeFcoefficient.${run}.txt $RES_DIR/${breed}.SNPtwins.${run}.txt $ZOMLD_DIR/${breed}_suspiciousVVs.${run}.csv $ZOMLD_DIR/${breed}_suspiciousMVs.${run}.csv $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis; do
+for file in $RES_DIR/${b}.GenomicFcoefficient.${run}.txt $RES_DIR/${b}.PedigreeFcoefficient.${run}.txt $RES_DIR/${b}.SNPtwins.${run}.txt $ZOMLD_DIR/${b}_suspiciousVVs.${run}.csv $ZOMLD_DIR/${b}_suspiciousMVs.${run}.csv $HIS_DIR/${b}.RUN${run}.IMPresult.tierlis; do
 $BIN_DIR/waitTillFileInARG2HasBeenPrepared.sh ${b} ${file} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then

@@ -87,7 +87,7 @@ if [ -z "${BTA}" ]; then
       usage 'code for chromosome not specified, must be specified using option -c <string>'   
 fi
 #$SNP kann leer sein!!!
-echo "Hallo ; ${SNP} ; "
+#echo "Hallo ; ${SNP} ; "
 set -o errexit
 set -o nounset
 
