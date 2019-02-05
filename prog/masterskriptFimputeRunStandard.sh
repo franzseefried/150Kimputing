@@ -73,7 +73,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "Compare Imputation result with last result for $1"
-$BIN_DIR/vergleiche2ImputationRunsWithSimilarSNPsetAndMap.sh ${1} 2>&1
+#$BIN_DIR/vergleiche2ImputationRunsWithSimilarSNPsetAndMap.sh ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 5"

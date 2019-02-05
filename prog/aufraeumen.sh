@@ -8,7 +8,7 @@ lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 
-${BIN_DIR}/Archivierung.sh
+${BIN_DIR}/archivierung.sh
 
 echo "loesche files im $TMP_DIR"
 rm -rf $TMP_DIR
@@ -33,13 +33,13 @@ rm -f $LAB_DIR/*
 ls -trl $LAB_DIR/
 
 
-for dd in HDimputing FHDimputing; do 
-echo "pruge now ${dd} direcctory"
-cd ${SNP_DIR}/${dd}
-prog/aufraeumen.sh
-cd ${lokal}
-echo " ";
-done
+#for dd in HDimputing FHDimputing; do 
+#echo "pruge now ${dd} direcctory"
+#cd ${SNP_DIR}/${dd}
+#prog/aufraeumen.sh
+#cd ${lokal}
+#echo " ";
+#done
 
 
 

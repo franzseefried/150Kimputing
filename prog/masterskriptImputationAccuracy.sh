@@ -68,7 +68,9 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
-echo "any evaluation of the imputation accuracy is done by Mirjam spenegeler"
+echo "any evaluation of the imputation accuracy is done by Mirjam Spengeler"
+#$BIN_DIR/EvaluateFimputeAccuracy_reg.sh -b ${1}
+
 ##################################
 echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh ${SCRIPT} $1 2>&1

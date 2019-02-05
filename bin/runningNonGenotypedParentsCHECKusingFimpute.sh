@@ -38,7 +38,7 @@ while getopts :b:p: FLAG; do
   case $FLAG in
     b) # set option "b"
       breed=$(echo $OPTARG | tr a-z A-Z)
-      if [ ${breed} == "BSW" ] || [ ${breed} == "HOL" ] || [ ${breed} == "VMS" ]; then
+      if [ ${breed} == "BSW" ] || [ ${breed} == "HOL" ] || [ ${breed} == "VMS" ]  || [ ${breed} == "ALL" ]; then
 	  echo ${breed} > /dev/null
       else
 	  usage 'Breed not correct, must be specified BSW or HOL or VMS using option -b <string>'
@@ -83,7 +83,7 @@ mkdir ${breed}_NGPCout
 echo "genotype_file=\"PHANTOM${parent}${breed}BTA${BTA}_FImpute.geno\";"
 echo "snp_info_file=\"${breed}BTA${BTA}_FImpute.snpinfo\";"
 echo "ped_file=\"PHANTOM${parent}${breed}Fimpute.ped\";"
-echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
+echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
 echo "output_folder=\"${breed}_NGPCout\";"
 echo "njob=25;") > ${breed}_NONGENOTYPEDPARENTSCHECK.ctr
 echo " "

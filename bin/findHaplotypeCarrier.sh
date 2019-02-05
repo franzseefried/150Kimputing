@@ -259,18 +259,18 @@ echo " "
 echo "check if these are of interest"
 echo " "
 fi
-#rm -f $TMP_DIR/${defectcode}.txt
-#rm -f $TMP_DIR/${breed}.NewFor.${defectcode}.srt
-#rm -f $TMP_DIR/geno.info.${defectcode}${breed}.srt
-#rm -f $TMP_DIR/gt.${defectcode}.${breed}.tmp
-#rm -f $TMP_DIR/${defectcode}-haplo12-Codierung.txt
-#rm -f $TMP_DIR/${breed}Fgt${defectcode}.tmp
-#rm -f $TMP_DIR/${breed}Fgt${defectcode}.transposed
-#rm -f $TMP_DIR/${breed}Fgt${defectcode}.animals
-#rm -f $TMP_DIR/${breed}Fgt${defectcode}.haplos.tmp
-#rm -f $TMP_DIR/${breed}Fgt${defectcode}.haplotypesInRows
-#rm -f $TMP_DIR/${breed}SMLLFgt${defectcode}.haplotypesInRows
-#rm -f $TMP_DIR/haplo.to.fetch.${breed}${defectcode}
+rm -f $TMP_DIR/${defectcode}.txt
+rm -f $TMP_DIR/${breed}.NewFor.${defectcode}.srt
+rm -f $TMP_DIR/geno.info.${defectcode}${breed}.srt
+rm -f $TMP_DIR/gt.${defectcode}.${breed}.tmp
+rm -f $TMP_DIR/${defectcode}-haplo12-Codierung.txt
+rm -f $TMP_DIR/${breed}Fgt${defectcode}.tmp
+rm -f $TMP_DIR/${breed}Fgt${defectcode}.transposed
+rm -f $TMP_DIR/${breed}Fgt${defectcode}.animals
+rm -f $TMP_DIR/${breed}Fgt${defectcode}.haplos.tmp
+rm -f $TMP_DIR/${breed}Fgt${defectcode}.haplotypesInRows
+rm -f $TMP_DIR/${breed}SMLLFgt${defectcode}.haplotypesInRows
+rm -f $TMP_DIR/haplo.to.fetch.${breed}${defectcode}
 
 
 echo " "

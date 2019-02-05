@@ -25,17 +25,21 @@ echo "SNP_ID Chr Pos Chip1" > $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo
 for pop in BSW VMS;do
 awk '{if(NR > 1 && $5 != 0) print $1,$2,$3}' $FIM_DIR/${pop}BTA${BTA}_FImpute.snpinfo
 done | sort -T $SRT_DIR |uniq -c | awk '{if($1 == 2) print $2,$3,$4}' | sort -t' ' -k2,2n -k3,3n | awk '{print $0,NR}' >> $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo
-awk '{if(NR > 0) print $1}' $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo > $TMP_DIR/${breed}BTA${BTA}_ACRPDC.txt
-awk '{if(NR > 0) print $1,"B"}' $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo > $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount
+awk '{if(NR > 1) print $1}' $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo > $TMP_DIR/${breed}BTA${BTA}_ACRPDC.txt
+awk '{if(NR > 1) print $1,"B"}' $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo > $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount
 #pedigree and IDs
 for pop in BSW VMS; do
 awk -v pp=${pop} '{if(NR > 1) print "1",$1,"1",pp$1}' $FIM_DIR/${pop}Fimpute.ped > $TMP_DIR/${pop}.umcd.tble
 done
 echo "ID Sire Dam Sex" > $FIM_DIR/${breed}Fimpute.ped
 for pop in BSW VMS;do
-awk -v pp=${pop} '{if(NR > 1) print pp$1,pp$2,pp$3,$4}' $FIM_DIR/${pop}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert
+awk -v pp=${pop} '{if(NR > 1) print pp$1,pp$2,pp$3,$4}' $FIM_DIR/${pop}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert | sed "s/${pop}0 /0 /g"
 done >> $FIM_DIR/${breed}Fimpute.ped
 
+
+for pop in BSW VMS; do 
+awk -v pp=${pop} '{if(NR > 1) print pp$1,pp$2,pp$3,$4,$5,$6,$7}' $WORK_DIR/ped_umcodierung.txt.${pop}.updated | sed "s/${pop}0 /0 /g"
+done > $WORK_DIR/ped_umcodierung.txt.${breed}
 
 
 for pop in BSW VMS; do
@@ -48,7 +52,7 @@ done
 
 #mergen genotypen
 $FRG_DIR/plink --bfile $TMP_DIR/BSW_ACRPDC --bmerge $TMP_DIR/VMS_ACRPDC --nonfounders --cow --noweb --make-bed --out $TMP_DIR/_ACRPDC
-$FRG_DIR/plink --bfile $TMP_DIR/_ACRPDC --nonfounders --cow --noweb --recodeA --reference-allele $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount  $TMP_DIR/${breed}_ACRPDC
+$FRG_DIR/plink --bfile $TMP_DIR/_ACRPDC --nonfounders --cow --noweb --recodeA --reference-allele $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount --out $TMP_DIR/${breed}_ACRPDC
 #wenn ohne HOL
 #$FRG_DIR/plink --bfile $TMP_DIR/_ACRPDC --bmerge $TMP_DIR/HOL_ACRPDC --nonfounders --cow --noweb --recodeA --reference-allele $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount  $TMP_DIR/${breed}_ACRPDC
 

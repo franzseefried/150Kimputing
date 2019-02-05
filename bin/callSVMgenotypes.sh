@@ -243,6 +243,7 @@ echo " "
 echo " "
 
 
+
 #Hole Info aus Reftab fuer Argus Codierung; Ziel "TVD;AuspraegungARGUS"
 heute=$(date '+%Y%m%d')
 getColmnNr PredictionAlgorhithm ${REFTAB_SiTeAr} ; colPA=$colNr_
@@ -260,6 +261,26 @@ HaLabel=$(cat ${SNP_DIR}/einzelgen/argus/glossar/${snp}${algorithm}Interpretatio
 else
 HaLabel=$(echo ${snp})
 fi
+
+
+###############
+#spezialfall CDHcat 
+if [ ${breed} == "HOL" ] && [ ${idd} == 179 ]; then
+echo "code CDH depending on pedigree"
+$BIN_DIR/codeCDHresultsUsingPedigree.sh  2>&1
+else
+if [ ${idd} != "XXX" ]; then
+cp ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat ${DEUTZ_DIR}/${natfolder}/dsch/in/${run}/.
+echo " "
+if [ ${breed} == "HOL" ]; then
+echo "ftp upload for SHZV"
+$BIN_DIR/ftpUploadOf1File.sh -f ${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat -o ${SNP_DIR}/einzelgen/argus/import/${breed} -z Einzelgen
+fi
+fi
+fi
+
+
+
 
 awk 'BEGIN{FS=" ";OFS=" "}{ \
     if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \

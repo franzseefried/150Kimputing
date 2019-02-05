@@ -26,7 +26,7 @@ ps fax | grep -i FImpute_Linux | awk '{print $1 }'  | while read job; do if [ -z
 
 ##################################
 echo Step 1
-$BIN_DIR/defineDatasetForAcrossBreedParentsSearch.sh.sh $1 2>&1
+$BIN_DIR/defineDatasetForAcrossBreedParentsSearch.sh $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 1"
@@ -70,7 +70,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 4
-$BIN_DIR/verarbeiteFimputePediCheckAendereVater.sh $1 2>&1 
+$BIN_DIR/verarbeiteFimputePediCheckAendereVaterALL.sh $1 2>&1 
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 4"
@@ -104,7 +104,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 8
-$BIN_DIR/verarbeiteFimputePediCheckAendereMutter.sh $1 2>&1
+$BIN_DIR/verarbeiteFimputePediCheckAendereMutterALL.sh $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 8"
@@ -112,101 +112,6 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-##################################
-echo Step 9
-$BIN_DIR/verarbeiteFimputePediCheckLoescheTiereMitUnbekanntemElter.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 9"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/verarbeiteFimputePediCheckLoescheTiereMitUnbekanntemElter.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 10
-$BIN_DIR/findeTiereMitNonGenotypedSire.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 10"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/findeTiereMitNonGenotypedSire.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 11
-$BIN_DIR/runningNonGenotypedParentsCHECKusingFimpute.sh -b $1 -p sire 2>&1
-echo "----------------------------------------------------"
-##################################
-echo Step 12
-$BIN_DIR/verarbeiteFimputeNGPCheckIdentifiziereUndAendereTiereWoAlternativSireFound.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 12"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/verarbeiteFimputeNGPCheckIdentifiziereUndAendereTiereWoAlternativSireFound.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 13
-$BIN_DIR/findeTiereMitNonGenotypedDam.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 13"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/findeTiereMitNonGenotypedDam.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 14
-$BIN_DIR/runningNonGenotypedParentsCHECKusingFimpute.sh -b $1 -p dam 2>&1
-echo "----------------------------------------------------"
-##################################
-echo Step 15
-$BIN_DIR/verarbeiteFimputeNGPCheckIdentifiziereUndAendereTiereWoAlternativDamFound.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 15"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/verarbeiteFimputeNGPCheckIdentifiziereUndAendereTiereWoAlternativSireFound.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 16
-$BIN_DIR/verarbeiteFimputePediCheckLoescheTiereMitMultiMatchingSiresAndOrDams.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 16"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/verarbeiteFimputePediCheckLoescheTiereMitMultiMatchingSiresAndOrDams.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 17
-$BIN_DIR/updatePEDUMCODIERUNFandRENUMMERGEDPEDIforAnimalsWithCHangedPedigrees.sh -b ${1} 2>&1 
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 17"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/updatePEDUMCODIERUNFandRENUMMERGEDPEDIforAnimalsWithCHangedPedigrees.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-if [ ${1} != "VMS" ] && [ ${HDfol} == "Y" ]; then
-echo Step 18 *****°°°°°Run HD Imputation via superMasterskript°°°°°*****
-cd ${SNP_DIR}/HDimputing
-nohup prog/superMasterskript.sh ${1} 2>&1 > log/superMasterskript_${1}.log &
-cd ${MAIN_DIR}
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 18"
-        $BIN_DIR/sendErrorMail.sh ${SNP_DIR}/HDimputing/prog/masterskriptHDprep.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-else
-echo " "
-echo "No HD imputation will follow"
-fi
 ##################################
 echo Step 19
 $BIN_DIR/sendFinishingMail.sh $PROG_DIR/masterskriptPedigreePlausi.sh $1 2>&1

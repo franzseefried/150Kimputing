@@ -75,8 +75,10 @@ awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | awk 'BEGIN{FS=";
 
 #scuche welche Tests aus dem Archiv geholt werden sollen
 TestsToBeExtracted=$(awk -v a=${colEXG} -v b=${colGSB} -v c=${colIMPBRD} -v d=${breed} 'BEGIN{FS=";"}{if($a == "Y" && $c ~ d) print $b}' ${REFTAB_SiTeAr} )
-echo $TestsToBeExtracted
 
+echo "####################"
+echo $TestsToBeExtracted
+echo "####################"
 
 
 #define chiploop

@@ -72,10 +72,12 @@ breed=${1}
 
 #suche welche Tests aus dem Archiv geholt werden sollen
 checkB=$(awk -v a=${colABAASGI} -v b=${colGSB} -v c=${colIMPBRD} -v d=${breed} -v e=${strat} 'BEGIN{FS=";"}{if($a == e && $c ~ d) print $1}' ${REFTAB_SiTeAr} | wc -l |awk '{print $1}')
-checkC=$(awk -v a=${colABAASGI} -v b=${colGSB} -v c=${colIMPBRD} -v d=${breed} -v e=${strat} 'BEGIN{FS=";"}{if($a == e && $c ~ d) print $b}' ${REFTAB_SiTeAr} |grep -v [a-z] | grep -v [A-Z] | grep [0-9] | wc -l|awk '{print $1}')
+checkC=$(awk -v a=${colABAASGI} -v b=${colGSB} -v c=${colIMPBRD} -v d=${breed} -v e=${strat} 'BEGIN{FS=";"}{if($a == e && $c ~ d) print $b}' ${REFTAB_SiTeAr} |grep -v \[a-z\] | grep -v \[A-Z\] | grep \[0-9\] | wc -l|awk '{print $1}')
 
 if [ ${checkB} != ${checkC} ]; then
 echo "OOOPS: There are tests nominated for ${strat} which have suspicious chromomes.. check"
+echo $checkB
+echo $checkC
 echo " "
 exit 1
 fi

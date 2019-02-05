@@ -44,12 +44,12 @@ elif ! test -s /qualstore03/data_zws/pedigree/data/itb/pedig_${breed}.csv ;then
 else
 
 #check ob es heteros hat in den NEUEN Ergebnissen, ab Mrz 2017 nur noch die neuen Tiere via pedigree gecheckt
-join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9' -1 1 -2 1 <(sort -T ${SRT_DIR} -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS) <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.NewFor.cdh.srt) > $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS
+join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9' -1 1 -2 1 <(sort -T ${SRT_DIR} -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM) <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.NewFor.cdh.srt) > $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM
 
-  checkcarrier=$(awk '{if($2 == 1)print }' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS | wc -l | awk '{print $1}')
+  checkcarrier=$(awk '{if($2 == 1)print }' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM | wc -l | awk '{print $1}')
   echo "Habe $checkcarrier heterozygot haplotypisierte Tiere in den Daten"
   if [ ${checkcarrier} > 0 ]; then
-  traeger=$(awk '{if($2 == 1)print $4}' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS | sort -T ${SRT_DIR} -n )
+  traeger=$(awk '{if($2 == 1)print $4}' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM | sort -T ${SRT_DIR} -n )
   for vieh in ${traeger}; do
   result=0
   echo "${vieh}" > ${TMP_DIR}/cdh.itb
@@ -78,10 +78,10 @@ join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 1.9' -1 1 -2 1 <(sort -T ${SRT_DIR
   fi
 
 #check ob es homos hat in den Ergebnissen
-  checkhomos=$(awk '{if($2 == 2)print }' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS | wc -l | awk '{print $1}')
+  checkhomos=$(awk '{if($2 == 2)print }' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM | wc -l | awk '{print $1}')
   echo "Habe $checkhomos Homozygot-haplotypisierte Tiere in den Daten"
   if [ ${checkhomos} > 0 ]; then
-  homos=$(awk '{if($2 == 2)print $4}' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS | sort -T ${SRT_DIR} -n )
+  homos=$(awk '{if($2 == 2)print $4}' $TMP_DIR/forPedicheck.RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM | sort -T ${SRT_DIR} -n )
   for vieh in ${homos}; do
   eltern=$(awk -v tier=${vieh} '{if(substr($5,3,16) == substr(tier,4,16)) print $1","$2 }' /qualstore03/data_zws/pedigree/work/${rasse}/UpdatedRenumMergedPedi_${DatPEDIshb}.txt )
   vater=$(echo $eltern | tr ',' ' ' | awk '{print $1}')
@@ -130,12 +130,12 @@ mv $RES_DIR/tmp.lst $RES_DIR/RUN${run}${breed}.CDH.check_founder_HOMOS.lst
 
 #prep final data: reduktion auf Tiere mit mehr als 90 prozen HOL Blut
 heute=$(date +"%Y%m%d")
-join -t' ' -o'1.1 1.2 1.3 1.4 2.2 1.6' -a1 -e'-' -1 4 -2 1 <( sort -T ${SRT_DIR} -t' ' -k4,4 $RES_DIR/RUN${run}${breed}.11-CDH.Fimpute.all.haploCOUNTS ) <(sort -T ${SRT_DIR} -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.CDH.check_founder_HOMOS.lst) |\
+join -t' ' -o'1.1 1.2 1.3 1.4 2.2 1.6' -a1 -e'-' -1 4 -2 1 <( sort -T ${SRT_DIR} -t' ' -k4,4 $RES_DIR/RUN${run}${breed}.11-CDH-ARS.Fimpute.SVM ) <(sort -T ${SRT_DIR} -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.CDH.check_founder_HOMOS.lst) |\
 awk '{if($6 == "HO" || $6 == "RF" || $6 == "SF" || $6 == "RH" )  print $1,$2,$3,$4,$5}' |\
 sort -T ${SRT_DIR} -t' ' -k4,4 |\
 join -t' ' -o'1.1 1.2 1.3 1.4 1.5 2.2' -a1 -e'-' -1 4 -2 1 - <(sort -T ${SRT_DIR} -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.CDH.check_founder_HETEROS.lst) |\
 awk '{if($2 == 0) print $1" CDF";else if($2 == 2 && $5 == 2) print $1" CD2";else if($2 == 2 && $5 == 2) print $1" CD2";else if($2 == 2 && $5 != 2) print $1" CD4"; else if($2 == 1 && $6 == 1) print $1" CD1";else if($2 == 1 && $6 == 0) print $1" CD3";else print $1," OOOPS"}' |\
-tee ${RES_DIR}/RUN${run}HOL.11-CDH.Fimpute.all.haploCOUNTS.cd1-5 |\
+tee ${RES_DIR}/RUN${run}HOL.11-CDH-ARS.Fimpute.SVM.cd1-5 |\
 sort -T ${SRT_DIR} -t' ' -k1,1 |\
 join -t' ' -o'1.1 1.2' -1 1 -2 1 - $TMP_DIR/${breed}.NewFor.cdh.srt |\
 tr ' ' ';' > /qualstore03/data_zws/snp/einzelgen/argus/import/${breed}/179.CDH.${heute}.CH.Haplotypen.ImportGenmarker.dat

@@ -99,7 +99,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 7
-$PROG_DIR/masterskriptFimputeRunStandard.sh ${1} 2>&1 > ${LOG_DIR}/7masterskriptFimputeRunAndControl_${1}.log
+$PROG_DIR/masterskriptFimputeRunStandard.sh ${1} 2>&1 > ${LOG_DIR}/7masterskriptFimputeRunStandard_${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 7"

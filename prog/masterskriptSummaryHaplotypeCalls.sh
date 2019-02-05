@@ -32,7 +32,6 @@ fi
 done
 echo "----------------------------------------------------"
 ##################################
-if false; then
 echo Step 2
 $BIN_DIR/waitTillHaplotypeCallsExist.sh ${b} 2>&1
 err=$(echo $?)
@@ -44,15 +43,14 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 4
-$BIN_DIR/summarizeHaplotypeCarrierAcrossAllReagions.sh ${b} 2>&1
+$BIN_DIR/summarizeGenotypePredictions.sh ${b} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 4"
-        $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/summarizeHaplotypeCarrierAcrossAllReagions.sh
+        $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/summarizeGenotypePredictions.sh
         exit 1
 fi
 echo "----------------------------------------------------"
-fi
 ##################################
 if [ ${HDfollows} == "Y" ]; then
 echo "Baue Startfile fuer HDimputing auf $1"
