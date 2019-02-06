@@ -73,24 +73,24 @@ echo "running Fimpute PEDICHECK ${parent} BTA${BTA} for breed ${breed} im nohhup
 echo " "
 echo "warte bis Kommentar auf Commandline dass parentage test fertig ist."
 
-cd $FIM_DIR
-rm -f ${breed}_PEDICHECKout/*
-rm -rf ${breed}_PEDICHECKout
-mkdir ${breed}_PEDICHECKout
+
+rm -f ${FIM_DIR}/${breed}_PEDICHECKout/*
+rm -rf ${FIM_DIR}/${breed}_PEDICHECKout
+mkdir ${FIM_DIR}/${breed}_PEDICHECKout
 
 (echo "title=\"BTAX for ${breed} and ${parent}\";"
-echo "genotype_file=\"DUMMY${parent}${breed}BTA${BTA}_FImpute.geno\";"
-echo "snp_info_file=\"${breed}BTA${BTA}_FImpute.snpinfo\";"
-echo "ped_file=\"DUMMY${parent}${breed}Fimpute.ped\";"
+echo "genotype_file=\"${FIM_DIR}/DUMMY${parent}${breed}BTA${BTA}_FImpute.geno\";"
+echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}_FImpute.snpinfo\";"
+echo "ped_file=\"${FIM_DIR}/DUMMY${parent}${breed}Fimpute.ped\";"
 echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
-echo "output_folder=\"${breed}_PEDICHECKout\";"
-echo "njob=25;" ) > ${breed}_PEDICHECK.ctr
+echo "output_folder=\"${FIM_DIR}/${breed}_PEDICHECKout\";"
+echo "njob=25;" ) > ${FIM_DIR}/${breed}_PEDICHECK.ctr
 echo " "
 echo "Parameters are as follows:"
-cat ${breed}_PEDICHECK.ctr
+cat ${FIM_DIR}/${breed}_PEDICHECK.ctr
 echo " "
 
-nohup $FRG_DIR/FImpute_Linux ${breed}_PEDICHECK.ctr -o > Fimpute${breed}.log 2>&1 &	
+nohup $FRG_DIR/FImpute_Linux ${FIM_DIR}/${breed}_PEDICHECK.ctr -o > ${FIM_DIR}/Fimpute${breed}.log 2>&1 &	
 
 date
 sleep 60

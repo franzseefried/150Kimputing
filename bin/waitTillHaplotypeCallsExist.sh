@@ -8,7 +8,7 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
-set -o errexit
+#set -o errexit
 START_DIR=$(pwd)
 
 
@@ -78,11 +78,33 @@ fi
 
 sleep 10
 
+
+existshot=N
+existresult=Y
+while [ ${existshot} != ${existresult} ]; do
+ls -l $TMP_DIR/${breed}.[A-Z]*.selected > /dev/null 2>&1
+if [ "$?" = "0" ]; then
+RIGHT_NOW=$(date +"%x %r %Z")
+existshot=Y
+echo $RIGHT_NOW
+fi
+done
+
+
 #define list of expected files
 halist=$(cat $TMP_DIR/${breed}.[A-Z]*.selected | tr '\n' ' ')
 #echo $halist
-for iha in ${halist[@]}; do 
+for iha in ${halist[@]}; do
+existshot=N
+existresult=Y
+while [ ${existshot} != ${existresult} ]; do
+ls -l $RES_DIR/RUN${run}${breed}.${iha}.*[A-Z] > /dev/null 2>&1
+if [ "$?" = "0" ]; then
 filetocheck=$(ls $RES_DIR/RUN${run}${breed}.${iha}.*[A-Z])
+RIGHT_NOW=$(date +"%x %r %Z")
+existshot=Y
+fi
+done
 TIERLIScheck ${filetocheck}
 done
 

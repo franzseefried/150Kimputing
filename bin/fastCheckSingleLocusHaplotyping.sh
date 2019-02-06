@@ -24,16 +24,48 @@ fi
 
 breed=$1
 
+
+#######Funktionsdefinition
+getColmnNrSemicl () {
+# $1: String der Spaltenueberschirft repraesentiert
+# $2: csv-File
+    colNr_=$(head -1 $2 | tr ';' '\n' | grep -n "^$1$" | awk -F":" '{print $1}')
+    if test -z $colNr_ ; then
+        echo "FEHLER: Spalte mit den Namen $1 existiert nicht in $2 --> PROGRAMMABBRUCH"
+        echo "... oder Trennzeichen in $2 ist nicht das Semikolon (;)"
+        exit 1
+    fi
+}
+
+
+#get Info about SNP from Reftab
+getColmnNrSemicl ExtractGenotypesFromChipData ${REFTAB_SiTeAr} ; colEXG=$colNr_
+getColmnNrSemicl CodeResultfile ${REFTAB_SiTeAr} ; colCSGI=$colNr_
+getColmnNrSemicl BTA ${REFTAB_SiTeAr} ; colGSB=$colNr_
+getColmnNrSemicl PredictionAlgorhithm ${REFTAB_SiTeAr} ; colABAASGI=$colNr_
+getColmnNrSemicl IMPbreedsWhereTestSegregates ${REFTAB_SiTeAr} ; colIMPBRD=$colNr_
+
+
+declare -a algis=$(awk -v a=${colABAASGI} -v b=${colCSGI} -v c=${colIMPBRD} -v d=${breed} 'BEGIN{FS=";"}{if($c ~ d) print $a}' ${REFTAB_SiTeAr} | sort -u | grep \[A-Z\] |tr '\n' ' ')
+if [ ${#algis[@]} -eq 0 ]; then
+echo "PredictionAlgortithm array is empty:  ${#algis[@]}"
+exit 1
+fi
+
+
 echo " "
 echo " "
-echo "Single Locus Haplotyping"
-grep "Tiere mit gewechseltem" $LOG_DIR/masterskriptSingleLocusHaplotyping.sh.${breed}.*
+for iA in ${algis[@]}; do
+if [ ${iA} == "SVM" ]; then kuerzel=SVMbasedGenotypePrediction;fi
+if [ ${iA} == "SINGLEGENE" ]; then kuerzel=SingleGeneImputation;fi
+if [ ${iA} == "GENOMEWIDE" ]; then kuerzel=PullVariantFromGenomewideSystem;fi
+if [ ${iA} == "HAPLOTYPE" ]; then kuerzel=SingleLocusHaplotyping;fi
+
+echo "${iA}"
+grep "Tiere mit gewechseltem" $LOG_DIR/${kuerzel}*${breed}.*
 echo " "
 echo " "
-echo "Single Gene Imputation"
-grep "Tiere mit gewechseltem" $LOG_DIR/masterskriptSingleGeneImputation*.${breed}.*
-echo " "
-echo " "
+done
 
 
 echo " "

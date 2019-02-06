@@ -73,25 +73,25 @@ echo "running NONGENOTYPEDPARENTSCHECK ${parent} BTA${BTA} for breed ${breed} im
 echo " "
 echo "warte bis Kommentar auf Commandline dass parentage test fertig ist."
 
-cd $FIM_DIR
-rm -f ${breed}_NGPCout/*
-rm -rf ${breed}_NGPCout
-mkdir ${breed}_NGPCout
+
+rm -f ${FIM_DIR}/${breed}_NGPCout/*
+rm -rf ${FIM_DIR}/${breed}_NGPCout
+mkdir ${FIM_DIR}/${breed}_NGPCout
 
 
 (echo "title=\"BTA${BTA} for ${breed} and ${parent}\";"
-echo "genotype_file=\"PHANTOM${parent}${breed}BTA${BTA}_FImpute.geno\";"
-echo "snp_info_file=\"${breed}BTA${BTA}_FImpute.snpinfo\";"
-echo "ped_file=\"PHANTOM${parent}${breed}Fimpute.ped\";"
+echo "genotype_file=\"${FIM_DIR}/PHANTOM${parent}${breed}BTA${BTA}_FImpute.geno\";"
+echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}_FImpute.snpinfo\";"
+echo "ped_file=\"${FIM_DIR}/PHANTOM${parent}${breed}Fimpute.ped\";"
 echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
-echo "output_folder=\"${breed}_NGPCout\";"
-echo "njob=25;") > ${breed}_NONGENOTYPEDPARENTSCHECK.ctr
+echo "output_folder=\"${FIM_DIR}/${breed}_NGPCout\";"
+echo "njob=25;") > ${FIM_DIR}/${breed}_NONGENOTYPEDPARENTSCHECK.ctr
 echo " "
 
 echo "Parameters are as follows:"
-cat ${breed}_NONGENOTYPEDPARENTSCHECK.ctr
+cat ${FIM_DIR}/${breed}_NONGENOTYPEDPARENTSCHECK.ctr
 echo " "
-nohup $FRG_DIR/FImpute_Linux ${breed}_NONGENOTYPEDPARENTSCHECK.ctr -o > Fimpute${breed}.log 2>&1 &	
+nohup $FRG_DIR/FImpute_Linux ${FIM_DIR}/${breed}_NONGENOTYPEDPARENTSCHECK.ctr -o > ${FIM_DIR}/Fimpute${breed}.log 2>&1 &	
 
 date
 sleep 60

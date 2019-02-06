@@ -36,7 +36,7 @@ Tierlischeck () {
 existshot=N
 existresult=Y
 now=$(date +%s)
-upperTimeLimit=$(echo ${now} 10 | awk '{print $1 + $2}')
+upperTimeLimit=$(echo "${now} 600" | awk '{print $1 + $2}')
 
 while [ ${existshot} != ${existresult} ]; do
 nowT=$(date +%s);
@@ -45,26 +45,30 @@ if [ ${nowT} -lt ${upperTimeLimit} ];then
      RIGHT_NOW=$(date +"%x %r %Z")
      existshot=Y
    fi
+   echo "${fileTOcheck} exists ${RIGHT_NOW}"
 else
+   $BIN_DIR/sendAttentionMailAboutMissingFile.sh ${fileTOcheck}
    echo "${fileTOcheck} has not been prepared which is suspicious"
    exit 1 
 fi
 done
 
+#ich benutze das skript bisher nur hier, hier darf ich nciht warten bis das file netsprechend alt ist da ich FImpute abbrechen will
 
-echo "${fileTOcheck} exists ${RIGHT_NOW}, check if it is ready"
-shotcheck=same
-shotresult=unknown
-current=$(date +%s)
-while [ ${shotcheck} != ${shotresult} ]; do
- lmod=$(stat -c %Y ${fileTOcheck} )
- RIGHT_NOW=$(date +"%x %r %Z")
- #echo $current $lmod
- if [ ${lmod} > 240 ]; then
-    shotresult=same
-    echo "${fileTOcheck} is ready now ${RIGHT_NOW}"
- fi
-done
+
+#echo "${fileTOcheck} exists ${RIGHT_NOW}, check if it is ready"
+#shotcheck=same
+#shotresult=unknown
+#current=$(date +%s)
+#while [ ${shotcheck} != ${shotresult} ]; do
+# lmod=$(stat -c %Y ${fileTOcheck} )
+# RIGHT_NOW=$(date +"%x %r %Z")
+# #echo $current $lmod
+# if [ ${lmod} > 240 ]; then
+#    shotresult=same
+#    echo "${fileTOcheck} is ready now ${RIGHT_NOW}"
+# fi
+#done
 
 }
 #############################################

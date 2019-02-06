@@ -100,7 +100,7 @@ set -o nounset
 
 echo "running runFimpute BTA ${BTA} for breed ${impacc}${breed}:"
 
-cd $FIM_DIR
+
 
 (echo "title=\"${BTA} Imputation for ${impacc}${breed}\";"
 echo "genotype_file=\"${FIM_DIR}/${impacc}${breed}BTA${BTA}${SNP}_FImpute.geno\";"
@@ -121,7 +121,7 @@ cat ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 $FRG_DIR/FImpute_Linux ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr -o
 
-cd $lokal
+
 
 
 echo " "

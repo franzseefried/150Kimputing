@@ -263,6 +263,14 @@ HaLabel=$(echo ${snp})
 fi
 
 
+awk 'BEGIN{FS=" ";OFS=" "}{ \
+    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \
+    else {sub("\015$","",$(NF));sD=CD[$1]; \
+    if   (sD != "") {print $1" "sD}}}' $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${snp}.srt |\
+    awk -v label=${HaLabel} '{if($2 == 0) print $1";"label"F"; else if ($2 == 1) print $1";"label"C"; else if ($2 == 2) print $1";"label"S"; else print $1";OOOPS"}' > ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat
+
+
+
 ###############
 #spezialfall CDHcat 
 if [ ${breed} == "HOL" ] && [ ${idd} == 179 ]; then
@@ -282,30 +290,6 @@ fi
 
 
 
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1]; \
-    if   (sD != "") {print $1" "sD}}}' $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${snp}.srt |\
-    awk -v label=${HaLabel} '{if($2 == 0) print $1";"label"F"; else if ($2 == 1) print $1";"label"C"; else if ($2 == 2) print $1";"label"S"; else print $1";OOOPS"}' > ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat
-
-echo "Wir haben folgende Verteilung der ${snp} Genotypen im Ergebnisfile ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat:"
-cut -d';' -f2 ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat | sort -T ${SRT_DIR} | uniq -c
-
-echo "copy to Folder der anderen Einzelgenergebnisse fuer ${natfolder}"
-
-if [ ${breed} == "HOL" ] && [ ${idd} == 179 ]; then
-echo "code CDH depending on pedigree"
-$BIN_DIR/codeCDHresultsUsingPedigree.sh  2>&1
-else
-if [ ${idd} != "XXX" ]; then
-cp ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat ${DEUTZ_DIR}/${natfolder}/dsch/in/${run}/.
-echo " "
-if [ ${breed} == "HOL" ]; then
-echo "ftp upload for SHZV"
-$BIN_DIR/ftpUploadOf1File.sh -f ${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat -o ${SNP_DIR}/einzelgen/argus/import/${breed} -z Einzelgen
-fi
-fi
-fi
 
 #print to screen samples homozygous
 nhomos=$(awk 'BEGIN{FS=" ";OFS=" "}{ \

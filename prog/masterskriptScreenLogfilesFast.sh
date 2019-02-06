@@ -57,7 +57,7 @@ echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 if [ ${1} != "VMS" ]; then
 echo "Keyoutput from fastCheckSingleLocusHaplotyping for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
-$PROG_DIR/fastCheckSingleLocusHaplotyping.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
+$BIN_DIR/fastCheckSingleLocusHaplotyping.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 fi

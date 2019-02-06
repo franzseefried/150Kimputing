@@ -62,19 +62,18 @@ echo "----------------------------------------------------"
 $BIN_DIR/MASKschreibeListenueberImputationsergebnis.sh -b ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 3"
+        echo "ooops Fehler 4"
         $BIN_DIR/sendErrorMail.sh $BIN_DIR/MASKschreibeListenueberImputationsergebnis.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"
 ##################################
 echo "Evaluation of Imputation accuracy"
-#$BIN_DIR/EvaluateFimputeAccuracy_rout.sh -b ${1} -c wholeGenome -o genotypes 2>&1
-
+$BIN_DIR/EvaluateFimputeAccuracy_rout.sh -b ${1} -c wholeGenome -o genotypes -n 150KV1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 3"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/MASKschreibeListenueberImputationsergebnis.sh $1
+        echo "ooops Fehler 5"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/EvaluateFimputeAccuracy_rout.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"
@@ -84,7 +83,7 @@ echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh ${SCRIPT} $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 4"
+        echo "ooops Fehler 6"
         $BIN_DIR/sendErrorMail.sh $BIN_DIR/sendFinishingMail.sh $1
         exit 1
 fi
