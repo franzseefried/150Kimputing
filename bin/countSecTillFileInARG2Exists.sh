@@ -27,7 +27,7 @@ fileTOcheck=${2}
 
 
 
-sleep 60
+sleep 10
 
 #Definition der Funktion
 ###########################################
@@ -35,15 +35,24 @@ Tierlischeck () {
 
 existshot=N
 existresult=Y
+now=$(date +%s)
+upperTimeLimit=$(echo ${now} 10 | awk '{print $1 + $2}')
+
 while [ ${existshot} != ${existresult} ]; do
-if test -s ${fileTOcheck}  ; then
-RIGHT_NOW=$(date +"%x %r %Z")
-existshot=Y
+nowT=$(date +%s);
+if [ ${nowT} -lt ${upperTimeLimit} ];then
+   if test -s ${fileTOcheck}  ; then
+     RIGHT_NOW=$(date +"%x %r %Z")
+     existshot=Y
+   fi
+else
+   echo "${fileTOcheck} has not been prepared which is suspicious"
+   exit 1 
 fi
 done
 
 
-echo "${fileTOcheck} file exists ${RIGHT_NOW}, check if it is ready"
+echo "${fileTOcheck} exists ${RIGHT_NOW}, check if it is ready"
 shotcheck=same
 shotresult=unknown
 current=$(date +%s)

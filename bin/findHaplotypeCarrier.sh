@@ -197,7 +197,7 @@ fi
 
 
 echo " "
-#$BIN_DIR/compareGTpredictionWithLastRun.sh -b $RES_DIR/RUN${oldrun}${breed}.${defectcode}.Fimpute.${algorithm} -c $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}
+$BIN_DIR/compareGTpredictionWithLastRun.sh -b $RES_DIR/RUN${oldrun}${breed}.${defectcode}.Fimpute.${algorithm} -c $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}
 echo " "
 
 

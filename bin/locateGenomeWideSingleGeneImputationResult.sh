@@ -154,7 +154,7 @@ fi
 
 
 echo " "
-#$BIN_DIR/compareGTpredictionWithLastRun.sh -b $RES_DIR/RUN${oldrun}${breed}.${snp}.Fimpute.${algorithm} -c $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm}
+$BIN_DIR/compareGTpredictionWithLastRun.sh -b $RES_DIR/RUN${oldrun}${breed}.${snp}.Fimpute.${algorithm} -c $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm}
 echo " "
 
 

@@ -40,7 +40,7 @@ if  [ ${ort} == "Darwin" ]; then
 elif [ ${ort} == "Linux" ]; then
 ##################################
 echo "Keyoutput from 7 for $1" > $WRK_DIR/${1}.LogScreening.${run}.log
-cat $LOG_DIR/7masterskriptFimputeRunAndControl_${1}.log >> $WRK_DIR/${1}.LogScreening.${run}.log
+cat $LOG_DIR/7masterskriptFimputeRunStandard_${1}.log >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Keyoutput from SumUpComparison for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log

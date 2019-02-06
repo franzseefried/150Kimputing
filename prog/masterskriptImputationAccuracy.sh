@@ -68,8 +68,16 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
-echo "any evaluation of the imputation accuracy is done by Mirjam Spengeler"
-#$BIN_DIR/EvaluateFimputeAccuracy_reg.sh -b ${1}
+echo "Evaluation of Imputation accuracy"
+#$BIN_DIR/EvaluateFimputeAccuracy_rout.sh -b ${1} -c wholeGenome -o genotypes 2>&1
+
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 3"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/MASKschreibeListenueberImputationsergebnis.sh $1
+        exit 1
+fi
+echo "----------------------------------------------------"
 
 ##################################
 echo "send finishing mail"

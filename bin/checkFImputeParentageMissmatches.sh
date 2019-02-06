@@ -19,7 +19,7 @@ set -o nounset
 	razza=$(echo ${1})
 	
 	
-    n1=$(grep "progeny-parent mismatches" ${FIM_DIR}/${razza}BTAwholeGenome.out/report.txt  | awk '{print $5}' )
+    n1=$(grep "progeny-parent mismatches" ${FIM_DIR}/${razza}BTAwholeGenome.out/report.txt  | awk 'BEGIN{FS=":"}{if(NR == 1) print gsub($2," ","")}' )
 
 
     if [ ${n1} -eq 0 ]; then

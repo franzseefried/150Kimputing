@@ -99,6 +99,13 @@ mkdir -p ${DEUTZ_DIR}/mutterkuh/dsch/in/${run}
 mkdir -p ${DEUTZ_DIR}/sbzv/dsch/in/${run}
 
 
+for ifile in $WRK_DIR/UniBernGenotypes.csv $WRK_DIR/Lager_20140131_Swissgenetics.txt  $WRK_DIR/SeqStiere_ZuordnungStatistik.csv  $WRK_DIR/Lager_20141127_Droegemueller.rebuilt.txt  $WRK_DIR/1000BullGenomesAnimalListDistRun6-Taurus-20170314.csv  $WRK_DIR/OB_ETH_StiereSequenziert.txt   $WRK_DIR/CHE_CDDRcons_ForSequencingSelection_available_fin.txt ; do
+if ! test -s ${ifile}; then
+echo "file ${ifile} is required but does not exist or has size zero"
+exit 1
+fi
+done
+
 
 
 

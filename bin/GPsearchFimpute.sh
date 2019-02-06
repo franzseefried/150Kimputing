@@ -25,7 +25,7 @@ cd $FIM_DIR
 echo "genotype_file=\"${BREED}.GPsearch_FImpute.geno\";"
 echo "snp_info_file=\"${BREED}.GPsearch_FImpute.snpinfo\";"
 echo "ped_file=\"${BREED}.GPsearch_Fimpute.ped\";"
-echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
+echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
 echo "add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;"
 echo "output_folder=\"${BREED}.GPsearch.out\";"
 echo "njob=25;") > ${BREED}.GPsearch.haplos.ctr

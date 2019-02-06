@@ -10,30 +10,30 @@ GeneSeekdata_80K=""
 # dbsystem benoetigt fuer pedigree-export
 dbsystem=rapid
 #von wo sollen die historischen Genotypen gelesen werden: Archiv "A" oder die binearies aus dem oldrun "B". B is much faster
-ReadGenotypes=A
+ReadGenotypes=B
 #Runshortcuts
-old10run=2118
-old9run=2218
-old8run=2318
-old7run=2418
-old6run=2518
-old5run=2618
-old4run=2718
-old3run=2818
-old2run=2918
-oldrun=0119
+old10run=2218
+old9run=2318
+old8run=2418
+old7run=2518
+old6run=2618
+old5run=2718
+old4run=2818
+old3run=2918
+old2run=0119
+oldrun=0219
 #Imputation run MMYY
-run=0219
+run=0319
 #HDparameter  run shortcuts are as here in LD-Imputation######
 #FHDparameter run shortcuts are as here in LD-Imputation######
 #Datum Pedigree Abzug SHB und BVCH############################
-DatPEDIshb=20190119
-DatPEDIbvch=20190120
-DatPEDIvms=20190120
-DatPEDIjer=20190120
+DatPEDIshb=20190201
+DatPEDIbvch=20190202
+DatPEDIvms=20190202
+DatPEDIjer=20190202
 #shzv pedi: Names muss auf .txt enden!!!
-pedigreeSHZV=Ped_EGcom-20190118.txt
-blutfileSHZV=Rac_EGcom-20190118.txt
+pedigreeSHZV=Ped_EGcom-20190201.txt
+blutfileSHZV=Rac_EGcom-20190201.txt
 #Maildresse or responsible employee###########################
 MAILACCOUNT=franz.seefried@qualitasag.ch
 ##############################################################
@@ -115,7 +115,7 @@ ARS12Name1=139977_GGPHDV3
 NewChip2=48_V1
 ARS12Name2=47843_BOVG50V1
 #parameter if genomewide imputation accuracy has to be evaluated
-evalImpAcc=Y
+evalImpAcc=N
 ##################################################
 #Do NOT change:
 #HD Imputation run

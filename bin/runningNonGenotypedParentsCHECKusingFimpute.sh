@@ -98,6 +98,11 @@ sleep 60
 date
     #endless LOOP to tell User when Parantage is ready
 
+
+$BIN_DIR/countSecTillFileInARG2Exists.sh ${breed} $FIM_DIR/${breed}_NGPCout/report.txt
+
+
+
 t=0
 while [ true ]; do
     if [ ${t} -lt 1 ]; then

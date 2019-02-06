@@ -106,7 +106,7 @@ cd $FIM_DIR
 echo "genotype_file=\"${FIM_DIR}/${impacc}${breed}BTA${BTA}${SNP}_FImpute.geno\";"
 echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}${SNP}_FImpute.snpinfo\";"
 echo "ped_file=\"${FIM_DIR}/${breed}Fimpute.ped_siredamkorrigiert_NGPsiredamkorrigiert\";"
-echo "parentage_test /ert_mm=0.01 /find_match_cnflt /remove_conflict;"
+echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
 if [ ${output} == "genotypes" ] ;then
 echo "save_genotype;"
 fi
