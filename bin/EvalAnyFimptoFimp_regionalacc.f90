@@ -534,6 +534,8 @@ write(*,*) '                   CORRELATION FOR EACH ANIMAL                      
 write(*,*) '          calculates the correlation for each animal separately               '
 write(*,*) '##############################################################################'
 
+write(iC,*) 'ID                          %Concordance  %Incorrect  Correlation'
+
 do i=1,iNumAnim
  CountLen=0
  do j=1,iNumMarker
@@ -570,6 +572,8 @@ write(*,*) '####################################################################
 write(*,*) '                   CORRELATION FOR EACH MARKER                                '
 write(*,*) '          calculates the concordance for each marker separately               '
 write(*,*) '##############################################################################'
+write(iCS,*) 'BTA  Pos  SNPn  %Concordance  %Incorrect  Genecontent  SNPName'
+
 
 do i=1,iNumMarker
   if (iCompSNPV(1,i)/=6) then
@@ -713,7 +717,7 @@ write (iSN,*)"Anzahl MAF gt 0.35 and le 0.4 :",o
 write (iSN,*)"Anzahl MAF gt 0.4 and le 0.45 :",p
 write (iSN,*)"Anzahl MAF gt 0.45 and le 0.5 :",q
 write (iSN,*)
-
+write (iSN,*)"MAFGroup  %Concordance  %Incorrect  Correlation"
 !Calculate correlation only within maf-group
  write(*,*)
  write(*,*) '#######################################################################################'

@@ -298,6 +298,24 @@ for svmlc in ${runsSVM[@]}; do
 done
 fi
 ##########################################################################################
+echo "Summary Genotype Predictions"
+$BIN_DIR/masterskriptSummaryHaplotypeCalls.sh ${1} 2>&1 > ${LOG_DIR}/11masterskriptSummaryHaplotypeCalls_${1}.log
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler superMasterskript 11"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/masterskriptSummaryHaplotypeCalls.sh ${1}
+        exit 1
+fi
+##########################################################################################
+echo "Redo since this Haplotype hav been missing so far"
+$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} Y 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler superMasterskript 12"
+        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptScreenLogfilesFast.sh ${1}
+        exit 1
+fi
+##########################################################################################
 echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh $PROG_DIR/${SCRIPT} $1
 err=$(echo $?)

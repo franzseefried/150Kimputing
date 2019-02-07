@@ -26,7 +26,19 @@ else
 	echo " $1 != BSW / HOL / VMS, ich stoppe"
 	exit 1
 fi
-
+if [ -z ${2} ]; then
+   echo "brauche den Code ob mit oder ohne Haplotype screening: Y N"
+    exit 1
+elif [ ${2} == "Y" ]; then
+        echo $2 > /dev/null
+        zodr=swissherdbook
+elif [ ${2} == "N" ]; then
+        echo $2 > /dev/null
+        zodr=mutterkuh
+else
+        echo " $2 != Y / N, ich stoppe"
+        exit 1
+fi
 if [ ${dbsystem} != "rapid" ]; then
    DEUTZ_DIR=/qualstororatest01/argus_${dbsystem}
 fi
@@ -55,7 +67,7 @@ echo "Keyoutput from FastCheckLOGfirectory for ${1} " >> $WRK_DIR/${1}.LogScreen
 $BIN_DIR/fastCheckLOGdirectory.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
-if [ ${1} != "VMS" ]; then
+if [ ${2} != "Y" ]; then
 echo "Keyoutput from fastCheckSingleLocusHaplotyping for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
 $BIN_DIR/fastCheckSingleLocusHaplotyping.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log

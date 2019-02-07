@@ -115,7 +115,7 @@ ARS12Name1=139977_GGPHDV3
 NewChip2=48_V1
 ARS12Name2=47843_BOVG50V1
 #parameter if genomewide imputation accuracy has to be evaluated
-evalImpAcc=N
+evalImpAcc=Y
 ##################################################
 #Do NOT change:
 #HD Imputation run

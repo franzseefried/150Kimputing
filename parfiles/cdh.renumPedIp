@@ -1,5 +1,5 @@
-logFile            '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/renumPedLog'
-pediFile                  '/qualstore03/data_zws/pedigree/work/rh/UpdatedRenumMergedPedi_20190119.txt'
+logFile            '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/OB.renumPedLog'
+pediFile                  '/qualstore03/data_zws/pedigree/work/rh/UpdatedRenumMergedPedi_20190201.txt'
 missingTVDIDCode          UUUUUUUUUUUUUU
 skipTiereMitFehlerhaftemGeburtsdatum    NO
 fehlerhaftePediRecFile    '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.fehPedRec'
@@ -8,6 +8,6 @@ sexFehlerFile             '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.
 altersdiskrepanzenFile    '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.altDiskr'
 fehldendeElternFile       '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.fehlElt'
 listeTiereFuerPedigree    '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.itb'
-idTypInListeTiereFuerPedigree     itbid19
+idTypInListeTiereFuerPedigree     itbid16
 nGenerationen              50
 renumberedPediFile         '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.renumPed'

@@ -78,7 +78,7 @@ echo " "
 if [ -z $1 ]; then
     echo "brauche den Code fuer die Rasse: BSW oder HOL "
     exit 1
-elif [ $1 == 'BSW' ] || [ $1 == 'HOL' ] ; then
+elif [ $1 == 'BSW' ] || [ $1 == 'HOL' ] || [ $1 == 'VMS' ] ; then
     
     set -o nounset
     breed=$(echo "$1")
@@ -133,8 +133,8 @@ elif [ $1 == 'BSW' ] || [ $1 == 'HOL' ] ; then
     rm -f $TMP_DIR/${breed}LD.fimpute.MASKED.${run}.[0-9]*
 #aufteilen auf ${numerOfParallelRjobs}
     noofani=$(wc -l $TMP_DIR/selectedMASK.animals.${breed} | awk '{print $1}') 
-#achtung trick: teile durch Anzahl Parallele Jobs Minus 1 damit unten mit 30 Jobs alles genau aufgeht
-    nAniPerRun=$(echo ${noofani} ${numberOfParallelRJobs} | awk '{printf "%.0f", $1/($2-1)}')
+#achtung trick: immer + 0.5 damit immer auf die nachste ganzzahl aufgerundet wird
+    nAniPerRun=$(echo ${noofani} ${numberOfParallelRJobs} | awk '{printf "%.0f", ($1/$2)+0.5}')
     echo "&&&&&"
     echo $nAniPerRun ${numberOfParallelRJobs} 
     wc -l $TMP_DIR/selectedMASK.animals.${breed}
@@ -146,7 +146,7 @@ elif [ $1 == 'BSW' ] || [ $1 == 'HOL' ] ; then
        echo "now starting ${n} loop";
        startRow=$(echo "1 ${n} ${nAniPerRun}" | awk '{print $1+($2*$3)}')
        endRow=$(echo "${n} 1 ${nAniPerRun}" | awk '{print ($1+$2)*$3}')
-       #echo $n $startRow $endRow;
+       echo $n $startRow $endRow;
        #cut the SNPs here using an script running in parallel for samples
        nohup ${BIN_DIR}/selectSNPsforMASKING.sh ${breed} ${startRow} ${endRow} ${n} 2>&1 > $LOG_DIR/${SCRIPT}.${breed}.${n}.log  &
            

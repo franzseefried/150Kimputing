@@ -141,7 +141,18 @@ $BIN_DIR/linuxPLINKwiFIXSNP.sh $1 2>&1 #> $LOG_DIR/linuxPLINKwiFIXSNP.${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 10a"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/linuxPLINKwiFIXSNP.sh.sh $1
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/linuxPLINKwiFIXSNP.sh $1
+        exit 1
+fi
+echo "----------------------------------------------------"
+##################################
+echo Step 11
+#fuer imputation accuracy und falls alle frq basier die effektschaetzung laufe soll
+$BIN_DIR/calcAlleleFrq.sh $1 2>&1 #> $LOG_DIR/linuxPLINKwiFIXSNP.${1}.log
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 11"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/calcAlleleFrq.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"

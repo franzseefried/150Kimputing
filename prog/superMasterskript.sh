@@ -151,21 +151,20 @@ fi
 cd ${lokal}
 echo "----------------------------------------------------"
 ##################################
-if [ ${1} == "BSW" ] || [ ${1} == "HOL" ] ; then
+if [ ${evalImpAcc} == "Y" ];then
 echo Step 11
-$PROG_DIR/masterskriptSummaryHaplotypeCalls.sh ${1} 2>&1 > ${LOG_DIR}/11masterskriptSummaryHaplotypeCalls_${1}.log
+nohup $PROG_DIR/masterskriptImputationAccuracy.sh ${1} 2>&1 > ${LOG_DIR}/12masterskriptImputationAccuracy_${1}.log &
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 11"
-        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptSummaryHaplotypeCalls.sh ${1}
+        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptScreenLogfilesFast.sh ${1}
         exit 1
 fi
 echo "----------------------------------------------------"
 fi
 ##################################
-if [ ${evalImpAcc} == "Y" ];then
 echo Step 12
-$PROG_DIR/masterskriptImputationAccuracy.sh ${1} 2>&1 > ${LOG_DIR}/12masterskriptImputationAccuracy_${1}.log
+$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} N 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 12"
@@ -173,34 +172,23 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-fi
-##################################
-echo Step 13
-$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler superMasterskript 13"
-        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptScreenLogfilesFast.sh ${1}
-        exit 1
-fi
-echo "----------------------------------------------------"
 ##################################
 #this step is additional and helpfull when you want to clarify unclear MGS issues
-echo Step 14
+echo Step 13
 $PROG_DIR/masterskriptGPsearch1.sh ${1} 2>&1 > ${LOG_DIR}/14masterskriptGPsearch1_${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler superMasterskript 14"
+        echo "ooops Fehler superMasterskript 13"
         $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptGPsearch1.sh ${1}
         exit 1
 fi
 echo "----------------------------------------------------"
 ##################################
-echo Step 15
+echo Step 14
 $BIN_DIR/sendFinishingMailWOarg2.sh $PROG_DIR/superMasterskript.sh
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler superMasterskript 13"
+        echo "ooops Fehler superMasterskript 14"
         $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/sendFinishingMail.sh
         exit 1
 fi

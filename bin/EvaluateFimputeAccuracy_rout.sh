@@ -6,6 +6,10 @@
 ###   started:   2018-10-10 09:38:56 (MFI)
 ###
 ### ###################################################################### ###
+##############################################################
+lokal=$(pwd | awk '{print $1}')
+source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
+###############################################################
 
 set -o errexit
 set -o nounset
@@ -120,10 +124,7 @@ done
 shift $((OPTIND-1))  #This tells getopts to move on to the next argument.
 
 
-##############################################################
-lokal=$(pwd | awk '{print $1}')
-#source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
-###############################################################
+
 
 echo $FIM_DIR
 echo $RES_DIR

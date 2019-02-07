@@ -42,7 +42,7 @@ lo_files<-list()
 
 for(i in 1)
 {
-ge_files[[i]]<-read.table(paste(ags[i],"Ind_correlations.txt",sep=""))  
+ge_files[[i]]<-read.table(paste(ags[i],"Ind_correlations.txt",sep=""),header=TRUE)  
 ge_files[[i]]$Scen<-tail(unlist(str_split(ags[i],"/")),n=1)  
 ge_files[[i]]$MAF<-"GE"
 }
@@ -54,7 +54,7 @@ mi<-1
 for(i in 2)
 {
   if(file.exists(paste(ags[i],"Ind_correlations.txt",sep=""))) {
-  hi_files[[mi]]<-read.table(paste(ags[i],"Ind_correlations.txt",sep=""))  
+  hi_files[[mi]]<-read.table(paste(ags[i],"Ind_correlations.txt",sep=""),header=TRUE)  
   hi_files[[mi]]$Scen<-tail(unlist(str_split(ags[i],"/")),n=1)  
   hi_files[[mi]]$MAF<-"HI"
   mi<-mi+1
@@ -69,7 +69,7 @@ mi<-1
 for(i in 3)
 {
   if(file.exists(paste(ags[i],"Ind_correlations.txt",sep=""))) {
-    lo_files[[mi]]<-read.table(paste(ags[i],"Ind_correlations.txt",sep=""))  
+    lo_files[[mi]]<-read.table(paste(ags[i],"Ind_correlations.txt",sep=""),header=TRUE)  
     lo_files[[mi]]$Scen<-tail(unlist(str_split(ags[i],"/")),n=1)  
     lo_files[[mi]]$MAF<-"LO"
     mi<-mi+1
@@ -105,7 +105,7 @@ for( a in 1:length(anim))
 
 table(melted_compl$breed)
 
-pdf(paste(args[6],"/ImputationAccuracyplots.pdf", sep = ""))
+pdf(paste(args[6],"/",args[5],"ImputationAccuracyplots.pdf", sep = ""))
 head(melted_compl)
 dim(melted_compl)
 
@@ -143,7 +143,7 @@ maf_ge<-list()
 for(i in 1)
 {
   maf_ge_n<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),sep=":",skip=1,nrows=13) 
-  maf_ge[[i]]<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),skip=15,nrows=13,as.is=TRUE)
+  maf_ge[[i]]<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),skip=16,nrows=13,as.is=TRUE)
   maf_ge[[i]]$Scen<-tail(unlist(str_split(ags[i],"/")),n=1)  
   maf_ge[[i]]$MAF<-"GE"
   maf_ge[[i]]$NSNP<-maf_ge_n$V2
@@ -157,7 +157,7 @@ for(i in 2)
 {
   if(file.exists(paste(ags[i],"MAF_correlations.txt",sep=""))){
   maf_ge_n<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),sep=":",skip=1,nrows=13) 
-  maf_hi[[mi]]<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),skip=15,nrows=13,as.is=TRUE)
+  maf_hi[[mi]]<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),skip=16,nrows=13,as.is=TRUE)
   maf_hi[[mi]]$Scen<-tail(unlist(str_split(ags[i],"/")),n=1)  
   maf_hi[[mi]]$MAF<-"HI"
   maf_hi[[mi]]$NSNP<-maf_ge_n$V2
@@ -177,7 +177,7 @@ for(i in 3)
 {
   if(file.exists(paste(ags[i],"MAF_correlations.txt",sep=""))){
     maf_ge_n<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),sep=":",skip=1,nrows=13) 
-    maf_lo[[mi]]<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),skip=15,nrows=13,as.is=TRUE)
+    maf_lo[[mi]]<-read.table(paste(ags[i],"MAF_correlations.txt",sep=""),skip=16,nrows=13,as.is=TRUE)
     maf_lo[[mi]]$Scen<-tail(unlist(str_split(ags[i],"/")),n=1)  
     maf_lo[[mi]]$MAF<-"LO"
     maf_lo[[mi]]$NSNP<-maf_ge_n$V2
@@ -209,8 +209,9 @@ xlab("Szenario")+ylab("Imputation Accuracy")+ggtitle("All Scenarios")
 
 #Plot regional accuracy
   if(file.exists(paste(ags[1],"SNP_correlations.txt",sep=""))){
-    snp_ge<-read.table(paste(ags[1],"SNP_correlations.txt",sep=""))
-    manhattan(snp_ge,chr="V1",bp="V2",p="V5",logp=FALSE,
+    snp_ge<-read.table(paste(ags[1],"SNP_correlations.txt",sep=""),header=TRUE)
+    print(head(snp_ge))
+    manhattan(snp_ge,chr="BTA",bp="Pos",p="X.Incorrect",logp=FALSE,
               main=paste("SNP accuracy",args[5],args[7],sep=" "),ylab="Imputation error %",
               genomewideline = 200 ,suggestiveline = 200)
     

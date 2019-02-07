@@ -64,8 +64,8 @@ set -o nounset
 
 #aufteilen auf ${numerOfParallelRjobs}
         noofani=$(wc -l $TMP_DIR/${breed}.fmptrgb.txt | awk '{print $1}') 
-#achtung trick: teile durch Anzahl Parallele Jobs Minus 1 damit unten mit 30 Jobs alles genau aufgeht
-        nAniPerRun=$(echo ${noofani} ${numberOfParallelRJobs} | awk '{printf "%.0f", $1/($2-1)}')
+#achtung trick: immer + 0.5 damit immer auf die nachste ganzzahl aufgerundet wird
+        nAniPerRun=$(echo ${noofani} ${numberOfParallelRJobs} | awk '{printf "%.0f", ($1/$2)+0.5}')
         n=0;
         z=$(echo ${n} ${nAniPerRun} | awk -v m=${nAniPerRun} '{print 1+($1*m)}')
 #        echo $z $noofani;

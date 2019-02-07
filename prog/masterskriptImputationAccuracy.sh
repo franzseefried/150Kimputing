@@ -59,7 +59,7 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
-$BIN_DIR/MASKschreibeListenueberImputationsergebnis.sh -b ${1} 2>&1
+$BIN_DIR/MASKschreibeListenueberImputationsergebnis.sh ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 4"
@@ -69,7 +69,8 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "Evaluation of Imputation accuracy"
-$BIN_DIR/EvaluateFimputeAccuracy_rout.sh -b ${1} -c wholeGenome -o genotypes -n 150KV1 2>&1
+ourChipCode=$($BIN_DIR/feedbackOurChipCode.sh )
+$BIN_DIR/EvaluateFimputeAccuracy_rout.sh -b ${1} -c wholeGenome -o genotypes -n ${ourChipCode} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 5"
