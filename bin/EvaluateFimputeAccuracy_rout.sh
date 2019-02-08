@@ -226,15 +226,18 @@ do
 	 	continue
 	 fi
 
-	(echo "MAF"; awk '{if(FILENAME==ARGV[1]) 
-	{tier[$1]} else {if($2 in tier) {print $5}}}' $sta_c $high_c) > ${TMP_DIR}/maf_${a}.eval.${breed}.txt
+	(echo "MAF";  awk '{if(FILENAME==ARGV[1]) 
+	{tier[$1]=$1;snp[$1]=$2} else {if($1 in tier) {print snp[$1]}}}' <(awk '{print $2,$5}' $high_c) $sta_c) > ${TMP_DIR}/maf_${a}.eval.${breed}.txt
+	head ${TMP_DIR}/maf_${a}.eval.${breed}.txt
 
-	(echo "MAF"; awk '{if(FILENAME==ARGV[1]) 
-	{tier[$1]} else {if($2 in tier) {print $5}}}' $sta_c $high_c) > ${TMP_DIR}/maf_all_${a}.eval.${breed}.txt
+	(echo "MAF";  awk '{if(FILENAME==ARGV[1]) 
+	{tier[$1]=$1;snp[$1]=$2} else {if($1 in tier) {print snp[$1]}}}' <(awk '{print $2,$5}' $high_c) $sta_c) > ${TMP_DIR}/maf_all_${a}.eval.${breed}.txt
+	head ${TMP_DIR}/maf_all_${a}.eval.${breed}.txt
 
 	awk '{if(FILENAME==ARGV[1]) 
-	{tier[$1]} else {if($2 in tier) {print}}}' $sta_c $high_c |\
-	awk '{if($3=="B") $6=2*$5; else if($4=="B") $6=(1-$5)*2; print $6}'> ${TMP_DIR}/genecont_${a}.eval.${breed}.txt
+	{tier[$1]=$1;snp[$1]=$0} else {if($1 in tier) {print snp[$1]}}}' <(awk '{print $2,$3,$4,$5}' $high_c) $sta_c |\
+	awk '{if($2=="B") $5=2*$4; else if($3=="B") $5=(1-$4)*2; print $5}'> ${TMP_DIR}/genecont_${a}.eval.${breed}.txt
+	head ${TMP_DIR}/genecont_${a}.eval.${breed}.txt
 
 	echo "# PARAMETER FILE    ">${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
 	echo "NumAnim             $nanim">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par

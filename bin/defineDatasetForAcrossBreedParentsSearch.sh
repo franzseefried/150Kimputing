@@ -24,9 +24,11 @@ BTA=wholeGenome
 echo "SNP_ID Chr Pos Chip1" > $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo
 for pop in BSW VMS HOL;do
 awk '{if(NR > 1 && $5 != 0) print $1,$2,$3}' $FIM_DIR/${pop}BTA${BTA}_FImpute.snpinfo
-done | sort -T $SRT_DIR |uniq -c | awk '{if($1 == 2) print $2,$3,$4}' | sort -t' ' -k2,2n -k3,3n | awk '{print $0,NR}' >> $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo
+done | sort -T $SRT_DIR |uniq -c | awk '{if($1 == 3) print $2,$3,$4}' | sort -t' ' -k2,2n -k3,3n | awk '{print $0,NR}' >> $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo
 awk '{if(NR > 1) print $1}' $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo > $TMP_DIR/${breed}BTA${BTA}_ACRPDC.txt
 awk '{if(NR > 1) print $1,"B"}' $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo > $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount
+echo "No of SNPs:"
+wc -l $FIM_DIR/${breed}BTA${BTA}_FImpute.snpinfo
 #pedigree and IDs
 for pop in BSW VMS HOL; do
 awk -v pp=${pop} '{if(NR > 1) print "1",$1,"1",pp$1}' $FIM_DIR/${pop}Fimpute.ped > $TMP_DIR/${pop}.umcd.tble
@@ -54,7 +56,7 @@ done
 $FRG_DIR/plink --bfile $TMP_DIR/BSW_ACRPDC --bmerge $TMP_DIR/VMS_ACRPDC --nonfounders --cow --noweb --make-bed --out $TMP_DIR/_ACRPDC
 #$FRG_DIR/plink --bfile $TMP_DIR/_ACRPDC --nonfounders --cow --noweb --recodeA --reference-allele $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount --out $TMP_DIR/${breed}_ACRPDC
 #wenn ohne HOL
-$FRG_DIR/plink --bfile $TMP_DIR/_ACRPDC --bmerge $TMP_DIR/HOL_ACRPDC --nonfounders --cow --noweb --recodeA --reference-allele $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount  $TMP_DIR/${breed}_ACRPDC
+$FRG_DIR/plink --bfile $TMP_DIR/_ACRPDC --bmerge $TMP_DIR/HOL_ACRPDC --nonfounders --cow --noweb --recodeA --reference-allele $TMP_DIR/${breed}BTA${BTA}_ACRPDC.force.Bcount --out  $TMP_DIR/${breed}_ACRPDC
 
 
 

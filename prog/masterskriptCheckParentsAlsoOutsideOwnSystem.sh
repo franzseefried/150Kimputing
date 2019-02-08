@@ -45,16 +45,6 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
-echo Step 1
-$BIN_DIR/findeTiereMitVater0undSetzeDUMMYVater.sh $1 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 1"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/findeTiereMitVater0undSetzeDUMMYVater.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
 echo Step 2
 $BIN_DIR/runningPediCHECKusingFimpute.sh -b $1 -p sire 2>&1
 echo "----------------------------------------------------"
@@ -109,6 +99,16 @@ err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 8"
         $BIN_DIR/sendErrorMail.sh $BIN_DIR/verarbeiteFimputePediCheckAendereMutter.sh $1
+        exit 1
+fi
+echo "----------------------------------------------------"
+##################################
+echo Step 9
+$BIN_DIR/reduceAcrossAllParentSearchToRelevants.sh $1 2>&1
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 9"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/reduceAcrossAllParentSearchToRelevants.sh $1
         exit 1
 fi
 echo "----------------------------------------------------"
