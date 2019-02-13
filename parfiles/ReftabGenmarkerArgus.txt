@@ -1,12 +1,13 @@
 MarkerID;Kennung;Bezeichnung;GeneSeekBezeichnung;Testtyp;BezeichnungFinalReport;IMPbreedsWhereTestSegregates;BTA;MapBp;aEffekt;DominanzPropotionOfaEffekt;CountedAllelIsBADone;AlleleBisAimAlleleSingleGeneImputation;OGCrelevant;PredictionAlgorhithm;SVMAlgorithm;ExtractGenotypesFromChipData;CodeResultfile
 7;AA;Alphakasein_AA;;BSW,HOL;;;0;0;;;;;;;;;
-13;BK1;Betakasein_AB;Beta_Casein_AB;Gentest;;BSW;6;85181830;0;0;Y;N;;SINGLEGENE;;;CSN2_AB
+13;BK1;Betakasein_AB;Beta_Casein_AB;Gentest;;BSW;6;85181830;0;0;Y;N;;SVM;linear;;CSN2_AB
 14;BK2;Betakasein_A2;A2_Milk;Gentest;;BSW,HOL;6;85451297;10;0;Y;;;SVM;linear;;CSN2_A1A2
 19;BLG;B-Lakto-Globulin_AA;BetaLact;Gentest;;BSW,HOL;11;103304757;0;0;Y;Y;;;;;
 28;WE;Weaver;Weaver;Gentest;;BSW;4;49600585;200;0;Y;;;SVM;sigmoid;;PNPLA8SNP
 31;SDM;SDM;SDM;Gentest;SDM;BSW;11;14742184;300;0;N;N;Y;GENOMEWIDE;;;SDMSNP
 34;SMA;SMA;SMA;Gentest;SMA;BSW;24;61620374;300;0;N;N;;GENOMEWIDE;;;SMASNP
 35;BH2;BH2;BH2;Gentest;BH2;BSW;19;10833921;300;0;Y;;Y;SVM;radial;;TUBD1SNP
+XXX;Pausch-WDR19-ARS;;;Haplotype;;BSW;6;58373887;75;0;Y;;Y;HAPLOTYPE;;;Pausch-WDR19-ARS
 37;ARA;Arachnomelie;Arachnomelia-BS;Gentest;Arachnomelia-BS;BSW;5;57316731;900;0;Y;Y;Y;GENOMEWIDE;;Y;SUOXSNP
 106;P;Hornlos;POLLED;Haplotypen;;BSW;1;2400000;10;1;Y;;Y;SVM;linear;;POLLED202BPINDEL
 106;P;Hornlos;POLLED;Haplotypen;;HOL;1;2800000;10;1;Y;;Y;SVM;linear;;POLLED80KBDEL
