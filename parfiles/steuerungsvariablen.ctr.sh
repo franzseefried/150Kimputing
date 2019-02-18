@@ -103,7 +103,7 @@ numberOfParallelHAPLOTYPEJobs=10
 #No of parallel SingleGeneImputation jobs 
 numberOfParallelSIGEIMPJobs=5
 #Parameter if Crossvalidation in SVM Prediction should be applied YES / NO allowed
-ParCrossVal=NO
+ParCrossVal=YES
 #Maildresse zwsteam###########################
 MAILZWS="beat.bapst@qualitasag.ch;madeleine.berweger@qualitasag.ch;franz.seefried@qualitasag.ch;sophie.kunz@qualitasag.ch;urs.schuler@qualitasag.ch;mirjam.spengeler@qualitasag.ch;peter.vonrohr@qualitasag.ch;urs.schnyder@qualitasag.ch"
 #if you want to start a new SNP System:
