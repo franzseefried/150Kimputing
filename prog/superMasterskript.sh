@@ -185,7 +185,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 14
-$BIN_DIR/sendFinishingMailWOarg2.sh $PROG_DIR/superMasterskript.sh
+$BIN_DIR/sendFinishingMailWOarg2.sh ${PROG_DIR}/${SCRIPT}
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 14"

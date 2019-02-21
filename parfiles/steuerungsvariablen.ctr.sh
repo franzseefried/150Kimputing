@@ -12,28 +12,28 @@ dbsystem=rapid
 #von wo sollen die historischen Genotypen gelesen werden: Archiv "A" oder die binearies aus dem oldrun "B". B is much faster
 ReadGenotypes=B
 #Runshortcuts
-old10run=2218
-old9run=2318
-old8run=2418
-old7run=2518
-old6run=2618
-old5run=2718
-old4run=2818
-old3run=2918
-old2run=0119
-oldrun=0219
+old10run=2318
+old9run=2418
+old8run=2518
+old7run=2618
+old6run=2718
+old5run=2818
+old4run=2918
+old3run=0119
+old2run=0219
+oldrun=0319
 #Imputation run MMYY
-run=0319
+run=0419
 #HDparameter  run shortcuts are as here in LD-Imputation######
 #FHDparameter run shortcuts are as here in LD-Imputation######
 #Datum Pedigree Abzug SHB und BVCH############################
-DatPEDIshb=20190201
-DatPEDIbvch=20190202
-DatPEDIvms=20190202
-DatPEDIjer=20190202
+DatPEDIshb=20190216
+DatPEDIbvch=20190216
+DatPEDIvms=20190216
+DatPEDIjer=20190216
 #shzv pedi: Names muss auf .txt enden!!!
-pedigreeSHZV=Ped_EGcom-20190201.txt
-blutfileSHZV=Rac_EGcom-20190201.txt
+pedigreeSHZV=Ped_EGcom-20190215.txt
+blutfileSHZV=Rac_EGcom-20190215.txt
 #Maildresse or responsible employee###########################
 MAILACCOUNT=franz.seefried@qualitasag.ch
 ##############################################################
@@ -103,7 +103,7 @@ numberOfParallelHAPLOTYPEJobs=10
 #No of parallel SingleGeneImputation jobs 
 numberOfParallelSIGEIMPJobs=5
 #Parameter if Crossvalidation in SVM Prediction should be applied YES / NO allowed
-ParCrossVal=YES
+ParCrossVal=NO
 #Maildresse zwsteam###########################
 MAILZWS="beat.bapst@qualitasag.ch;madeleine.berweger@qualitasag.ch;franz.seefried@qualitasag.ch;sophie.kunz@qualitasag.ch;urs.schuler@qualitasag.ch;mirjam.spengeler@qualitasag.ch;peter.vonrohr@qualitasag.ch;urs.schnyder@qualitasag.ch"
 #if you want to start a new SNP System:

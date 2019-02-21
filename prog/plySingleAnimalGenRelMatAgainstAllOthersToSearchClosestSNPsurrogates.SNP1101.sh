@@ -110,7 +110,7 @@ echo "pedigree Relationships"
 
 ##################################
 echo "send finishing mail"
-$BIN_DIR/sendFinishingMail.sh $BIN_DIR/plySingleAnimalGenRelMatAgainstAllOthersToSearchClosestSNPsurrogates.sh $2
+$BIN_DIR/sendFinishingMail.sh $BIN_DIR/${SCRIPT} $2
 else
 echo " "
 echo "${animal} hat zu wenig Blutanteil und ist nicht im Prozess enthalten"

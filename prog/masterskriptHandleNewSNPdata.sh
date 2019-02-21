@@ -137,7 +137,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 11
-$BIN_DIR/sendFinishingMailWOarg2.sh $PROG_DIR/masterskriptHandleNewSNPdata.sh 2>&1 
+$BIN_DIR/sendFinishingMailWOarg2.sh ${PROG_DIR}/${SCRIPT} 2>&1 
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 11"

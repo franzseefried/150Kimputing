@@ -24,6 +24,14 @@ else
 fi
 breed=${1}
 
+#make directories
+mkdir -p ${WORK_DIR}
+mkdir -p ${FIM_DIR}
+mkdir -p ${CHCK_DIR}/${run}
+mkdir -p ${BVCH_DIR}/${run}
+mkdir -p ${SHB_DIR}/${run}
+mkdir -p ${VMS_DIR}/${run}
+mkdir -p $BCP_DIR/${run}/binaryfiles
 
 if [ ${snpstrat} == "S" ] && [ ${ReadGenotypes} == "B" ]; then
    echo "Given Arguments do not make sense"

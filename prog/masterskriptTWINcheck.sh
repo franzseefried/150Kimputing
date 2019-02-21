@@ -50,7 +50,7 @@ fi
 echo "----------------------------------------------------"
 #################################
 echo "Send finishing Mail SNP1101 TWIN now for $1"
-$BIN_DIR/sendFinishingMail.sh $PROG_DIR/masterskriptTWINcheck.sh ${1} 2>&1
+$BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 3"

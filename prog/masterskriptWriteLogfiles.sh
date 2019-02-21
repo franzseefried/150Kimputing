@@ -156,7 +156,7 @@ echo "----------------------------------------------------"
 #fi
 ##################################
 echo Step 8
-$BIN_DIR/sendFinishingMail.sh $PROG_DIR/masterskriptWriteLogfiles.sh ${b} 2>&1
+$BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} ${b} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 8"

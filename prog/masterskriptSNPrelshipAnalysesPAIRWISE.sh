@@ -79,7 +79,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "send finishing mail"
-$BIN_DIR/sendFinishingMail.sh ${SCRIPT} $1 2>&1
+$BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 9"

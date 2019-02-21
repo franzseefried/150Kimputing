@@ -317,7 +317,7 @@ if [ ${err} -gt 0 ]; then
 fi
 ##########################################################################################
 echo "send finishing mail"
-$BIN_DIR/sendFinishingMail.sh $PROG_DIR/${SCRIPT} $1
+$BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} $1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 10"

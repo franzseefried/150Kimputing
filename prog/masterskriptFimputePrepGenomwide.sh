@@ -73,7 +73,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo "send finishing mail"
-$BIN_DIR/sendFinishingMail.sh $PROG_DIR/masterskriptFimputePrepGenomwide.sh $1 2>&1
+$BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 5"
@@ -83,7 +83,7 @@ fi
 echo "----------------------------------------------------"
 else
    echo "komisches Betriebssystem ich stoppe"
-   $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptFimputePrepGenomwideQuick.sh $1
+   $BIN_DIR/sendErrorMail.sh ${SCRIPT} $1
    exit 1
 fi
 echo " "
