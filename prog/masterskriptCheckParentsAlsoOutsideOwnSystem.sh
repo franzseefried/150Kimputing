@@ -113,6 +113,20 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
+echo Step 10
+echo "to do plausi auf Geb Dat gefundene NK Elter Kombinationen"
+echo "to do ausbauen ...NEU im filenamen"
+echo "to do warten bis alle 3 Systeme ferti sind einbauen"
+$BIN_DIR/updateSaSuLog.sh $1 2>&1
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 10"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/updateSaSuLog.sh $1
+        exit 1
+fi
+echo "----------------------------------------------------"
+
+##################################
 echo Step 19
 $BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} $1 2>&1
 err=$(echo $?)

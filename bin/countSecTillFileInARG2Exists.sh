@@ -45,7 +45,7 @@ if [ ${nowT} -lt ${upperTimeLimit} ];then
      RIGHT_NOW=$(date +"%x %r %Z")
      existshot=Y
    fi
-   echo "${fileTOcheck} exists ${RIGHT_NOW}"
+#   echo "${fileTOcheck} exists ${RIGHT_NOW}"
 else
    $BIN_DIR/sendAttentionMailAboutMissingFile.sh ${fileTOcheck}
    echo "${fileTOcheck} has not been prepared which is suspicious"
