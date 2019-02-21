@@ -31,10 +31,8 @@ if [ -z ${2} ]; then
     exit 1
 elif [ ${2} == "Y" ]; then
         echo $2 > /dev/null
-        zodr=swissherdbook
 elif [ ${2} == "N" ]; then
         echo $2 > /dev/null
-        zodr=mutterkuh
 else
         echo " $2 != Y / N, ich stoppe"
         exit 1
@@ -67,7 +65,7 @@ echo "Keyoutput from FastCheckLOGfirectory for ${1} " >> $WRK_DIR/${1}.LogScreen
 $BIN_DIR/fastCheckLOGdirectory.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
-if [ ${2} != "Y" ]; then
+if [ ${2} == "Y" ]; then
 echo "Keyoutput from fastCheckSingleLocusHaplotyping for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
 $BIN_DIR/fastCheckSingleLocusHaplotyping.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
@@ -101,6 +99,7 @@ echo "Be happy since you have reached to the end of ${SCRIPT}" >> $WRK_DIR/${1}.
 mv $WRK_DIR/${1}.LogScreening.${run}.log $LOG_DIR/${1}.LogScreening.${run}.log
 $BIN_DIR/sendAttentionMailAboutFinalLogSummary.sh ${1}
 fi
+$BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} $1 2>&1
 echo " "
 RIGHT_END=$(date)
 echo RIGHT_END Ende ${SCRIPT}

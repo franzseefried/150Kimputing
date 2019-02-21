@@ -14,7 +14,7 @@ cp /qualstore03/data_tmp/zws/snp/50Kimputing/work/animal.overall.info work/.
 cp /qualstore03/data_tmp/zws/snp/50Kimputing/work/crossref.txt work/.
 cp /qualstore03/data_tmp/zws/snp/50Kimputing/tmp/crossref.race work/.
 cp /qualstore03/data_zws/snp/50Kimputing/work/allExternSamples_forAdding.${run}.txt work/.
-
+cp /qualstore03/data_zws/snp/50Kimputing/zomld/${run}.BADsexCheck.lst ${ZOMLD_DIR}/${run}.BADsexCheck.lst
 rm -f work/currentSamplesheet/*
 rm -f work/previousSamplesheets/*
 cp /qualstore03/data_zws/snp/50Kimputing/work/50Kimputing/work/currentSamplesheet/* work/currentSamplesheet/.

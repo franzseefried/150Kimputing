@@ -88,19 +88,23 @@ fi
 #fi
 #exit 1
     rm -f  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
- #   for tiere in imputierteLDtiere imputierteUNGENOTYPEDtiere ; do
-#    for tiere in ${vglfile} ; do
 	($BIN_DIR/awk_grepTIEREvonFILE $TMP_DIR/${breed}.${vglfile}.schnittmenge $HIS_DIR/${breed}.RUN${run}.result.${vglfile}.TVD | awk -v dat=${run} '{print $1,dat,$2}'
 	 $BIN_DIR/awk_grepTIEREvonFILE $TMP_DIR/${breed}.${vglfile}.schnittmenge $HIS_DIR/${breed}.RUN${oldrun}.result.${vglfile}.TVD | awk -v dat=${oldrun} '{print $1,dat,$2}') > $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
- #   done > $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
 
+#sicherstellen dass jedes Tier nur 2x drin ist
+    awk '{print $1}' $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} | sort | uniq -c | awk '{if($1 != 2) print $2,"N"}' > $TMP_DIR/${breed}LD.rm.tiere
+    if ! test -s $TMP_DIR/${breed}LD.rm.tiere ;then
+       sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} > $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} 
+    else
+       awk 'BEGIN{FS=" ";OFS=" "}{ \
+         if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));ID[$1]=$2;}} \
+         else {sub("\015$","",$(NF));FIMID=ID[$1]; \
+         if   (FIMID == "") {print $0}}}' $TMP_DIR/${breed}LD.rm.tiere $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr >  $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+    fi
+    #grep -v -f $TMP_DIR/${breed}LD.rm.tiere  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr >  $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
 
-    awk '{print $1}' $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} | sort | uniq -c | awk '{if($1 != 2) print $2}' > $TMP_DIR/LD.rm.tiere
-    grep -v -f $TMP_DIR/LD.rm.tiere  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr -T ${SRT_DIR} >  $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
-
-
-    rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.out
     #run R here:
+    rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.out
     Rscript $BIN_DIR/readAndCompareFimputeResult_lineBYline.R ${PAR_DIR}/steuerungsvariablen.ctr.sh $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
 
     (echo "Tier Run NdiffSNP_${run}_-_${oldrun} currentITBbreed currentAni_race_id Kurzname";
@@ -120,7 +124,6 @@ fi
        head $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst | awk '{printf "%-20s%-10s%+15s%+20s%+30s%+30s\n", $1,$2,$3,$4,$5,$6}'
     fi
     rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
-    #rm -f $HIS_DIR/${breed}.RUN${run}.result.${vglfile}.TVD
     rm -f $HIS_DIR/${breed}.RUN${old3run}.result.${vglfile}.TVD
     done
  
@@ -130,7 +133,7 @@ fi
    rm -f $TMP_DIR/${breed}.imputierteUNGENOTYPEDtiere.schnittmenge
    rm -f $TMP_DIR/${breed}.result.[0-9]
    rm -f $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
-   rm -f $TMP_DIR/LD.rm.tiere
+   rm -f $TMP_DIR/${breed}LD.rm.tiere
     
 else
     echo "komischer breedcode :-("
