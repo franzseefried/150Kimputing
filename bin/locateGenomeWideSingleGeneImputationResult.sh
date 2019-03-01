@@ -111,16 +111,6 @@ echo "$coding ; $algorithm ; $snp ; $BTA ; $Bp"
 
 
 
-
-#identifikation der neuen Tiere ueber Tierlisten aus der genomweiten Imputation .> pedigreeprobleme sind schon weg && zusaetzlich ausschluss von pedigree imputierten Tieren
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1]; \
-    if   (sD == "") {print $1" "$2}}}' $HIS_DIR/${breed}.RUN${oldrun}.IMPresult.tierlis $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis > $TMP_DIR/${breed}.NewFor.${snp}.srt
-
-
-
-
 #nur mit BTA und chromosom, da der SNP in der genomweiten map anderst heisst als in der prediction und hier der aufruf via prediction code laeuft
 PosOfSNPtoImputationResult=$(awk -v m=${snp} -v n=${BTA} -v o=${Bp} '{if($2 == n && $3 == o) print $4}' $FIM_DIR/${breed}BTAwholeGenome_FImpute.snpinfo )
 
@@ -156,70 +146,8 @@ fi
 echo " "
 $BIN_DIR/compareGTpredictionWithLastRun.sh -b $RES_DIR/RUN${oldrun}${breed}.${snp}.Fimpute.${algorithm} -c $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm}
 echo " "
-
-
-#Hole Info aus Reftab fuer Argus Codierung; Ziel "TVD;AuspraegungARGUS"
-heute=$(date '+%Y%m%d')
-getColmnNr PredictionAlgorhithm ${REFTAB_SiTeAr} ; colPA=$colNr_
-getColmnNr CodeResultfile ${REFTAB_SiTeAr} ; colCode=$colNr_
-getColmnNr MarkerID ${REFTAB_SiTeAr} ; colMARKER=$colNr_
-getColmnNr Kennung ${REFTAB_SiTeAr} ; colKenn=$colNr_
-getColmnNr Testtyp ${REFTAB_SiTeAr} ; colType=$colNr_
-getColmnNr IMPbreedsWhereTestSegregates ${REFTAB_SiTeAr} ; colIMPBREED=$colNr_
-#echo "${colCode} ; ${defectcode} ; ${colIMPBREED} ; ${breed}"
-idd=$(awk -v a=${colCode} -v b=${snp} -v c=${colIMPBREED} -v d=${breed} -v f=${colMARKER} '{FS=";"} {if ($a == b && $c ~ d)print $f}' ${REFTAB_SiTeAr})
-bezarg=$(awk -v a=${colCode} -v b=${snp} -v c=${colIMPBREED} -v d=${breed} -v e=${colKenn} '{FS=";"} {if ($a == b && $c ~ d)print $e}' ${REFTAB_SiTeAr})
-#beztyp=$(awk -v a=${colCode} -v b=${defectcode} -v c=${colIMPBREED} -v d=${breed} -v e=${colType} '{FS=";"} {if ($a == b && $c ~ d)print $e}' ${REFTAB_SiTeAr})
-if test -s ${SNP_DIR}/einzelgen/argus/glossar/${snp}${algorithm}Interpretation.txt ;then
-HaLabel=$(cat ${SNP_DIR}/einzelgen/argus/glossar/${snp}${algorithm}Interpretation.txt)
-else
-HaLabel=$(echo ${snp})
-fi
-
-#dummy maessig Haplotypen code im filenamen verwendet
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1]; \
-    if   (sD != "") {print $1" "sD}}}' $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${snp}.srt |\
-    awk -v label=${HaLabel} '{if($2 == 0) print $1";"label"F"; else if ($2 == 1) print $1";"label"C"; else if ($2 == 2) print $1";"label"S"; else print $1";OOOPS"}' > ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat
-
-echo "Wir haben folgende Verteilung der ${snp} Genotypen im Ergebnisfile ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat:"
-cut -d';' -f2 ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat | sort -T ${SRT_DIR} | uniq -c
-
-echo "copy to Folder der anderen Einzelgenergebnisse fuer ${natfolder}"
-
-if [ ${breed} == "HOL" ] && [ ${idd} == 179 ]; then
-echo "code CDH depending on pedigree"
-$BIN_DIR/codeCDHresultsUsingPedigree.sh  2>&1
-else
-#bisher wird nix in ARGUS importiert daher auskommentiert
-if [ ${idd} != "XXX" ]; then
-echo 1 > /dev/null
-#cp ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat ${DEUTZ_DIR}/${natfolder}/dsch/in/${run}/.
+$BIN_DIR/forwardGTpredictionToArgus.sh -b ${breed} -d ${snp}
 echo " "
-if [ ${breed} == "HOL" ]; then
-echo "ftp upload for SHZV"
-$BIN_DIR/ftpUploadOf1File.sh -f ${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat -o ${SNP_DIR}/einzelgen/argus/import/${breed} -z Einzelgen
-fi
-fi
-fi
-
-#print to screen samples homozygous
-nhomos=$(awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;DD[$1]=$8;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1];tD=DD[$1]; \
-    if   (sD != "") {print $1" "sD" "tD}}}' $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${snp}.srt | awk '{if($2 == 2) print}' | wc -l | awk '{print $1}' )
-if [ ${nhomos} -gt 0 ]; then
-echo "Attention following lines reply homozygous samples amoung new HD samples:"
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;DD[$1]=$8;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1];tD=DD[$1]; \
-    if   (sD != "") {print $1" "sD" "tD}}}' $RES_DIR/RUN${run}${breed}.${snp}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${snp}.srt | awk '{if($2 == 2) print}' | sort -t' ' -k3,3n
-echo " "
-echo "check if these are of interest"
-echo " "
-fi
-rm -f $TMP_DIR/${breed}.NewFor.${snp}.srt 
 
 
 

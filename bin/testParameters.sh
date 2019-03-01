@@ -126,6 +126,15 @@ exit 1
 fi
 done
 
+getColmnNr FwdGTpredictionToARGUS ${REFTAB_SiTeAr} ; colFORWARDARGUS=$colNr_
+getColmnNr CodeResultfile ${REFTAB_SiTeAr} ; colCode=$colNr_
+getColmnNr PredictionAlgorhithm ${REFTAB_SiTeAr} ; colPA=$colNr_
+TestsToBeExtracted=$(awk -v a=${colEXG} -v b=${colGSB} 'BEGIN{FS=";"}{if($a == "Y" ) print $b}' ${REFTAB_SiTeAr} )
+for iTestsToBeExtracted in ${TestsToBeExtracted}; do
+   algorithm=$(awk -v a=${colCode} -v b=${iTestsToBeExtracted} -v f=${algo} '{FS=";"} {if ($a == b) print $f}' ${REFTAB_SiTeAr})
+   forwardToArgus=$(awk -v a=${colCode} -v b=${iTestsToBeExtracted} -v f=${colFORWARDARGUS} '{FS=";"} {if ($a == b) print $f}' ${REFTAB_SiTeAr})
+   if [ ${forwardToArgus} == "Y"  ] && [ ! -s ${SNP_DIR}/einzelgen/argus/glossar/${iTestsToBeExtracted}.${algorithm}.Interpretation.txt ]; then echo "ERROR: GTprediction should be forwarded to ARGUS for ${iTestsToBeExtracted} but no Reference Table ${SNP_DIR}/einzelgen/argus/glossar/${iTestsToBeExtracted}.${algorithm}.Interpretation.txt exists";echo " "; exit 1; fi
+done
 
 
 

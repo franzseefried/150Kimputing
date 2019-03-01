@@ -121,11 +121,6 @@ coding=$(awk -v snps=${defectcode} -v a=${colDEF} -v b=${colCAI} 'BEGIN{FS=";"}{
 
 
 sort -T ${SRT_DIR} -t' ' -k3,3n $MAP_DIR/${breed}_${defectcode}_associatedHapQUALITAS.lst | awk '{print $1}' > $TMP_DIR/${defectcode}.txt
-#identifikation der neuen Tiere ueber Tierlisten aus der genomweiten Imputation .> pedigreeprobleme sind schon weg && zusaetzlich ausschluss von pedigree imputierten Tieren
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1]; \
-    if   (sD == "") {print $1" "$2}}}' $HIS_DIR/${breed}.RUN${oldrun}.IMPresult.tierlis $HIS_DIR/${breed}.RUN${run}.IMPresult.tierlis > $TMP_DIR/${breed}.NewFor.${defectcode}.srt
 
 
 awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | sed 's/ /#/g' | sed 's/\;\;/\;NA\;/g' | tr ';' ' ' | cut -d' ' -f2,3,4,7,9,11 |\
@@ -184,83 +179,27 @@ $BIN_DIR/awk_fetchHaplotypeAndSetHplstat $TMP_DIR/haplo.to.fetch.${breed}${defec
 
 
 if [ ${coding} == "N" ]; then
-echo "0 2" >  $TMP_DIR/${breed}.${defectcode}.umkodierung
-echo "1 1" >> $TMP_DIR/${breed}.${defectcode}.umkodierung
-echo "2 0" >> $TMP_DIR/${breed}.${defectcode}.umkodierung
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;DD[$1]=$2;}} \
-    else {sub("\015$","",$(NF));sD=CD[$2]; \
-    if   (sD != "") {print $1" "sD" "$3,$4,$5,$6,$7,$8,$9}}}' $TMP_DIR/${breed}.${defectcode}.umkodierung $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm} > $TMP_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}         
-mv $TMP_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}  $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}
-rm -f $TMP_DIR/${breed}.${defectcode}.umkodierung
+   echo "0 2" >  $TMP_DIR/${breed}.${defectcode}.umkodierung
+   echo "1 1" >> $TMP_DIR/${breed}.${defectcode}.umkodierung
+   echo "2 0" >> $TMP_DIR/${breed}.${defectcode}.umkodierung
+   awk 'BEGIN{FS=" ";OFS=" "}{ \
+     if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;DD[$1]=$2;}} \
+     else {sub("\015$","",$(NF));sD=CD[$2]; \
+     if   (sD != "") {print $1" "sD" "$3,$4,$5,$6,$7,$8,$9}}}' $TMP_DIR/${breed}.${defectcode}.umkodierung $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm} > $TMP_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}         
+   mv $TMP_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}  $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}
+   rm -f $TMP_DIR/${breed}.${defectcode}.umkodierung
 fi
 
 
 echo " "
 $BIN_DIR/compareGTpredictionWithLastRun.sh -b $RES_DIR/RUN${oldrun}${breed}.${defectcode}.Fimpute.${algorithm} -c $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm}
 echo " "
-
-
-#Hole Info aus Reftab fuer Argus Codierung; Ziel "TVD;AuspraegungARGUS"
-heute=$(date '+%Y%m%d')
-getColmnNr PredictionAlgorhithm ${REFTAB_SiTeAr} ; colPA=$colNr_
-getColmnNr CodeResultfile ${REFTAB_SiTeAr} ; colCode=$colNr_
-getColmnNr MarkerID ${REFTAB_SiTeAr} ; colMARKER=$colNr_
-getColmnNr Kennung ${REFTAB_SiTeAr} ; colKenn=$colNr_
-getColmnNr Testtyp ${REFTAB_SiTeAr} ; colType=$colNr_
-getColmnNr IMPbreedsWhereTestSegregates ${REFTAB_SiTeAr} ; colIMPBREED=$colNr_
-#echo "${colCode} ; ${defectcode} ; ${colIMPBREED} ; ${breed}"
-idd=$(awk -v a=${colCode} -v b=${defectcode} -v c=${colIMPBREED} -v d=${breed} -v f=${colMARKER} '{FS=";"} {if ($a == b && $c ~ d)print $f}' ${REFTAB_SiTeAr})
-bezarg=$(awk -v a=${colCode} -v b=${defectcode} -v c=${colIMPBREED} -v d=${breed} -v e=${colKenn} '{FS=";"} {if ($a == b && $c ~ d)print $e}' ${REFTAB_SiTeAr})
-#beztyp=$(awk -v a=${colCode} -v b=${defectcode} -v c=${colIMPBREED} -v d=${breed} -v e=${colType} '{FS=";"} {if ($a == b && $c ~ d)print $e}' ${REFTAB_SiTeAr})
-if test -s ${SNP_DIR}/einzelgen/argus/glossar/${defectcode}${algorithm}Interpretation.txt ;then
-HaLabel=$(cat ${SNP_DIR}/einzelgen/argus/glossar/${defectcode}${algorithm}Interpretation.txt)
-else
-HaLabel=$(echo ${defectcode})
-fi
-
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1]; \
-    if   (sD != "") {print $1" "sD}}}' $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${defectcode}.srt |\
-    awk -v label=${HaLabel} '{if($2 == 0) print $1";"label"F"; else if ($2 == 1) print $1";"label"C"; else if ($2 == 2) print $1";"label"S"; else print $1";OOOPS"}' > ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat
-
-echo "Wir haben folgende Verteilung der ${defectcode} Genotypen im Ergebnisfile ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat:"
-cut -d';' -f2 ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat | sort -T ${SRT_DIR} | uniq -c
-
-echo "copy to Folder der anderen Einzelgenergebnisse fuer ${natfolder}"
-
-if [ ${breed} == "HOL" ] && [ ${idd} == 179 ]; then
-echo "code CDH depending on pedigree"
-$BIN_DIR/codeCDHresultsUsingPedigree.sh  2>&1
-else
-if [ ${idd} != "XXX" ]; then
-cp ${SNP_DIR}/einzelgen/argus/import/${breed}/${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat ${DEUTZ_DIR}/${natfolder}/dsch/in/${run}/.
+$BIN_DIR/forwardGTpredictionToArgus.sh -b ${breed} -d ${defectcode}
 echo " "
-if [ ${breed} == "HOL" ]; then
-echo "ftp upload for SHZV"
-$BIN_DIR/ftpUploadOf1File.sh -f ${idd}.${bezarg}.${heute}.CH.Haplotypen.ImportGenmarker.dat -o ${SNP_DIR}/einzelgen/argus/import/${breed} -z Einzelgen
-fi
-fi
-fi
 
-#print to screen samples homozygous
-nhomos=$(awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;DD[$1]=$8;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1];tD=DD[$1]; \
-    if   (sD != "") {print $1" "sD" "tD}}}' $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${defectcode}.srt | awk '{if($2 == 2) print}' | wc -l | awk '{print $1}' )
-if [ ${nhomos} -gt 0 ]; then
-echo "Attention following lines reply homozygous samples amoung new HD samples:"
-awk 'BEGIN{FS=" ";OFS=" "}{ \
-    if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));CD[$1]=$2;DD[$1]=$8;}} \
-    else {sub("\015$","",$(NF));sD=CD[$1];tD=DD[$1]; \
-    if   (sD != "") {print $1" "sD" "tD}}}' $RES_DIR/RUN${run}${breed}.${defectcode}.Fimpute.${algorithm} $TMP_DIR/${breed}.NewFor.${defectcode}.srt | awk '{if($2 == 2) print}' | sort -t' ' -k3,3n
-echo " "
-echo "check if these are of interest"
-echo " "
-fi
+
+
 rm -f $TMP_DIR/${defectcode}.txt
-rm -f $TMP_DIR/${breed}.NewFor.${defectcode}.srt
 rm -f $TMP_DIR/geno.info.${defectcode}${breed}.srt
 rm -f $TMP_DIR/gt.${defectcode}.${breed}.tmp
 rm -f $TMP_DIR/${defectcode}-haplo12-Codierung.txt
