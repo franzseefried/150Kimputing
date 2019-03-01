@@ -62,7 +62,7 @@ getColmnNrSemicl () {
 getColmnNrSemicl ExtractGenotypesFromChipData ${REFTAB_SiTeAr} ; colEXG=$colNr_
 getColmnNrSemicl CodeResultfile ${REFTAB_SiTeAr} ; colCSGI=$colNr_
 getColmnNrSemicl BezeichnungFinalReport ${REFTAB_SiTeAr} ; colGSB=$colNr_
-getColmnNrSemicl AlleleBisAimAlleleSingleGeneImputation ${REFTAB_SiTeAr} ; colABAASGI=$colNr_
+getColmnNrSemicl AlleleBisCountedAlleleInSNParchive ${REFTAB_SiTeAr} ; colABAASGI=$colNr_
 getColmnNrSemicl IMPbreedsWhereTestSegregates ${REFTAB_SiTeAr} ; colIMPBRD=$colNr_
 #echo $colCSGI $colGSB
 
