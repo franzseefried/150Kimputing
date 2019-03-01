@@ -193,29 +193,31 @@ rm -f $TMP_DIR/${breed}SMLLFgt${defectcode}.frqAnalysis
 
 
 #berechnung der Frequenz der haplotypen
-#k=laenge des blocks, kuerzester block 2 SNP
+#k=laenge des blocks, kuerzester block 2 SNP. wir fangen beim laengsten block an
 for k in $(seq ${nSNP} -1 2); do
+    #ausrechnen wie oft geschoben werden kann
+    nMove=$(echo ${nSNP} ${k} | awk '{print $1-$2+1}')
     #i=start des blocks
-    for i in $(seq 1 1 ${k}); do
+    for i in $(seq 1 1 ${nMove}); do
         #echo $k $i
         awk -v z=${k} -v y=${i} '{print substr($2,y,z)}' $TMP_DIR/${breed}SMLLFgt${defectcode}.haplotypesInRows.${hc} | sort -T ${SRT_DIR} -u |\
         while read haplotype; do
           nH=$(awk -v z=${k} -v y=${i} -v x=${haplotype} '{if(substr($2,y,z) == x)print}' $TMP_DIR/${breed}SMLLFgt${defectcode}.haplotypesInRows.${hc} | wc -l | awk '{print $1}')
-          echo ${nH} ${nani} | awk '{printf "%1.3f"  ,$1/$2}' | awk -v haplo=${haplotype} -v kk=${k} -v ii=${i} '{print $1,kk,ii,length(haplo),haplo}' >> $TMP_DIR/${breed}SMLLFgt${defectcode}.frqAnalysis
+          echo ${nH} ${nani} | awk '{printf "%1.3f"  ,$1/$2}' | awk -v haplo=${haplotype} -v kk=${k} -v ii=${i} '{print $1,ii,length(haplo),haplo}' >> $TMP_DIR/${breed}SMLLFgt${defectcode}.frqAnalysis
         done 
     done
     i=$(echo $i | awk '{print $1+1}')
 done
 
 if test -s $TMP_DIR/${breed}SMLLFgt${defectcode}.frqAnalysis; then
-    (echo "HaplotypeFreq Blockstart Blockende LaengeHaplotyp Haplotyp";
+    (echo "HaplotypeFreq Blockstart LaengeHaplotyp Haplotyp";
     sort -T ${SRT_DIR} -t' ' -k4,4nr -k1,1nr $TMP_DIR/${breed}SMLLFgt${defectcode}.frqAnalysis)> $TMP_DIR/${breed}SMLLFgt${defectcode}.FREQSTAT.txt
     echo " "
     echo "show records of result-summary here"
     cat  $TMP_DIR/${breed}SMLLFgt${defectcode}.FREQSTAT.txt
     echo " "
     echo "hole die Haplotypen mit p(>0.5) aus dem Summary"
-    awk '{if($1 >= 0.5) print $0}'  $TMP_DIR/${breed}SMLLFgt${defectcode}.FREQSTAT.txt | sort -T ${SRT_DIR} -t' ' -k1,1n -k4,4n
+    awk '{if($1 >= 0.5) print $0}'  $TMP_DIR/${breed}SMLLFgt${defectcode}.FREQSTAT.txt | sort -T ${SRT_DIR} -t' ' -k1,1n -k3,3n
 fi
 
 rm -f $TMP_DIR/${defectcode}.txt

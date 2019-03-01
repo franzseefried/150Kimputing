@@ -9,6 +9,7 @@ MarkerID;Kennung;Bezeichnung;GeneSeekBezeichnung;Testtyp;BezeichnungFinalReport;
 35;BH2;BH2;BH2;Gentest;BH2;BSW;19;10833921;300;0;Y;;Y;SVM;radial;;TUBD1SNP
 XXX;Pausch-WDR19-ARS;;;Haplotype;;BSW;6;58373887;75;0;Y;;Y;HAPLOTYPE;;;Pausch-WDR19-ARS
 XXX;Cord-BlackRed;;;Haplotype;;BSW;18;14704988;75;0;Y;;Y;HAPLOTYPE;;;Cord-BlackRed
+XXX;FALB;;;Haplotype;;HOL;5;57345300;75;0;Y;;Y;HAPLOTYPE;;;3bpDelPMELFALB
 37;ARA;Arachnomelie;Arachnomelia-BS;Gentest;Arachnomelia-BS;BSW;5;57316731;900;0;Y;Y;Y;GENOMEWIDE;;Y;SUOXSNP
 106;P;Hornlos;POLLED;Haplotypen;;BSW;1;2400000;10;1;Y;;Y;SVM;linear;;POLLED202BPINDEL
 106;P;Hornlos;POLLED;Haplotypen;;HOL;1;2800000;10;1;Y;;Y;SVM;linear;;POLLED80KBDEL
@@ -35,12 +36,12 @@ XXX;Cord-BlackRed;;;Haplotype;;BSW;18;14704988;75;0;Y;;Y;HAPLOTYPE;;;Cord-BlackR
 173;HH5;Holstein_Haplotype_5;HH5;Gentest;HH5_3;HOL;9;91996013;75;0;Y;Y;;SINGLEGENE;;Y;HH5_3
 174;MH1;Montbeliard_Haplotype_1;MH1;Gentest;MH1;BSW,HOL;19;27956790;75;0;Y;;;;;;
 175;MH2;Montbeliard_Haplotype_2;MH2;Gentest;MH2;BSW,HOL;29;28879810;75;0;Y;;;;;;
-178;BDCMP;DCM;DCM;Gentest;;HOL;;;5;0;Y;;;HAPLOTYPE;;;18-BDCMP
+178;BDCMP;DCM;DCM;Gentest;;HOL;18;53152213;5;0;Y;;;SVM;polynomial;;18-BDCMP
 179;CDH;Cholesterin_Definciency;HCD;Gentest;;HOL;11;77891760;200;0;Y;;Y;SVM;linear;;11-CDH-ARS
 181;FH2;Fleckvieh_Haplotype_2;FH2;Gentest;FH2;BSW;1;95685553;600;0;Y;;Y;SVM;linear;;FH2
 182;FH4;Fleckvieh_Haplotype_4;FH4;Gentest;FH4;HOL;;;600;0;Y;;;;;;
 184;RD;Renale_Dysplasie;RD;Haplotypen;;BSW;24;20911932;600;0;Y;Y;;SVM;linear;;MOCOSSNP
-186;BE;Gurt;;Haplotype;;BSW;3;118584000;100;1;Y;;;SVM;linear;;BELTSNP
+186;BE;Gurt;;Haplotype;;BSW;3;118608362;100;1;Y;;;SVM;linear;;BELT4x6kbCNV
 187;BM;Blueem;;SVM;;BSW;6;70500000;100;1;Y;;;SVM;linear;;629-RYF
 188;C313Y;Myostatin-C313Y;C313Y;Gentest;;BSW,HOL,VMS;;;100;0;Y;;;;;;
 189;nt419;Myostatin-NT419;NT419;Gentest;;BSW,HOL,VMS;;;10;0;Y;;;;;;

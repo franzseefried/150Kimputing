@@ -57,7 +57,7 @@ getColmnNr OhneMUTTERmatch $HIS_DIR/${i}_SumUpLOG.${run}.csv ;    cosOM=$colNr_
 
 getColmnNr TVD $ZOMLD_DIR/${i}_SammelLOG-${run}.csv  ;            colTVD=$colNr_
 getColmnNr TVD $HIS_DIR/${i}_SumUpLOG.${run}.csv ;                cosTVD=$colNr_
-	
+#https://www.commandlinefu.com/commands/view/6872/exclude-a-column-with-awk	
 #nun muss die Spalt Pedigree Vater 0 gesetzt werden und in Spalte VateSNP der jeweiige Vater gesetzt werden sowie das Y von OhneVATERmathc geloescht werden
 (head -1 $ZOMLD_DIR/${i}_SammelLOG-${run}.csv;
 awk -v T=${colTVD} -v P=${colVP} -v S=${colVS} -v O=${colOV} 'BEGIN{FS=";";OFS=";"}{ \

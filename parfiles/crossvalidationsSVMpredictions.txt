@@ -1,0 +1,691 @@
+POLLED202BPINDEL BSW: -> BEST LINEAR
+evaluate cros validation linear kernel
+n SVMpredictedGenotype TrueGenotype flag
+    697 0 0 1
+      6 0 1 1
+    423 1 1 1
+      1 1 2 1
+     17 2 2 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    697 0 0 1
+     11 0 1 1
+    418 1 1 1
+      1 1 2 1
+     17 2 2 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+    697 0 0 1
+      9 0 1 1
+    420 1 1 1
+     15 1 2 1
+      3 2 2 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    697 0 0 1
+      8 0 1 1
+    421 1 1 1
+      1 1 2 1
+     17 2 2 1
+######################################################   
+TUBD1SNP / BH2 -> radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  12995 0 0 1
+     20 0 1 1
+     28 1 0 1
+   1725 1 1 1
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  12996 0 0 1
+      1 0 1 1
+     27 1 0 1
+   1744 1 1 1
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+  12933 0 0 1
+     68 0 1 1
+     89 1 0 1
+   1677 1 1 1
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  12995 0 0 1
+      4 0 1 1
+     27 1 0 1
+   1741 1 1 1
+
+######################################################
+SMASNP  nur mit 150K Daten sonst läuft es sowieso total schlecht
+-> radial kernel hat am wenigsten Carrier die als 0 precided werden. aber auch hier ist der fehler rech hoch.
+evaluate cros validation linear kernel. Redo Carrier on 150K level
+n SVMpredictedGenotype TrueGenotype flag
+   2009 0 0 1
+      9 0 1 1
+     13 1 0 1
+     24 1 1 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2018 0 0 1
+     17 0 1 1
+      4 1 0 1
+     16 1 1 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2016 0 0 1
+     25 0 1 1
+      6 1 0 1
+      8 1 1 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2017 0 0 1
+     18 0 1 1
+      5 1 0 1
+     15 1 1 1
+######################################################
+SDMSNP  nur mit 150K Daten sonst läuft es sowieso total schlecht
+-> best is linear, using only HD samples
+evaluate cros validation linear kernel  Redo Carrier on 150K level
+n SVMpredictedGenotype TrueGenotype flag
+   1935 0 0 1
+      6 0 1 1
+      6 1 0 1
+     12 1 1 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1940 0 0 1
+     15 0 1 1
+      1 1 0 1
+      3 1 1 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1941 0 0 1
+     18 0 1 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1939 0 0 1
+     15 0 1 1
+      2 1 0 1
+      3 1 1 1
+######################################################
+ARASNP
+geht gar nix sauber: redo carrier with 150K chip
+evaluate cros validation linear kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2034 0 0 1
+      5 0 1 1
+      1 0 2 1
+      2 1 0 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2036 0 0 1
+      5 0 1 1
+      1 0 2 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2036 0 0 1
+      5 0 1 1
+      1 0 2 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   2035 0 0 1
+      5 0 1 1
+      1 0 2 1
+      1 1 0 1
+ -> scheisse -> regenotype carrier on 150K density und zwar jene die falsch prediced wurden
+######################################################
+PNPLA8SNP Weaver ist nicht im Assay drin habe die ältesten Carrier genommen um einen Haplotype zu suchen
+dessen übereinstimmung mit den Gentest Tieren ist folgendermassen:
+  n     Hpl Gt
+  14680 0 0
+      8 0 1
+      1 1 0
+     25 1 1
+besser geht es nicht, sonst ändern 9 von 0 auf 1 Hpl obwohl sie 0 sind.
+SVM sigmoid kerner ist ber beste vn allen Verfahren
+n SVMpredictedGenotype TrueGenotype flag
+  14675 0 0 1
+      7 0 1 1
+      7 1 0 1
+     26 1 1 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  14681 0 0 1
+      6 0 1 1
+      1 1 0 1
+     27 1 1 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+  14681 0 0 1
+      5 0 1 1
+      1 1 0 1
+     28 1 1 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  14680 0 0 1
+     13 0 1 1
+      2 1 0 1
+     20 1 1 1
+parallel SVM mit den Tieren und Gentest von ARGUS (extract geht hier also nicht :-()
+######################################################
+CSN1_A1A2 took genotypes from ARGUS attention: SNP is in imputation system via QUAGSEQ map
+-> linear kernel
+n SVMpredictedGenotype TrueGenotype flag
+    126 0 0 1
+      2 0 1 1
+      1 0 2 1
+     12 1 0 1
+    634 1 1 1
+     13 1 2 1
+      1 2 0 1
+     17 2 1 1
+    979 2 2 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    112 0 0 1
+      5 0 1 1
+      1 0 2 1
+     26 1 0 1
+    630 1 1 1
+     13 1 2 1
+      1 2 0 1
+     18 2 1 1
+    979 2 2 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+     61 0 0 1
+     33 0 1 1
+      2 0 2 1
+     74 1 0 1
+    548 1 1 1
+     86 1 2 1
+      4 2 0 1
+     72 2 1 1
+    905 2 2 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    117 0 0 1
+      5 0 1 1
+      1 0 2 1
+     20 1 0 1
+    610 1 1 1
+     28 1 2 1
+      2 2 0 1
+     38 2 1 1
+    964 2 2 1
+######################################################
+Renale Dysplasie MOCOSSNP: took old haplotype status and defined referenz genotypes but used only HD genotyped samples
+-> linear kernel is best one
+n SVMpredictedGenotype TrueGenotype flag
+  10625 0 0 1
+      3 0 1 1
+      3 1 0 1
+     12 1 1 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  10626 0 0 1
+      7 0 1 1
+      3 1 0 1
+      8 1 1 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+  10627 0 0 1
+     13 0 1 1
+      1 1 0 1
+      2 1 1 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+  10626 0 0 1
+      9 0 1 1
+      2 1 0 1
+      6 1 1 1
+######################################################
+CSN2_AB BSW -> linear
+evaluate cros validation linear kernel
+n SVMpredictedGenotype TrueGenotype flag
+   4290 0 0 1
+     25 0 1 1
+      2 0 2 1
+     23 1 0 1
+   1506 1 1 1
+      5 1 2 1
+      2 2 1 1
+    158 2 2 1
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   4297 0 0 1
+     35 0 1 1
+      2 0 2 1
+     16 1 0 1
+   1497 1 1 1
+     23 1 2 1
+      1 2 1 1
+    140 2 2 1
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+   4040 0 0 1
+    187 0 1 1
+     22 0 2 1
+    240 1 0 1
+   1295 1 1 1
+     73 1 2 1
+     33 2 0 1
+     51 2 1 1
+     70 2 2 1
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   4294 0 0 1
+     25 0 1 1
+      2 0 2 1
+     19 1 0 1
+   1506 1 1 1
+     10 1 2 1
+      2 2 1 1
+    153 2 2 1
+
+
+######################################################
+######################################################
+BELTSNP BSW: -> BEST LINEAR
+evaluate cros validation linear kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1639 0 0 1
+      2 0 1 1
+     71 1 1 1
+      1 1 2 1
+      8 2 2 1
+ 
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1639 0 0 1
+      5 0 1 1
+     68 1 1 1
+      7 1 2 1
+      2 2 2 1
+ 
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1639 0 0 1
+      7 0 1 1
+     66 1 1 1
+      9 1 2 1
+ 
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   1639 0 0 1
+     15 0 1 1
+     58 1 1 1
+      3 1 2 1
+      6 2 2 1
+######################################################
+629-RYF BSW:
+linear -> BEST LINEAR
+   1991 0 0 1
+      1 0 1 1
+      1 1 0 1
+     85 1 1 1
+      1 1 2 1
+      1 2 1 1
+     18 2 2 1
+radial
+   1992 0 0 1
+      5 0 1 1
+     80 1 1 1
+      3 1 2 1
+      2 2 1 1
+     16 2 2 1
+sigmoid
+   1991 0 0 1
+      1 0 1 1
+      1 1 0 1
+     86 1 1 1
+     19 1 2 1
+polynomial
+   1992 0 0 1
+     12 0 1 1
+     74 1 1 1
+      2 1 2 1
+      1 2 1 1
+     17 2 2 1
+########################################################
+FH2 BSW
+linear -> BEST LINEAR
+  14494 0 0 1
+      3 0 1 1
+    148 1 1 1
+      8 2 2 1
+radial
+  14494 0 0 1
+      8 0 1 1
+    143 1 1 1
+      8 2 2 1
+sigmoid
+  14483 0 0 1
+     15 0 1 1
+     11 1 0 1
+    136 1 1 1
+      8 1 2 1
+polynomial
+  14494 0 0 1
+      7 0 1 1
+    144 1 1 1
+      8 2 2 1
+##########################################################
+Haplotyisierungsstrategie
+16-HH6 vgl alt - neu
+ 212695 0 0
+     28 0 1
+    170 1 0
+    918 1 1
+###########################################################
+BDCMP vgl neu - alt Haplotyisierungsstrategie
+ 207744 0 0
+   1025 0 1
+      3 0 2
+   1104 1 0
+   3886 1 1
+     12 1 2
+      5 2 0
+      2 2 1
+     26 2 2
+ACHTUNG es läuft mit Barenco eine Validierung wegen des relativ schlechten Übereinstimmung: diese war schlecht
+Genotypen bei Cord besorgt fuer SVM pipeline:
+    139 0
+     20 1
+      6 2
+ACHTUNG hoher Anteil an Referenztieren mit LD-Level
+-> polynomialer Kerner der beste
+n SVMpredictedGenotype TrueGenotype flag
+    137 0 0 1
+      3 0 1 1
+      2 1 0 1
+     15 1 1 1
+      2 2 1 1
+      6 2 2 1
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    136 0 0 1
+      3 0 1 1
+      3 1 0 1
+     17 1 1 1
+      6 1 2 1
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+    139 0 0 1
+     20 0 1 1
+      6 0 2 1
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    137 0 0 1
+      2 0 1 1
+      2 1 0 1
+     17 1 1 1
+      1 2 1 1
+      6 2 2 1
+############################################################
+15-MF -> SVM neu mit lienarem kernel
+evaluate cros validation linear kernel
+n SVMpredictedGenotype TrueGenotype flag
+   9163 0 0 1
+     18 1 1 1
+ 
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   9163 0 0 1
+      2 0 1 1
+     16 1 1 1
+ 
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+   9162 0 0 1
+      1 1 0 1
+     18 1 1 1
+ 
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+   9163 0 0 1
+      2 0 1 1
+     16 1 1 1
+Archiv genotypengeholt mit extract.....sh geht super, allerings gehen so Genotypen verloren die mit historischen Chips gemacht wurden und damals parallel den Gentest hatten
+relevant z.B. bei Thrombopathia
+############################################################
+ARAFV -> nur ein einziger Carrier im gesamten Datensatz -> do nothing
+############################################################
+COPASNP -> relatv grosser Fehler, ausserdem keine homozygoten Tiere fürs Training -> Check EInzelgenimputing wehn Routine
+evaluate cros validation linear kernel
+   9878 0 0 1
+     16 0 1 1
+     13 1 0 1
+    133 1 1 1
+      1 1 2 1
+ 
+evaluate cros validation radial kernel
+   9891 0 0 1
+     17 0 1 1
+    132 1 1 1
+      1 1 2 1
+ 
+evaluate cros validation sigmoid kernel
+   9887 0 0 1
+     35 0 1 1
+      4 1 0 1
+    114 1 1 1
+      1 1 2 1
+ 
+evaluate cros validation polynomial kernel
+   9890 0 0 1
+     20 0 1 1
+      1 1 0 1
+    129 1 1 1
+      1 1 2 1
+##############################################################
+Thrombopathie: 3 homozgyote Tiere bei Cord DNA bestellt für Vergrösserung Training
+evaluate cros validation linear kernel
+  10564 0 0 1
+     10 0 1 1
+     12 1 0 1
+    287 1 1 1
+      2 2 2 1
+-> radialer Kernel being used ATTENTION: training erweitern sobald die homos von Cord da sind
+evaluate cros validation radial kernel
+  10575 0 0 1
+     17 0 1 1
+      1 1 0 1
+    280 1 1 1
+      2 1 2 1
+ 
+evaluate cros validation sigmoid kernel
+  10488 0 0 1
+    106 0 1 1
+     88 1 0 1
+    191 1 1 1
+      2 1 2 1
+ 
+evaluate cros validation polynomial kernel
+  10572 0 0 1
+     17 0 1 1
+      4 1 0 1
+    280 1 1 1
+      2 2 2 1
+##############################################################
+CDH: Gentest von Argus geholt keine Density Einschraenkung
+SVM -> linearer kernel
+n SVMpredictedGenotype TrueGenotype flag
+    179 0 0 1
+      4 0 1 1
+      6 1 0 1
+    130 1 1 1
+      1 2 1 1
+      3 2 2 1
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    181 0 0 1
+      5 0 1 1
+      4 1 0 1
+    129 1 1 1
+      3 1 2 1
+      1 2 1 1
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+    180 0 0 1
+      6 0 1 1
+      5 1 0 1
+    129 1 1 1
+      3 1 2 1
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    177 0 0 1
+      3 0 1 1
+      8 1 0 1
+    131 1 1 1
+      3 1 2 1
+      1 2 1 1
++ mittel homozygoten Tieren einen Haplotype gesucht: gefunden. vgl mit 50K haplo:
+
+##############################################################
+POLLED: Gentest von Argus geholt Freie Tiere ergänzt mit Stiereinsatz Unterschiedung ind keltische / friesiche Variante
+SVM POLLED80KBDEL > lineaer kernel
+n SVMpredictedGenotype TrueGenotype flag
+    385 0 0 1
+     12 0 1 1
+     13 1 0 1
+    205 1 1 1
+      7 2 0 1
+     44 2 2 1
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    389 0 0 1
+      2 0 1 1
+      3 0 2 1
+      9 1 0 1
+    215 1 1 1
+      7 2 0 1
+     41 2 2 1
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+    372 0 0 1
+      4 0 1 1
+     25 1 0 1
+    212 1 1 1
+      3 1 2 1
+      8 2 0 1
+      1 2 1 1
+     41 2 2 1
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    388 0 0 1
+      3 0 1 1
+      2 0 2 1
+     10 1 0 1
+    214 1 1 1
+      1 1 2 1
+      7 2 0 1
+     41 2 2 1
+SVM POLLED202BPINDEL > extrem schlecht ->nur BSW
+n SVMpredictedGenotype TrueGenotype flag
+    276 0 0 1
+     19 0 1 1
+      5 0 2 1
+     10 1 0 1
+     10 1 1 1
+      1 1 2 1
+      3 2 0 1
+     20 2 2 1
+evaluate cros validation radial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    284 0 0 1
+     18 0 1 1
+      3 0 2 1
+      1 1 0 1
+      9 1 1 1
+      1 1 2 1
+      4 2 0 1
+      2 2 1 1
+     22 2 2 1
+evaluate cros validation sigmoid kernel
+n SVMpredictedGenotype TrueGenotype flag
+    278 0 0 1
+     26 0 1 1
+      1 0 2 1
+      6 1 0 1
+      1 1 1 1
+      1 1 2 1
+      5 2 0 1
+      2 2 1 1
+     24 2 2 1
+evaluate cros validation polynomial kernel
+n SVMpredictedGenotype TrueGenotype flag
+    285 0 0 1
+     19 0 1 1
+      7 0 2 1
+      2 1 0 1
+     10 1 1 1
+      2 2 0 1
+     19 2 2 1
+
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+##############################################################
+
+
+
+
+
+

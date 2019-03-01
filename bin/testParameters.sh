@@ -75,9 +75,21 @@ if [[ "${ipar}" =~ $re ]]; then
 fi
 done
 
-#test parameter HDimuting
+#test parameter HDimputing
 if [ -z ${HDfollows} ]; then echo "Parameter HDfollows fehlt"; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows; exit 1; fi
 if [ ${HDfollows} != "Y" ] && [ ${HDfollows} != "N" ]; then echo Parameter HDfollows falsch angegeben, must be Y or N; $BIN_DIR/sendErrorMail.sh CheckParameter HDfollows;exit 1;fi
+
+#GWAS HFT paramaters tested
+if [ ${GWASsetofANIS} != "HD" ] && [ ${GWASsetofANIS} != "LD" ]; then
+  echo "INVALID PARAMETER ${GWASsetofANIS} from ${lokal}/parfiles/steuerungsvariablen.ctr.sh "
+  $BIN_DIR/sendErrorMailWOarg2.sh ${SCRIPT}
+  exit 1
+fi
+if [ ${HFTSNPSET} != "HD" ] && [ ${HFTSNPSET} != "LD" ]; then
+  echo "INVALID PARAMETER ${HFTSNPSET} from ${lokal}/parfiles/steuerungsvariablen.ctr.sh "
+  $BIN_DIR/sendErrorMailWOarg2.sh ${SCRIPT}
+  exit 1
+fi
 
 
 #loeschen von Abfragefiles falls ein run wiederholt wird

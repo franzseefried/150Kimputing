@@ -41,17 +41,26 @@ MAILACCOUNT=franz.seefried@qualitasag.ch
 EFFESTfollows=N
 #Mailversand gegenueber Zuchtverband: normal Y, ausser z.b. in Testruns: N
 sendMails=N
-#In case GWAS and Homozygosoty mapping is used################
-GWAStrait=AllgemeinBlindOB
-GWASpop=OB
+#In case GWAS / Homozygosoty mapping / Lethal HPL analysis is used################
+#type of GWAS phenotype QUANTITATIVE or BINARY are allowed
+GWASPHEN=BINARY
+#only if case control study: Y or N are allowed. Be careful with N
+DEFCNTRGRP=Y
+GWAStrait=STRABISMUS
+#density for animals used in GWAS: LD / HD are allowed
+GWASsetofANIS=LD
+#SNPset for gwas or HFT analyses: LD or HD are allowed
+HFTSNPSET=HD
+#GWAS is running using tail population definition: BV OB SI HO AN LI are allowed
+GWASpop=HO
 GWASmaf=0.02
 GWASgeno=0.05
 GWASmind=0.05
-GWAShwe=0.00001
+GWAShwe=0.000001
+#only HPL lethale analyses
 HFTgroup=pgp
-MaxLthHTL=200
-GWASsetofANIS=HD
-HFTSNPSET=HD
+#upper limit No of snps during lethale hpl anaylsis: Attention: is depending on how many SNPs you put in so HFTSNPSET
+MaxLthHTL=400
 #suche G-verwandte zu cases
 relshipthreshold=0.25
 #HD LD or PD are allowed
