@@ -11,50 +11,47 @@ source $lokal/parfiles/steuerungsvariablen.ctr.sh
 set -o errexit
 set -o nounset
 
-lauf=${run}
+
 
 #loeschen LIMS einzelgenfiles
 rm -f ${LIMS_DIR}/*.csv
 
-echo $BCP_DIR/$lauf
-mkdir -p $BCP_DIR/$lauf
-mkdir -p $BCP_DIR/$lauf/log
-mkdir -p $BCP_DIR/$lauf/parfiles
-mkdir -p $BCP_DIR/$lauf/prog
-mkdir -p $BCP_DIR/$lauf/bin
-mkdir -p $BCP_DIR/$lauf/work
-echo "copy current files to $BCP_DIR/$lauf/"
+echo $BCP_DIR/$${run}
+mkdir -p $BCP_DIR/${run}
+mkdir -p $BCP_DIR/${run}/log
+mkdir -p $BCP_DIR/${run}/parfiles
+mkdir -p $BCP_DIR/${run}/prog
+mkdir -p $BCP_DIR/${run}/bin
+mkdir -p $BCP_DIR/${run}/work
+echo "copy current files to $BCP_DIR/${run}/"
 echo " "
-cp $PAR_DIR/* $BCP_DIR/$lauf/parfiles/.
-cd $BCP_DIR/$lauf/parfiles
+cp $PAR_DIR/* $BCP_DIR/${run}/parfiles/.
+cd $BCP_DIR/${run}/parfiles
 gzip *
 cd ${MAIN_DIR}
 
-cp $LOG_DIR/* $BCP_DIR/$lauf/log/.
-cd $BCP_DIR/$lauf/log
+cp $LOG_DIR/* $BCP_DIR/${run}/log/.
+cd $BCP_DIR/${run}/log
 gzip *
 cd ${MAIN_DIR}
 
-cp $PROG_DIR/* $BCP_DIR/$lauf/prog/.
-cd $BCP_DIR/$lauf/prog
+cp $PROG_DIR/* $BCP_DIR/${run}/prog/.
+cd $BCP_DIR/${run}/prog
 gzip *
 cd ${MAIN_DIR}
 
-cp $BIN_DIR/* $BCP_DIR/$lauf/bin/.
-cd $BCP_DIR/$lauf/bin
-gzip *
-cd ${MAIN_DIR}
-
-
-cp $WORK_DIR/ped_umcodierung.txt.* $BCP_DIR/$lauf/work/.
-cp $WORK_DIR/*Typisierungsstatus${run}.txt $BCP_DIR/$lauf/work/.
-cp $WORK_DIR/animal.overall.info $BCP_DIR/$lauf/work/.
-cd $BCP_DIR/$lauf/work/
+cp $BIN_DIR/* $BCP_DIR/${run}/bin/.
+cd $BCP_DIR/${run}/bin
 gzip *
 cd ${MAIN_DIR}
 
 
-rm -f ${HIS_DIR}/*${old2run}*TVD
+cp $WORK_DIR/ped_umcodierung.txt.* $BCP_DIR/${run}/work/.
+cp $WORK_DIR/*Typisierungsstatus${run}.txt $BCP_DIR/${run}/work/.
+cp $WORK_DIR/animal.overall.info $BCP_DIR/${run}/work/.
+cd $BCP_DIR/${run}/work/
+gzip *
+cd ${MAIN_DIR}
 
 
 echo "delete files from old4run ${old4run} run"

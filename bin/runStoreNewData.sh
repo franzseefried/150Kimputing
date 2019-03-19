@@ -4,12 +4,7 @@ SCRIPT=`basename ${BASH_SOURCE[0]}`
 echo $RIGHT_NOW Start ${SCRIPT}
 echo " "
 ##############################################################
-cd /qualstore03/data_zws/snp/50Kimputing
-lokal=$(pwd | awk '{print $1}')
-source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
-###############################################################
-set -o nounset
-set -o errexit
+
 
 ### # function for reporting on console
 usage () {
@@ -31,6 +26,9 @@ usage () {
   echo "  where <string> specifies the filename for outfile"
   echo "Usage: $SCRIPT -f <string>"
   echo "  where <string> specifies the filename for outfolder"
+  echo "Usage: $SCRIPT -d <string>"
+  echo "  where <string> specifies the name of the folder where skript has to be started ou of"
+
   exit 1
 }
 
@@ -41,7 +39,7 @@ if [ $NUMARGS -lt 0 ]  ; then
   usage 'No command line arguments specified'
 fi
 
-while getopts :t:l:i:n:c:o:a:f: FLAG; do
+while getopts :t:l:i:n:c:o:a:f:d: FLAG; do
   case $FLAG in
     t) # set option "t"
       export tvd=$(echo $OPTARG | awk '{print toupper($1)}')
@@ -72,6 +70,10 @@ while getopts :t:l:i:n:c:o:a:f: FLAG; do
     f) # set option "f"
       export aimfolder=$(echo $OPTARG )
       ;;
+    d) # set option "d"
+      export curdir=$(echo $OPTARG )
+      ;;
+
     *) # invalid command line arguments
       usage "Invalid command line argument $OPTARG"
       ;;
@@ -118,7 +120,17 @@ if [ -z "${aimfolder}" ]; then
     usage 'Parameter for Outfilefolder must be specified using option -f <string>'
 exit 1
 fi
-
+### # check that labefile is not empty
+if [ -z "${curdir}" ]; then
+    usage 'Parameter for directory must be specified using option -d <string>'      
+fi
+##############################################################
+cd ${curdir}
+lokal=$(pwd | awk '{print $1}')
+source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
+###############################################################
+set -o nounset
+set -o errexit
 
 OS=$(uname -s)
 if [ $OS != "Linux" ]; then

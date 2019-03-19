@@ -168,10 +168,11 @@ for labfile in ${nS} ; do
            else {sub("\015$","",$(NF));STAT="0";EBV=GZW[$1]; \
            if   (EBV != "") {print $3,EBV}}}' $TMP_DIR/${IDSAMPLE}.${bfileloc}.neugenoexpse.full $TMP_DIR/${IDPARENT}.${pbfileloc}.neugenoexpse.full | ${BIN_DIR}/awk_transpose.job > $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forAnalysis
        
-       nCommonSNPs=$(awk '{print NF}'  $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forAnalysis |sort -T ${SRT_DIR} -u)
+       nCommonSNPs=$(awk '{print NF}' $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forAnalysis |sort -T ${SRT_DIR} -u)
        #ls -trl $TMP_DIR/${IDSAMPLE}.quartaer $TMP_DIR/${IDPARENT}.quartaer
        #(cat  $TMP_DIR/${IDSAMPLE}.quartaer; cat $TMP_DIR/${IDPARENT}.quartaer) | cut -d' ' -f2-  > $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forCHecking
        #cat $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forAnalysis
+       echo ${nCommonSNPs}
        for ((i=1; i<=${nCommonSNPs}; i++));do 
             #modulo 100	https://stackoverflow.com/questions/5688576/how-to-use-mod-operator-in-bash
             n=$(($i % 100)); 

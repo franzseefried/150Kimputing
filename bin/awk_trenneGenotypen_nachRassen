@@ -1,0 +1,27 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    RACE[$1]=$3;	#weise $13 auf $16 zu
+
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	RASSE="0";
+	RASSE=RACE[$2];
+		
+	if(RASSE == "XXXXXXX"){
+	    print $1" "$2" "$3" "$4
+	}
+    }
+}
+
+
+

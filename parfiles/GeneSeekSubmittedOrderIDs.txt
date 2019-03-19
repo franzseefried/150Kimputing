@@ -1,0 +1,158 @@
+orderID ;   Samplesheet_GeneSeek; nSamples      ;  submitted    ;   run     ;  Einzelgen    ;  complementary orderID    ;Kommentar      
+        ;   0319_2.txt          ;   695         ;   12.03.19    ;           ;               ;                           ;
+        ;   0319_1.txt          ;   763         ;   05.03.19    ;   0619    ;               ;                           ;
+        ;   0319_5.txt          ;    73         ;   14.03.19    ;           ;               ;                           ;DNA Transfer BVCH VHL
+        ;   0219_6.txt          ;  1063         ;   14.03.19    ;           ;               ;                           ;3. Limousin Transfer
+        ;   0219_4.txt          ;   712         ;   26.02.19    ;   0619    ;               ;                           ;
+        ;   0219_5.txt          ;  1001         ;   25.02.19    ;   0619    ;               ;                           ;2. Limousin Transfer
+        ;   0219_3.txt          ;  1109         ;   19.02.19    ;   0519    ;   I           ;                           ;
+        ;   0219_2.txt          ;   523         ;   12.02.19    ;   0519    ;   I           ;                           ;
+        ;   0119_7.txt          ;  1000         ;   07.02.19    ;   0419    ;   II          ;                           ;1. Limousin Transfer
+        ;   0219_1.txt          ;   592         ;   05.02.19    ;   0419    ;   II          ;                           ;
+        ;   0119_4.txt          ;   838         ;   29.01.19    ;   0419    ;   II          ;                           ;
+        ;   0119_6.txt          ;    90         ;   25.01.19    ;   0419    ;   II          ;                           ;redo on 150K chip SINGLE recessives prediction
+        ;   0119_3.txt          ;   935         ;   22.01.19    ;   0319    ;   III         ;                           ;
+        ;   0119_2.txt          ;   463         ;   15.01.19    ;   0319    ;   III         ;                           ;
+        ;   0119_5.txt          ;     2         ;   10.01.19    ;   0419    ;               ;                           ; redo wtih 150K chip due to MFC from LD-test, Batch-ID nicht in LIMS
+        ;   0119_1.txt          ;  1086         ;   08.01.19    ;   0219    ;   III         ;                           ;
+        ;   1218_4.txt          ;  1038         ;   28.12.18    ;   0219    ;   III         ;                           ;
+        ;   1218_5.txt          ;     7         ;   18.12.18    ;   0119    ;   IIII        ;                           ; VHL transfer BVCH
+        ;   1218_3.txt          ;  1124         ;   18.12.18    ;   0119    ;   IIII        ;                           ;
+        ;   1218_2.txt          ;   883         ;   11.12.18    ;   0119    ;   IIII        ;                           ; Agrocsope crossbred animals included
+        ;   1218_1.txt          ;  1016         ;   04.12.18    ;   2918    ;   IIII        ;                           ;
+        ;   1118_4.txt          ;   584         ;   27.11.18    ;   2818    ;   IIII        ;                           ;
+        ;   1118_5.txt          ;     4         ;   22.11.18    ;   2818    ;   IIII        ;                           ; VHL transfer SHB
+        ;   1118_3.txt          ;  1026         ;   20.11.18    ;   2818    ;   IIII        ;                           ;
+        ;   1118_2.txt          ;   629         ;   13.11.18    ;   2818    ;   IIII        ;                           ;
+        ;   1118_1.txt          ;   687         ;   06.11.18    ;   2618    ;   IIII        ;                           ;
+        ;   1018_5.txt          ;   450         ;   30.10.18    ;   2618    ;   IIII        ;                           ;
+        ;   1018_4.txt          ;   512         ;   08.11.18    ;   2618    ;   IIII        ;                           ;Verzoegerung US Zoll. normaler Versandtermin 23.10.18
+        ;   1018_3.txt          ;   494         ;   16.10.18    ;   2518    ;   IIII        ;                           ;
+        ;   1018_2.txt          ;   663         ;   09.10.18    ;   2318    ;   IIII        ;                           ;
+        ;   1018_6.txt          ;     5         ;   05.10.18    ;   2318    ;   IIII        ;                           ;VHL
+        ;   1018_1.txt          ;   552         ;   02.10.18    ;   2318    ;   IIII        ;                           ;erster Samplesheet Export mit Dexter Bulldog
+        ;   0918_4.txt          ;   530         ;   25.09.18    ;   2218    ;   IIII        ;                           ;
+        ;   0918_3.txt          ;   571         ;   18.09.18    ;   2218    ;   IIII        ;                           ;
+        ;   0918_2.txt          ;   378         ;   11.09.18    ;   2118    ;   IIII        ;                           ;
+        ;   0918_1.txt          ;   452         ;   04.09.18    ;   2118    ;   IIII        ;
+        ;   0818_4.txt          ;   384         ;   28.08.18    ;   2118    ;   IIII        ;                           ;
+        ;   0818_3.txt          ;   595         ;   21.08.18    ;   2018    ;   IIII        ;
+        ;   0818_2.txt          ;   335         ;   14.08.18    ;   2018    ;   IIII        ;
+        ;   0818_1.txt          ;   352         ;   07.08.28    ;   1918    ;   IIII        ;                           ;
+        ;   0718_5.txt          ;   314         ;   31.07.18    ;   1818    ;   IIII        ;                           ;
+        ;   0718_4.txt          ;   342         ;   24.07.18    ;   1818    ;   IIII        ;                           ;
+        ;   0718_3.txt          ;   270         ;   17.07.18    ;   1818    ;   IIII        ;                           ;
+        ;   0718_2.txt          ;   484         ;   10.07.18    ;   1618    ;   IIII        ;                           ;
+        ;   0718_6.txt          ;    64         ;   09.07.18    ;   1618    ;   IIII        ;                           ;VHL Transfer SHB & BVCH
+        ;   0718_1.txt          ;   304         ;   03.07.18    ;   1618    ;   IIII        ;                           ;
+        ;   0618_4.txt          ;   397         ;   26.06.18    ;   1518    ;   IIII        ;                           ;
+        ;   0618_3.txt          ;   405         ;   19.06.18    ;   1518    ;   IIII        ;                           ;
+        ;   0618_2.txt          ;   721         ;   13.06.18    ;   1518    ;   IIII        ;                           ;NEW samplesheet format !!!!!!
+        ;   0618_1.txt          ;   343         ;   05.06.18    ;   1418    ;   IIII        ;                           ;
+        ;   0518_5.txt          ;   797         ;   29.05.18    ;   1318    ;   IIII        ;                           ;
+        ;   0518_4.txt          ;   453         ;   22.05.18    ;   1318    ;   IIII        ;                           ;
+        ;   0518_6.txt          ;    18         ;   17.05.18    ;   1318    ;   IIII        ;                           ; VHL Transfer BVCH & SHB
+        ;   0518_3.txt          ;   413         ;   16.05.18    ;   1318    ;   IIII        ;                           ;
+        ;   0518_2.txt          ;   685         ;   08.05.18    ;   1218    ;   IIII        ;                           ;
+        ;   0518_1.txt          ;   556         ;   01.05.18    ;   1218    ;   IIII        ;                           ;
+        ;   0418_3.txt          ;   826         ;   24.04.18    ;   1118    ;   IIII        ;                           ;
+        ;   0418_2.txt          ;   425         ;   17.04.18    ;   1118    ;   IIII        ;                           ;
+        ;   0418_5.txt          ;   150         ;   16.04.18    ;   1118    ;   IIII        ;                           ; VHL transfer Mutterkuh
+        ;   0418_1.txt          ;  1149         ;   10.04.18    ;   1018    ;   IIII        ;                           ;
+        ;   0418_0.txt          ;    16         ;   05.04.18    ;   1018    ;   IIII        ;                           ; redo with 150K chip 22-wF Tiere mit Diplotyp 2 aber ohne weisse Flecken
+        ;   0318_4.txt          ;  1077         ;   27.03.18    ;   0918    ;   IIII        ;                           ;
+        ;   0318_3.txt          ;  1073         ;   20.03.18    ;   0918    ;   IIII        ;                           ;
+        ;   0318_2.txt          ;  1036         ;   13.03.18    ;   0918    ;   IIII        ;                           ;
+        ;   0318_1.txt          ;   552         ;   06.03.18    ;   0918    ;   IIII        ;                           ;
+        ;   0218_5.txt          ;    70         ;   28.02.18    ;   0718    ;   IIII        ;                           ;VHL ET Spenderkuehe BVCH
+357878  ;   0218_4.txt          ;   714         ;   27.02.18    ;   0718    ;   IIII        ;  358576 359301            ;
+        ;   0218_3.txt          ;   940         ;   20.02.18    ;   0718    ;   IIII        ;                           ;
+355212  ;   0218_2.txt          ;   580         ;   13.02.18    ;   0618    ;   IIII        ;  355214                   ;
+        ;   0218_1.txt          ;   658         ;   06.02.18    ;   0618    ;   IIII        ;                           ;
+        ;   0118_4.txt          ;   939         ;   30.01.18    ;   0518    ;   IIII        ;                           ;
+350579  ;   0118_3.txt          ;  1143         ;   23.01.18    ;   0418    ;   IIII        ;                           ;
+349252  ;   0118_2.txt          ;  1180         ;   16.01.18    ;   0318    ;   IIII        ;                           ;
+346840  ;   0118_1.txt          ;  1355         ;   03.01.18    ;   0218    ;   IIII        ;                           ;
+344547  ;   1217_2.txt          ;  1556         ;   19.12.17    ;   0118    ;   IIII        ;                           ;
+343308  ;   1217_1.txt          ;  1370         ;   05.12.17    ;   3217    ;   IIII        ;  343344 343345 343346     ;
+341205  ;   1117_CYNTHIA.txt    ;     1         ;   22.11.17    ;   3117    ;   n.a.        ;                           ;NK SNP abstammung OK, Mikrosat NOTOK
+339662  ;   1117_2.txt          ;  1200         ;   22.11.17    ;   3117    ;   IIII        ;                           ;
+337651  ;   1117_1.txt          ;  1100         ;   07.11.17    ;   2917    ;   IIII        ;                           ;
+334939  ;   1017_redoGUBL.txt   ;    26         ;   26.10.17    ;   2817    ;   n.a.        ;                           ;Auffuellen von 150K Luecken Gurt und Bluem Tiere
+333617  ;   1017_2.txt          ;   450         ;   17.10.17    ;   2817    ;   IIII        ;   333618                  ;
+331746  ;   1017_1.txt          ;   560         ;   02.10.17    ;   2717    ;   IIII        ;   331749                  ;
+330875  ;   AR-SM.txt           ;     5         ;   02.10.17    ;   2617    ;   IIII        ;                           ;ARA imputation via GGPLD datasource
+330149  ;   ReHa.txt            ;     3         ;   27.09.17    ;   2617    ;   n.a.        ;                           ;increase Reliability on haplotypes
+329627  ;   0917_VHL3.txt       ;     1         ;   20.09.17    ;   2617    ;   I           ;                           ;MGS unlikely BSW
+328921  ;   0917_2.txt          ;   348         ;   20.09.17    ;   2617    ;   IIII        ;   328922                  ;
+328936  ;   0917_redo2.txt      ;    50         ;   18.09.17    ;   2517    ;   n.a.        ;                           ; redo da homozygous -> Projekt Cord
+329627  ;   0917_VHL2.txt       ;     3         ;   12.09.17    ;   2517    ;   IIII        ;                           ;MGS unlikely BSW
+327053  ;   0917_redos.txt      ;   334         ;   05.09.17    ;   2517    ;   n.a.        ;                           ;
+326705  ;   0917_VHL.txt        ;     2         ;   07.09.17    ;   2517    ;   IIII        ;                           ; FH2 Test und MGS unlikely meldung CDCB
+326687  ;   0917_1.txt          ;   334         ;   05.09.17    ;   2517    ;   IIII        ;   326689                  ;
+302633  ;   0817_2.txt          ;   330         ;   22.08.17    ;   2417    ;   IIII        ;   302634                  ;
+301779  ;   0817_blood.txt      ;     4         ;   15.08.17    ;   n.a.    ;               ;                           ;Blutproben von Alex, Kreuzungstiere
+301579  ;   0817_redo.txt       ;     2         ;   15.08.17    ;   2317    ;   I           ;                           ; redo wegen Gurt homozygot & OB kuh aus Monitoring
+300642  ;   0817_1.txt          ;   278         ;   08.08.17    ;   2317    ;   IIII        ;   300643                  ;
+299608  ;   0717_weisseFlecken.t;     2         ;   18.07.17    ;   2317    ;   n.a.        ;                           ;
+295801  ;   0717_redo.txt       ;     1         ;   18.07.17    ;   2217    ;   I           ;                           ;FH2 Test erwartet
+297661  ;   0717_2.txt          ;   225         ;   18.07.17    ;   2217    ;   IIII        ;   297662                  ;
+294482  ;   0717_1.txt          ;   154         ;   06.07.17    ;   2017    ;   IIII        ;   294483                  ;
+292930  ;   0617_HTRI.txt       ;     2         ;   27.06.17    ;   2017    ;   n.a.        ;                           ;2x TripleErwartung identische Ergebnisse, zum Ausschluss dass die beiden Proben von Cord nicht identisch sind
+291388  ;   0617_weisseFlecken  ;     5         ;   20.06.17    ;   1917    ;   IIII        ;   291852                  ;Proben die schon bei GeneSeek sind und wegen der GWAS weisse Fkeckenmit dem HDChip nachtypisiert werden sollen
+291574  ;   0617_2.txt          ;   188         ;   20.06.17    ;   1917    ;   IIII        ;   291576                  ;
+290569  ;   0617_beef.txt       ;   282         ;   09.06.17    ;   1717    ;   IIII        ;   290570                  ;       
+289514  ;   0617_1.txt          ;   283         ;   06.06.17    ;   1717    ;   IIII        ;   289515                  ;
+        ;   0617_weakEyes.txt   ;     2         ;   01.06.17    ;   1717    ;   n.a.        ;                           ; wg . grauem Schatten Augenlinse OB
+285806  ;   0517_2.txt          ;   456         ;   17.05.17    ;   1617    ;   III         ;   285808                  ;
+        ;   0517_Cord_Strabismus;    53         ;   15.05.17    ;   1617    ;   n.a.        ;                           ;
+282509	;	0517_1.txt 	        ;	   	        ;	02.05.17   	;	1317    ;	III         ;	282510	                ;	
+279148	;	0417_2.txt	        ;	167	        ;	18.04.17	;	1217	;	III         ;	279149	                ;	
+277333	;	0417_FH2.txt	    ;	25	        ;	11.04.17	;	1117    ;	III	        ;	277335	                ;	
+275969	;	0417_1.txt	        ;	361	        ;	04.04.17	;	1117    ;	III         ;	276002	                ;	
+273746	;	0317_VHLBVCH.txt	;	3	        ;	27.03.17	;	0917	;	III	        ;		                    ;	
+272494	;	0317_2.txt	        ;	308	        ;	21.03.17	;	0917	;	III         ;	272497	                ;	
+269361	;	0317_1.txt	        ;	527	        ;	07.03.17	;	0617	;	III	        ;	269357	                ;	
+268030	;	0317_TransferUniBern;	6	        ;		        ;	0617	;	n.a.        	                        ;	Proben Blueem, DNA zu Cord fuer Cs6 Test, parallel HDAuaftrag GeneSeek
+264874	;	0217_BSVHL0217	    ;	5	        ;	17.02.17	;	0617	;	I	        ;		                    ;	SMA Problemtiere Imputation
+266212	;	0217_2.txt	        ;		        ;	21.02.17	;	0517	;	III	        ;	267153	                ;	
+262455	;	0217_BScolor	    ;	6	        ;	10.02.17	;	0417	;	I	        ;		                    ;	6 BV Proben neuer 9k Chip, Proben Risikopaarungen Gurt / Blueem
+262442	;	0217_HOCDDRquestions;	2	        ;	10.02.17	;	0417	;	II	        ;		                    ;	2 Holstein Kuhgenotypen wg. MV check CDDR
+262431	;	0217_1.csv	        ;	644	        ;	07.02.17	;	0417	;	III	        ;	262453	                ;	
+259343	;	0117_2.csv	        ;	354	        ;	17.01.17	;	0317	;	II	        ;		                    ;	
+255921	;	0117_1.csv	        ;	324	        ;	03.01.17	;	0217	;	II	        ;		                    ;	
+253549	;	1216_2.csv	        ;	331	        ;	20.12.16	;	0117	;	II	        ;		                    ;	
+	    ;	1216_ERIC.csv	    ;	1	        ;	15.12.16	;	0117	;		        ;		                    ;	
+251391	;	1216_1.csv	        ;	358	        ;	06.12.16	;	2916	;	II	        ;		                    ;	
+246591	;	1116_2.csv	        ;	443	        ;	22.11.16	;	2816	;	II	        ;		                    ;	
+245027	;	1116_shb.csv	    ;	1	        ;	16.11.16	;	2816	;		        ;		                    ;	
+-	    ;	1116_w.csv	        ;	5	        ;		        ;		    ;		        ;		                    ;	Versand fuer Validierung Genotypes from Sequencedata
+	    ;	1016_v.csv	        ;	44	        ;	09.11.16	;	2816	;		        ;		                    ;	Testversand Ayr, Proben Gurt, Bl¸em, Mulefoot
+243743	;	1116_1.csv	        ;	648	        ;	08.11.16	;	2816	;	II	        ;		                    ;	
+238938	;	1016_2.csv	        ;	554	        ;	18.10.16	;	2516	;	II	        ;		                    ;	
+237298	;	1016_1.csv	        ;	176	        ;	03.10.16	;	2416	;	II	        ;		                    ;	
+233405	;	0916_2.csv	        ;	305	        ;	22.09.16	;	2316	;	II	        ;		                    ;	
+231469	;	DCMvalidation.csv	;	12	        ;	14.09.16	;	2216	;	II	        ;		                    ;	
+231145	;	0916_1.csv	        ;	346	        ;	06.09.16	;	2216	;	II	        ;		                    ;	
+231143	;	GGPF-150_HO.csv	    ;	2	        ;	06.09.16	;	2216	;	II	        ;		                    ;	
+228754	;	F250K_0916.csv	    ;	11	        ;	30.08.16	;	2216	;	II	        ;		                    ;	
+226222	;	0816_2.csv	        ;	140	        ;	16.08.16	;	2116	;	II	        ;		                    ;	
+223507	;	0816_1.csv	        ;	102	        ;	02.08.16	;	1916	;	II	        ;		                    ;	
+221998	;	0716_2.csv	        ;	125	        ;	19.07.16	;	1816	;	II	        ;		                    ;	
+221998	;	GGP-F250test.csv	;	2	        ;	19.07.16	;	1816	;	II	        ;		                    ;	
+220766	;	0716_1.csv	        ;	159	        ;	03.07.16	;	1716	;	II	        ;		                    ;	
+219558	;	0616_2.csv	        ;	104	        ;	21.06.16	;	1516	;	II	        ;		                    ;	
+217565	;	0616_1.csv	        ;	310	        ;	07.06.16	;	1416	;	II	        ;		                    ;	
+215524	;	0516_VMS.csv	    ;	62	        ;	23.05.16	;	1216	;	II	        ;		                    ;	
+215237	;	0516_2.csv	        ;	261	        ;	17.05.16	;	1216	;	II	        ;		                    ;	
+215034	;	0516_Vanessa.csv	;	3	        ;	18.05.16	;	1216	;	II	        ;		                    ;	
+214035	;	0516OBanid.csv	    ;	5	        ;	10.05.16	;	1116	;	II	        ;		                    ;	
+213569	;	0516_1.csv	        ;	263	        ;	10.05.16	;	1116	;	II	        ;		                    ;	
+212812	;	0516OBvali.csv	    ;	20	        ;	28.04.16	;	1016	;	II	        ;		                    ;	
+211930	;	0416_2.csv	        ;	148	        ;	19.04.16	;	0916	;	II	        ;		                    ;	
+210031	;	0416_1.csv	        ;	200	        ;	07.04.16	;	0816	;	II	        ;		                    ;	
+208904	;	0316_2.csv	        ;	297	        ;	22.03.16	;	0816	;	II	        ;		                    ;	
+208731	;	0416_FH2_OBIII.csv	;	3	        ;	29.03.16	;	0716	;	II	        ;		                    ;	
+208729	;	0316_FH2OB_II.csv	;	2	        ;	22.03.16	;	0716	;	II	        ;		                    ;	
+208385	;	0316_1.csv	        ;	430	        ;	22.03.16	;	0816	;	II	        ;		                    ;	
+207111	;	0316_UniBern.csv	;	28	        ;	18.03.16	;	0716	;	II	        ;		                    ;	

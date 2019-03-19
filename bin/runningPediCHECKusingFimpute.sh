@@ -84,7 +84,7 @@ echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}_FImpute.snpinfo\";"
 echo "ped_file=\"${FIM_DIR}/DUMMY${parent}${breed}Fimpute.ped\";"
 echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
 echo "output_folder=\"${FIM_DIR}/${breed}_PEDICHECKout\";"
-echo "njob=25;" ) > ${FIM_DIR}/${breed}_PEDICHECK.ctr
+echo "njob=${numberOfParallelMEHDIJobs};" ) > ${FIM_DIR}/${breed}_PEDICHECK.ctr
 echo " "
 echo "Parameters are as follows:"
 cat ${FIM_DIR}/${breed}_PEDICHECK.ctr

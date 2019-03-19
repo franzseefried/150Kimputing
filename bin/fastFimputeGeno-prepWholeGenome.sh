@@ -18,8 +18,8 @@ else
 for breed in ${1}; do
     BTA=wholeGenome
     echo "find animals"
-    awk '{if($2 == "DB") print $1,$2}' $WORK_DIR/${breed}Typisierungsstatus${run}.txt | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}Typisierungsstatus${run}.srtFIFTYK
-    awk '{if($2 != "DB") print $1,$2}' $WORK_DIR/${breed}Typisierungsstatus${run}.txt | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}Typisierungsstatus${run}.srtLD
+    awk '{if($2 == "HD") print $1,$2}' $WORK_DIR/${breed}Typisierungsstatus${run}.txt | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}Typisierungsstatus${run}.srtFIFTYK
+    awk '{if($2 != "HD") print $1,$2}' $WORK_DIR/${breed}Typisierungsstatus${run}.txt | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/${breed}Typisierungsstatus${run}.srtLD
     sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} | join -t' ' -o'1.1' -1 5 -2 1 - $TMP_DIR/${breed}Typisierungsstatus${run}.srtFIFTYK | awk '{print "1",$1}' > $TMP_DIR/${breed}.FIFTYKanimals.out
     sort -T ${SRT_DIR} -t' ' -k5,5 $WORK_DIR/ped_umcodierung.txt.${breed} | join -t' ' -o'1.1' -1 5 -2 1 - $TMP_DIR/${breed}Typisierungsstatus${run}.srtLD | awk '{print "1",$1}' > $TMP_DIR/${breed}.LDanimals.out
 

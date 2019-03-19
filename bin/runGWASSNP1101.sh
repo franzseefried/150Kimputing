@@ -74,7 +74,7 @@ echo "       plot manhattan";
 echo "       plot qq;";
 echo "";
 echo "nthread";
-echo "       30;";
+echo "       ${numberOfParallelMEHDIJobs};";
 echo "";
 echo "output_folder";
 echo "       \"${GWAS_DIR}/GWASoutput${breed}_${trait}_ssr\";";) > $TMP_DIR/${breed}.${trait}.use

@@ -199,7 +199,7 @@ n SVMpredictedGenotype TrueGenotype flag
      20 1 1 1
 parallel SVM mit den Tieren und Gentest von ARGUS (extract geht hier also nicht :-()
 ######################################################
-CSN1_A1A2 took genotypes from ARGUS attention: SNP is in imputation system via QUAGSEQ map
+CSN1_A1A2 took genotypes from ARGUS attention: SNP is in imputation system via QUAGSEQ map which may have reduced acc due to low number of sequences animals
 -> linear kernel
 n SVMpredictedGenotype TrueGenotype flag
     126 0 0 1
@@ -286,53 +286,55 @@ n SVMpredictedGenotype TrueGenotype flag
 CSN2_AB BSW -> linear
 evaluate cros validation linear kernel
 n SVMpredictedGenotype TrueGenotype flag
-   4290 0 0 1
-     25 0 1 1
+   7802 0 0 1
+     41 0 1 1
       2 0 2 1
-     23 1 0 1
-   1506 1 1 1
-      5 1 2 1
-      2 2 1 1
-    158 2 2 1
+     41 1 0 1
+   2980 1 1 1
+      8 1 2 1
+      1 2 0 1
+      3 2 1 1
+    256 2 2 1
  
 evaluate cros validation radial kernel
 n SVMpredictedGenotype TrueGenotype flag
-   4297 0 0 1
-     35 0 1 1
+   7816 0 0 1
+     54 0 1 1
       2 0 2 1
-     16 1 0 1
-   1497 1 1 1
-     23 1 2 1
-      1 2 1 1
-    140 2 2 1
+     28 1 0 1
+   2968 1 1 1
+     27 1 2 1
+      2 2 1 1
+    237 2 2 1
  
 evaluate cros validation sigmoid kernel
 n SVMpredictedGenotype TrueGenotype flag
-   4040 0 0 1
-    187 0 1 1
-     22 0 2 1
-    240 1 0 1
-   1295 1 1 1
-     73 1 2 1
-     33 2 0 1
-     51 2 1 1
-     70 2 2 1
+   7409 0 0 1
+    301 0 1 1
+     24 0 2 1
+    385 1 0 1
+   2620 1 1 1
+    121 1 2 1
+     50 2 0 1
+    103 2 1 1
+    121 2 2 1
  
 evaluate cros validation polynomial kernel
 n SVMpredictedGenotype TrueGenotype flag
-   4294 0 0 1
-     25 0 1 1
+   7809 0 0 1
+     45 0 1 1
       2 0 2 1
-     19 1 0 1
-   1506 1 1 1
-     10 1 2 1
-      2 2 1 1
-    153 2 2 1
+     35 1 0 1
+   2975 1 1 1
+     12 1 2 1
+      4 2 1 1
+    252 2 2 1
+ 
 
 
 ######################################################
 ######################################################
-BELTSNP BSW: -> BEST LINEAR
+BELT4x6kbCNV BSW: -> BEST LINEAR
 evaluate cros validation linear kernel
 n SVMpredictedGenotype TrueGenotype flag
    1639 0 0 1

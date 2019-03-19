@@ -195,7 +195,7 @@ for muni in ${runs_ani[@]}; do
     sleep 10
   done
   echo "-t ${muni} -l ${labfile} -i ${imap} -n ${nmap} -c ${chip} -o ${outtime} -a ${labfileout} -f ${aimfolder}"
-  nohup ${BIN_DIR}/runStoreNewData.sh -t ${muni} -l ${labfile} -i ${imap} -n ${nmap} -c ${chip} -o ${outtime} -a ${labfileout} -f ${aimfolder} > $LOG_DIR/${muni}.${labfile}.ARCHIVESTORAGE.log 2>&1 &
+  nohup ${BIN_DIR}/runStoreNewData.sh -t ${muni} -l ${labfile} -i ${imap} -n ${nmap} -c ${chip} -o ${outtime} -a ${labfileout} -f ${aimfolder} -d ${MAIN_DIR} > $LOG_DIR/${muni}.${labfile}.ARCHIVESTORAGE.log 2>&1 &
   pid=$!
 #  echo $pid
   pids=(${pids[@]} $pid)

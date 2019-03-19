@@ -85,7 +85,7 @@ set -o nounset
     echo " "
     sleep 180;
     echo "check now if outfiles are ready"
-    for np in $(seq 0 $(echo "${numberOfParallelRJobs} 2" | awk '{print $1-$2}')); do
+    for np in $(seq 0 $(echo "${numberOfParallelRJobs} 1" | awk '{print $1-$2}')); do
          PRLLRUNcheck $TMP_DIR/${breed}LD.fimpute.ergebnis.${run}.${np}
     done
 

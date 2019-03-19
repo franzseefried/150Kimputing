@@ -223,7 +223,7 @@ for glocus in ${runsGW[@]}; do
     sleep 10
   done
   (
-  $BIN_DIR/pullVariantFromGenomewideSystem.sh -b ${1} -s ${glocus} 2>&1
+  $BIN_DIR/PullVariantFromGenomewideSystem.sh -b ${1} -s ${glocus} 2>&1
   )&
   pid=$!
 # echo $pid

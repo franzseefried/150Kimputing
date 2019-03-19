@@ -184,6 +184,18 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
+if [ ${LogRRBAllelePot} == "Y" ]; then
+echo "Plot LogRR & BAlleleFrq for ${s} in Population ${pp}"
+$BIN_DIR/plotLogRRandBallele.sh -b ${b} -d ${s} -c HD -l ${IMPUTATIONFLAG} 2>&1 >> $LOG_DIR/${SCRIPT}.${b}.${d}.log
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler SingleLocus_4"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/plotNoOfRiskMatings.sh ${d}
+        exit 1
+fi
+echo "----------------------------------------------------"
+fi
+##################################
 echo "send finishing mail"
 $BIN_DIR/sendFinishingMail.sh $PROG_DIR/${SCRIPT}.sh ${s}
 err=$(echo $?)

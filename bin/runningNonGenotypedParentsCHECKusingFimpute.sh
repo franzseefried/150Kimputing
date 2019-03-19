@@ -85,7 +85,7 @@ echo "snp_info_file=\"${FIM_DIR}/${breed}BTA${BTA}_FImpute.snpinfo\";"
 echo "ped_file=\"${FIM_DIR}/PHANTOM${parent}${breed}Fimpute.ped\";"
 echo "parentage_test /ert_mm=0.02 /ert_m=0.01 /find_match_cnflt /remove_conflict;"
 echo "output_folder=\"${FIM_DIR}/${breed}_NGPCout\";"
-echo "njob=25;") > ${FIM_DIR}/${breed}_NONGENOTYPEDPARENTSCHECK.ctr
+echo "njob=${numberOfParallelMEHDIJobs};") > ${FIM_DIR}/${breed}_NONGENOTYPEDPARENTSCHECK.ctr
 echo " "
 
 echo "Parameters are as follows:"

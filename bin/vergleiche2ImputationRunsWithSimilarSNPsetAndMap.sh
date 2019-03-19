@@ -80,16 +80,16 @@ fi
 
 	#aktuelles Ergebnis
 	awk -v code=${t} '{if($2 == code)print $1,$3}' $FIM_DIR/${breed}BTAwholeGenome.out/genotypes_imp.txt > $TMP_DIR/${breed}.result.${t}
-	$BIN_DIR/awk_umkodierungID1zuID2 $TMP_DIR/${breed}id1id2.reftab  $TMP_DIR/${breed}.result.${t} >  $HIS_DIR/${breed}.RUN${run}.result.${vglfile}.TVD
+	$BIN_DIR/awk_umkodierungID1zuID2 $TMP_DIR/${breed}id1id2.reftab  $TMP_DIR/${breed}.result.${t} >  $CMP_DIR/${breed}.RUN${run}.result.${vglfile}.TVD
 	Nsnp=$(wc -l $HIS_DIR/${breed}.RUN${run}snp_info.txt | awk '{print $1}')
 	thresholdToBeBad=$(echo ${Nsnp} | awk -v p=${propBad} '{printf "%8.0f\n", $1*p}' | awk '{print $1}')
 	readableProb=$(echo ${propBad} | awk '{print $1*100}')
-#    done
+ #   done
 #fi
 #exit 1
     rm -f  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
-	($BIN_DIR/awk_grepTIEREvonFILE $TMP_DIR/${breed}.${vglfile}.schnittmenge $HIS_DIR/${breed}.RUN${run}.result.${vglfile}.TVD | awk -v dat=${run} '{print $1,dat,$2}'
-	 $BIN_DIR/awk_grepTIEREvonFILE $TMP_DIR/${breed}.${vglfile}.schnittmenge $HIS_DIR/${breed}.RUN${oldrun}.result.${vglfile}.TVD | awk -v dat=${oldrun} '{print $1,dat,$2}') > $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+	($BIN_DIR/awk_grepTIEREvonFILE $TMP_DIR/${breed}.${vglfile}.schnittmenge $CMP_DIR/${breed}.RUN${run}.result.${vglfile}.TVD | awk -v dat=${run} '{print $1,dat,$2}'
+	 $BIN_DIR/awk_grepTIEREvonFILE $TMP_DIR/${breed}.${vglfile}.schnittmenge $CMP_DIR/${breed}.RUN${oldrun}.result.${vglfile}.TVD | awk -v dat=${oldrun} '{print $1,dat,$2}') > $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
 
 #sicherstellen dass jedes Tier nur 2x drin ist
     awk '{print $1}' $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} | sort | uniq -c | awk '{if($1 != 2) print $2,"N"}' > $TMP_DIR/${breed}LD.rm.tiere
@@ -101,7 +101,7 @@ fi
          else {sub("\015$","",$(NF));FIMID=ID[$1]; \
          if   (FIMID == "") {print $0}}}' $TMP_DIR/${breed}LD.rm.tiere $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr >  $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
     fi
-    #grep -v -f $TMP_DIR/${breed}LD.rm.tiere  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr >  $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+    
 
     #run R here:
     rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.out
@@ -124,7 +124,7 @@ fi
        head $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst | awk '{printf "%-20s%-10s%+15s%+20s%+30s%+30s\n", $1,$2,$3,$4,$5,$6}'
     fi
     rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
-    rm -f $HIS_DIR/${breed}.RUN${old3run}.result.${vglfile}.TVD
+    rm -f $CMP_DIR/${breed}.RUN${old3run}.result.${vglfile}.TVD
     done
  
    rm -f $TMP_DIR/${breed}id1id2.reftab

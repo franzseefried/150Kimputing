@@ -13,11 +13,7 @@ for (p in pkgs){
 library(stringdist)
 library(doParallel)
 library(foreach)
-# 
-# library(stringdist)
-# library(grDevices)
-# # library(doParallel)
-# library(parallel)
+
 
 NORECS <- args[1]
 INFILE <- args[2]

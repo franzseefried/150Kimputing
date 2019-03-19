@@ -184,6 +184,23 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
+if [ ${1} != "VMS" ] && [ ${HDfollows} == "Y" ]; then
+echo Step 18 *****°°°°°Run HD Imputation via superMasterskript°°°°°*****
+cd ${secondIMPUTATIONDIR}
+nohup prog/superMasterskript.sh ${1} 2>&1 > log/superMasterskript_${1}.log &
+cd ${MAIN_DIR}
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 18"
+        $BIN_DIR/sendErrorMail.sh ${secondIMPUTATIONDIR} prog/superMasterskript.sh $1
+        exit 1
+fi
+echo "----------------------------------------------------"
+else
+echo " "
+echo "No second imputation will follow"
+fi
+##################################
 echo Step 14
 $BIN_DIR/sendFinishingMailWOarg2.sh ${PROG_DIR}/${SCRIPT}
 err=$(echo $?)

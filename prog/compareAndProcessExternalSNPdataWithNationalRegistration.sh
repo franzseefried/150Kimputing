@@ -109,10 +109,10 @@ cutting=$(echo "${spalteTIER}")
 #Abfangen Spaltenreihenfolge
 cat $TMP_DIR/${labfile}.linux | tr '\t' ',' | tr ${spt} ';' | cut -d';' -f${spalteTIER} | awk '{print $1}' | cat -n | awk -v h=${kopfz} '{if($1 > h) print $2}' >  $TMP_DIR/${labfile}.spalteTIER.tmp
 #abfangen anzahl tiere im file
-nAni=$(sort -u $TMP_DIR/${labfile}.spalteTIER.tmp | wc -l | awk '{print $1}' )
+nAni=$(sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp | wc -l | awk '{print $1}' )
 if [ ${nAni} == 1 ]; then
-ANIMAL=$(sort -u $TMP_DIR/${labfile}.spalteTIER.tmp | awk '{print $1}' )
-ANIMALO=$(sort -u $TMP_DIR/${labfile}.spalteTIER.tmp | awk '{print $1}' | cut -b4-19 )
+ANIMAL=$(sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp | awk '{print $1}' )
+ANIMALO=$(sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp | awk '{print $1}' | cut -b4-19 )
 #test if animal is in Auftrag CSV von SHZV / SHB
 nsnp=$(wc -l $TMP_DIR/${labfile}.spalteTIER.tmp | awk '{print $1}')
 #echo $labfile $ANIMALO $nIN $nsnp $nSHB
@@ -132,7 +132,7 @@ fi
 fi		
 done
 
-sort -u $TMP_DIR/externeSNPauftraege.uniq.txt -o $TMP_DIR/externeSNPauftraege.uniq.txt
+sort -T ${SRT_DIR} -u $TMP_DIR/externeSNPauftraege.uniq.txt -o $TMP_DIR/externeSNPauftraege.uniq.txt
 echo "Ueberblick vorhanden, habe nun so viele externe SNP-Daten"
 wc -l $TMP_DIR/externeSNPauftraege.uniq.txt
 echo " "
@@ -146,6 +146,8 @@ cat -n $TMP_DIR/externeSNPauftraege.uniq.txt |\
 	breed=$(echo $line | cut -b1-3)
 	if [ ${breed} == "BSW" ]; then
 		fgrep $check /qualstore03/data_zws/pedigree/data/bvch/${DatPEDIbvch}_pedigree_rrtdm_BVCH.dat  > $TMP_DIR/${line}.natipedi
+        elif [ ${breed} == "JER" ]; then
+                fgrep $check /qualstore03/data_zws/pedigree/data/jer/${DatPEDIjer}_pedigree_rrtdm_JER.dat  > $TMP_DIR/${line}.natipedi 
 	elif [ ${breed} == "HOL" ]; then
 		fgrep $check /qualstore03/data_zws/pedigree/data/shb/${DatPEDIshb}_pedigree_rrtdm_SHB.dat  > $TMP_DIR/${line}.natipedi
 	elif [ ${breed} == "RED" ]; then
@@ -186,7 +188,7 @@ echo " "
 
 if test -s $EXTIN_DIR/DAexterneSNP.auftragcsv.csv; then
 echo " reduziere auf die die Eintrag in nationalem Pedigree haben"
-	awk '{ sub("\r$", ""); print }'	$EXTIN_DIR/DAexterneSNP.auftragcsv.csv | sort -t';' -k3,3 | join -t';' -o'1.3 1.1 1.3 1.4 2.2 2.3' -1 3 -2 1 - <(sort -t';' -k1,1 $TMP_DIR/externeSNPauftraege.ARGUSpedicheck.txt) | sort -u > $TMP_DIR/response.uniq.txt
+	awk '{ sub("\r$", ""); print }'	$EXTIN_DIR/DAexterneSNP.auftragcsv.csv | sort -T ${SRT_DIR} -t';' -k3,3 | join -t';' -o'1.3 1.1 1.3 1.4 2.2 2.3' -1 3 -2 1 - <(sort -T ${SRT_DIR} -t';' -k1,1 $TMP_DIR/externeSNPauftraege.ARGUSpedicheck.txt) | sort -T ${SRT_DIR} -u > $TMP_DIR/response.uniq.txt
 
 	cat $TMP_DIR/response.uniq.txt | tr ';' ' ' |\
 	  awk '{if($5 == "ArgusOK") print $1,$2,$3,$4,$5,$6}' > $TMP_DIR/response.process.txt
@@ -234,30 +236,35 @@ if [ ${np} -gt 0 ]; then
  
 
 	(awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) == "BSW") print $3";X;;;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
+     awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) == "JER") print $3";X;;;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) == "HOL") print $3";X;;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) == "RED") print $3";X;;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) == "SIM") print $3";X;;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
- 	 awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";X;;;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt
+ 	 awk '{if($4 > 54000 && $4 < 54610 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "JER" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";X;;;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt
 	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) == "BSW") print $3";X;;;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
+	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) == "JER") print $3";X;;;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) == "HOL") print $3";X;;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) == "RED") print $3";X;;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) == "SIM") print $3";X;;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
- 	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";X;;;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt;
+ 	 awk '{if($4 > 129999 && $4 < 150000 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "JER" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";X;;;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 > 700000 && substr($3,1,3) == "BSW") print $3";;X;;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
+ 	 awk '{if($4 > 700000 && substr($3,1,3) == "JER") print $3";;X;;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 700000 && substr($3,1,3) == "HOL") print $3";;X;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 700000 && substr($3,1,3) == "RED") print $3";;X;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 700000 && substr($3,1,3) == "SIM") print $3";;X;;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
-	 awk '{if($4 > 700000 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";;X;;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt;
+	 awk '{if($4 > 700000 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "JER" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";;X;;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 < 54001 && substr($3,1,3) == "BSW") print $3";;;X;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
+	 awk '{if($4 < 54001 && substr($3,1,3) == "JER") print $3";;;X;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 < 54001 && substr($3,1,3) == "HOL") print $3";;;X;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 < 54001 && substr($3,1,3) == "RED") print $3";;;X;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
  	 awk '{if($4 < 54001 && substr($3,1,3) == "SIM") print $3";;;X;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt;
- 	 awk '{if($4 < 54001 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";;;X;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt;
+ 	 awk '{if($4 < 54001 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "JER" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";;;X;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 54609 && $4 < 130001 && substr($3,1,3) == "BSW") print $3";;;X;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
+	 awk '{if($4 > 54609 && $4 < 130001 && substr($3,1,3) == "JER") print $3";;;X;;;;;;;;;;;"$6";SBZV;;;;;;;;"}' $TMP_DIR/response.process.txt;
 	 awk '{if($4 > 54609 && $4 < 130001 && substr($3,1,3) == "HOL") print $3";;;X;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt
  	 awk '{if($4 > 54609 && $4 < 130001 && substr($3,1,3) == "RED") print $3";;;X;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt
  	 awk '{if($4 > 54609 && $4 < 130001 && substr($3,1,3) == "SIM") print $3";;;X;;;;;;;;;;;"$6";SHSF;;;;;;;;"}' $TMP_DIR/response.process.txt
- 	 awk '{if($4 > 54609 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";;;X;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt)	> $WRK_DIR/allExternSamples_forAdding.${run}.txt
+ 	 awk '{if($4 > 54609 && substr($3,1,3) != "HOL" && substr($3,1,3) != "BSW" && substr($3,1,3) != "JER" && substr($3,1,3) != "SIM" && substr($3,1,3) != "RED") print $3";;;X;;;;;;;;;;;"$6";VMS;;;;;;;;"}' $TMP_DIR/response.process.txt)	> $WRK_DIR/allExternSamples_forAdding.${run}.txt
 	echo " "
 
 	#echo "sending now InfoMail an Juerg Moll zum Abrechnen der externen SNPs Imputing: $WRK_DIR/allExternSamples_forAdding.${run}.txt" 
@@ -271,14 +278,17 @@ if [ ${np} -gt 0 ]; then
     if test -s $WRK_DIR/allExternSamples_forAdding.${run}.txt; then
        echo "schreibe file fuer marina und deren abrechnung"
        awk 'BEGIN{FS=";";OFS=";"}{print $1,$15,$16}' $WRK_DIR/allExternSamples_forAdding.${run}.txt > $TMP_DIR/Dritttypisierungen.${run}.csv
-       externalBreedsIncoming=$(cut -b1-3 $TMP_DIR/Dritttypisierungen.${run}.csv | sort -u | tr '\n' ' ' )
+       externalBreedsIncoming=$(cut -b1-3 $TMP_DIR/Dritttypisierungen.${run}.csv | sort -T ${SRT_DIR} -u | tr '\n' ' ' )
        for exB in ${externalBreedsIncoming} ; do
        if [ ${exB} == "RED" ] || [ ${exB} == "SIM" ] || [ ${exB} == "HOL" ] ; then
           eB=HOL
           natpdrg=/qualstore03/data_zws/pedigree/data/shb/${DatPEDIshb}_pedigree_rrtdm_SHB.dat
-       elif [ ${exB} == "BSW" ]; then 
+       elif [ ${exB} == "BSW" ] ; then 
           eB=$(echo ${exB})
           natpdrg=/qualstore03/data_zws/pedigree/data/bvch/${DatPEDIbvch}_pedigree_rrtdm_BVCH.dat
+       elif [ ${exB} == "JER" ] ; then    
+          eB=$(echo ${exB})
+          natpdrg=/qualstore03/data_zws/pedigree/data/jer/${DatPEDIjer}_pedigree_rrtdm_JER.dat
        else
           eB=$(echo ${exB})
           natpdrg=/qualstore03/data_zws/pedigree/data/vms/${DatPEDIvms}_pedigree_rrtdm_VMS.dat
@@ -297,13 +307,6 @@ if [ ${np} -gt 0 ]; then
 else 
 	echo "habe keine externen files zum verarbeiten, next Skripts are prog/setUpSampleSheetByAddingExternSamples.sh + designFor.infofile.sh + masterskriptHandleNewSNPdata.sh "
 fi
-rm -f $TMP_DIR/*.linux
-rm -f $TMP_DIR/*.linuxNEU
-rm -f $TMP_DIR/*.spalteTIER.tmp
-rm -f $TMP_DIR/*.natipedi
-rm -f $TMP_DIR/response.process.txt
-rm -f $TMP_DIR/natpd.abrechnung.dat
-rm -f $TMP_DIR/Dritttypisierungen.${run}.csv
 echo " "
 RIGHT_END=$(date )
 echo $RIGHT_END Ende ${SCRIPT}

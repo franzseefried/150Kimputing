@@ -8,6 +8,7 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
+numberOfParallelMEHDIJobs=$(eval nproc|awk '{printf "%.0f", ($1/2)+0.5}' | awk '{print $1}')
 
 
 ### # function for reporting on console
@@ -99,7 +100,7 @@ set -o errexit
 set -o nounset
 
 echo "running runFimpute BTA ${BTA} for breed ${impacc}${breed}:"
-
+echo ${numberOfParallelMEHDIJobs}
 
 
 (echo "title=\"${BTA} Imputation for ${impacc}${breed}\";"
@@ -112,7 +113,7 @@ echo "save_genotype;"
 fi
 echo "add_ungen /min_fsize=4 /output_min_fsize=4 /output_min_call_rate=0.95;"
 echo "output_folder=\"${FIM_DIR}/${impacc}${breed}BTA${BTA}${SNP}${outfolder}\";"
-echo "njob=30;")> ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
+echo "njob=${numberOfParallelMEHDIJobs};")> ${FIM_DIR}/${impacc}${breed}Fimpute${BTA}${SNP}.${output}_standard.ctr
 
 echo " "
 echo "FImpute Parameters are as follows"

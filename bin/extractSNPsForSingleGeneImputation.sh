@@ -82,14 +82,14 @@ echo "####################"
 
 
 #define chiploop
-colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD150K | awk '{print $1}')
+colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ${IMPUTATIONFLAG} | awk '{print $1}')
 colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
 
 
 CHIPS=$(awk -v cc=${colDENSITY} -v dd=${colNAME} -v densit=${dichte} 'BEGIN{FS=";"}{if( $cc == densit ) print $dd }' ${REFTAB_CHIPS})
 lgtC=$(echo ${CHIPS} | wc -w | awk '{print $1}')
 if [ ${lgtC} -eq 0 ]; then
-  echo "keie Chips angegeben in ${REFTAB_CHIPS} in Kolonne ImputationDensityLD150K "
+  echo "keie Chips angegeben in ${REFTAB_CHIPS} in Kolonne  ${IMPUTATIONFLAG} "
   exit 1
 fi
 

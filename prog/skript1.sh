@@ -44,7 +44,7 @@ if [ -z ${ReadGenotypes} ];then echo "...OOOPS: Variable ReadGenotypes is empty:
 if [ ${ReadGenotypes} != "A" ] && [ ${ReadGenotypes} != "B" ]; then echo "...OOOPS: Variable ReadGenotypes is different than expected: A or B are allowed but it was set to ${ReadGenotypes}   . Change!!!" >> ${LOGFILE}; exit 1; fi
 
 if test -s ${HIS_DIR}/UnlinkedAnimalsfor.${run}.txt; then
-sort -u ${HIS_DIR}/UnlinkedAnimalsfor.${run}.txt -o ${HIS_DIR}/UnlinkedAnimalsfor.${run}.txt
+sort -T ${SRT_DIR} -u ${HIS_DIR}/UnlinkedAnimalsfor.${run}.txt -o ${HIS_DIR}/UnlinkedAnimalsfor.${run}.txt
 fi
 #delete WRK_DIR und FIM_DIR
 rm -rf ${WORK_DIR}
@@ -53,7 +53,7 @@ rm -rf ${FIM_DIR}
 mkdir -p ${FIM_DIR}
 echo " " >> ${LOGFILE}
 echo "Check if enough disk space is available" >> ${LOGFILE}
-$BIN_DIR/df.sh START >> ${LOGFILE}
+#$BIN_DIR/df.sh START >> ${LOGFILE}
 echo " " >> ${LOGFILE}
 echo "delete single external samples that have data being delivered but that have already Imputation result" >> ${LOGFILE}
 cd ${EXTIND_DIR};
@@ -123,13 +123,8 @@ if ! test -s  ${HIS_DIR}/BSW_SumUpLOG.${oldrun}.csv  || ! test -s  ${HIS_DIR}/HO
 fi
 
 
-if ! test -s ${HDD_DIR}/BSWTypisierungsstatus_HD-50K${oldrun}.txt || ! test -s  ${HDD_DIR}/HOLTypisierungsstatus_HD-50K${oldrun}.txt ; then
+if ! test -s ${HDD_DIR}/BSWTypisierungsstatus${oldrun}.txt || ! test -s  ${HDD_DIR}/HOLTypisierungsstatus${oldrun}.txt ; then
   echo "ooops .... es wurde ${run} als HDRun angegeben. Diesen Run aber gab es nicht." >> ${LOGFILE}
-  echo "Das ist nicht zulaessig, ich stoppe" >> ${LOGFILE}
-  exit 1
-fi
-if ! test -s ${FHDD_DIR}/BSWTypisierungsstatus_FHD-HD${oldrun}.txt || ! test -s  ${FHDD_DIR}/HOLTypisierungsstatus_FHD-HD${oldrun}.txt ; then
-  echo "ooops .... es wurde ${run} als FHDRun angegeben. Diesen Run aber gab es nicht." >> ${LOGFILE}
   echo "Das ist nicht zulaessig, ich stoppe" >> ${LOGFILE}
   exit 1
 fi
@@ -209,7 +204,7 @@ if test -s $LOG_DIR/skript1.log ; then
 nNEW=$(awk '{if($0 ~ "data_archiv") print}' $LOG_DIR/skript1.log |wc -l | awk '{print $1}')
 if [ ${nNEW} -gt 0 ];then
    echo "#############################################" >> ${LOGFILE}
-   nALL=$(grep data_archiv $LOG_DIR/skript1.log |sort -t' ' -k1,1n | awk -F ' *' '$1 ~ /^[0-9]+$/{print $1}' | awk '{SUM +=$1} END{print SUM}')
+   nALL=$(grep data_archiv $LOG_DIR/skript1.log |sort -T ${SRT_DIR} -t' ' -k1,1n | awk -F ' *' '$1 ~ /^[0-9]+$/{print $1}' | awk '{SUM +=$1} END{print SUM}')
    echo "Printing Sum of all newly delivered GeneSeek samples across all chips: ... ${nALL}" >> ${LOGFILE}
    echo "#############################################" >> ${LOGFILE}
 fi

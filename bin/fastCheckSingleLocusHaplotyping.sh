@@ -58,7 +58,7 @@ echo " "
 for iA in ${algis[@]}; do
 if [ ${iA} == "SVM" ]; then kuerzel=SVMbasedGenotypePrediction;fi
 if [ ${iA} == "SINGLEGENE" ]; then kuerzel=SingleGeneImputation;fi
-if [ ${iA} == "GENOMEWIDE" ]; then kuerzel=pullVariantFromGenomewideSystem;fi
+if [ ${iA} == "GENOMEWIDE" ]; then kuerzel=PullVariantFromGenomewideSystem;fi
 if [ ${iA} == "HAPLOTYPE" ]; then kuerzel=SingleLocusHaplotyping;fi
 
 echo "${iA}"

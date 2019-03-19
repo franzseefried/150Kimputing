@@ -138,9 +138,8 @@ elif  [ ${breed} == "VMS" ]; then
      echo "pnIdGattung;";
      echo "psHbRasse;";
      echo "pnNoHbRInc;0";
-     echo "pnNoNOk;0";
-     #inkl stillgelegte damit kein sql noetig 
-     echo "pnNoStillgelegt;0";
+     echo "pnNoNOk;0"; 
+     echo "pnNoStillgelegt;1";
      echo "pnIgnoreOKCode;0";
      echo "pnIgnoreHbRInc;0";
      echo "pnOutSektion;0";

@@ -23,18 +23,18 @@ elif [ ${1} == "BSW" ] || [ ${1} == "HOL" ] || [ ${1} == "VMS" ]; then
  	  
 #  echo "previous LD Tiere now 50K"
   join -t' ' -o'1.1 1.2 2.2' -1 1 -2 1 $TMP_DIR/${breed}Typisierungsstatusprevious.srt $TMP_DIR/${breed}Typisierungsstatuscurrent.srt |\
-    awk '{if($2 == "LD" && $3 == "DB") print }' > $RES_DIR/${breed}.LDin${oldrun}.ABER.50Kin${run}.txt	  
+    awk '{if($2 == "LD" && $3 == "HD") print }' > $RES_DIR/${breed}.LDin${oldrun}.ABER.HDin${run}.txt	  
   if test -s $RES_DIR/${breed}.LDin${oldrun}.ABER.50Kin${run}.txt; then
     echo " "
     echo "SNP-UPgraded Samples:"
     wc -l $RES_DIR/${breed}.LDin${oldrun}.ABER.50Kin${run}.txt
   fi    
   join -t' ' -o'1.1 1.2 2.2' -1 1 -2 1 $TMP_DIR/${breed}Typisierungsstatusprevious.srt $TMP_DIR/${breed}Typisierungsstatuscurrent.srt |\
-    awk '{if($2 == "DB" && $3 == "LD") print }' > $RES_DIR/${breed}.50Kin${oldrun}.ABER.LDin${run}.txt
+    awk '{if($2 == "HD" && $3 == "LD") print }' > $RES_DIR/${breed}.HDin${oldrun}.ABER.LDin${run}.txt
   if test -s $RES_DIR/${breed}.50Kin${oldrun}.ABER.LDin${run}.txt; then
     echo " "
     echo "SNP-DOWNgraded Samples:"
-    wc -l $RES_DIR/${breed}.50Kin${oldrun}.ABER.LDin${run}.txt
+    wc -l $RES_DIR/${breed}.HDKin${oldrun}.ABER.LDin${run}.txt
   fi     
   join -t' ' -o'1.1 1.2' -v1 -1 1 -2 1 $TMP_DIR/${breed}Typisierungsstatusprevious.srt $TMP_DIR/${breed}Typisierungsstatuscurrent.srt |\
     awk '{print  $1,$2}' > $RES_DIR/${breed}.lostANIMALS.in${run}_imVglmit${oldrun}.txt	      

@@ -1,0 +1,29 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    SNP[$2]=$3;	#weise $1 auf $5 zu
+	   
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	MARKER="0";
+	MARKER=SNP[$1]; 
+	
+	if(MARKER!=""){
+            
+	    print $0
+
+	}
+    }
+}
+
+
+

@@ -95,6 +95,7 @@ done
 halist=$(cat $TMP_DIR/${breed}.[A-Z]*.selected | tr '\n' ' ')
 #echo $halist
 for iha in ${halist[@]}; do
+echo ${iha};
 existshot=N
 existresult=Y
 while [ ${existshot} != ${existresult} ]; do

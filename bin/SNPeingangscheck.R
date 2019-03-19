@@ -16,8 +16,13 @@ INFILE2=args[3]
 OUTFILE1=args[4]
 nsnps=as.numeric(args[5])
 
+print("The following parameters were received:")
+print(PARFILE)
+print(INFILE1)
+print(INFILE2)
+print(OUTFILE1)
 print(nsnps)
-
+print("##########################")
 data     <-matrix(scan(INFILE1,quiet=TRUE,what=character(),sep=" ",n=nsnps*1),nsnps,1,byrow=T)
 #Callrate
 cr       <-as.data.frame(xtabs(~data[,1],data))

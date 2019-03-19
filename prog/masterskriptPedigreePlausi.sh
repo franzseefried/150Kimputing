@@ -28,8 +28,7 @@ OS=$(uname -s)
 if [ $OS = "Linux" ]; then
 ps fax | grep -i FImpute_Linux | awk '{print $1 }'  | while read job; do if [ -z ${job} ] ; then echo "ooops there are Fimpute-Jobs running. They would be killed by the following programms. Change to another Linux-Server"; exit 1 ;fi ; done
 
-#check spacial paramater
-HDfol=$(echo ${HDfollows} | awk '{print toupper($1)}')
+
 ##################################
 echo Step 1
 $BIN_DIR/findeTiereMitVater0undSetzeDUMMYVater.sh $1 2>&1
@@ -176,23 +175,6 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-##################################
-if [ ${1} != "VMS" ] && [ ${HDfol} == "Y" ]; then
-echo Step 18 *****°°°°°Run HD Imputation via superMasterskript°°°°°*****
-cd ${SNP_DIR}/HDimputing
-nohup prog/superMasterskript.sh ${1} 2>&1 > log/superMasterskript_${1}.log &
-cd ${MAIN_DIR}
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 18"
-        $BIN_DIR/sendErrorMail.sh ${SNP_DIR}/HDimputing/prog/masterskriptHDprep.sh $1
-        exit 1
-fi
-echo "----------------------------------------------------"
-else
-echo " "
-echo "No HD imputation will follow"
-fi
 ##################################
 echo Step 19
 $BIN_DIR/sendFinishingMail.sh ${PROG_DIR}/${SCRIPT} $1 2>&1

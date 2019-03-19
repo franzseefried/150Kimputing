@@ -3,13 +3,6 @@ RIGHT_NOW=$(date )
 SCRIPT=`basename ${BASH_SOURCE[0]}`
 echo $RIGHT_NOW Start ${SCRIPT}
 echo " "
-##############################################################
-cd /qualstore03/data_zws/snp/50Kimputing
-lokal=$(pwd | awk '{print $1}')
-source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
-###############################################################
-set -o nounset
-set -o errexit
 
 ### # function for reporting on console
 usage () {
@@ -19,6 +12,8 @@ usage () {
   echo "  where <string> specifies the parameter for the TVD ID"
   echo "Usage: $SCRIPT -l <string>"
   echo "  where <string> specifies the name of the labfile to be checked"
+  echo "Usage: $SCRIPT -d <string>"
+  echo "  where <string> specifies the name of the folder where skript has to be started ou of"
   exit 1
 }
 
@@ -29,7 +24,7 @@ if [ $NUMARGS -lt 0 ]  ; then
   usage 'No command line arguments specified'
 fi
 
-while getopts :t:l: FLAG; do
+while getopts :t:l:d: FLAG; do
   case $FLAG in
     t) # set option "t"
       export tvd=$(echo $OPTARG | awk '{print toupper($1)}')
@@ -41,6 +36,9 @@ while getopts :t:l: FLAG; do
       ;;
     l) # set option "l"
       export labfile=$(echo $OPTARG )
+      ;;
+    d) # set option "d"
+      export curdir=$(echo $OPTARG )
       ;;
     *) # invalid command line arguments
       usage "Invalid command line argument $OPTARG"
@@ -56,7 +54,18 @@ fi
 if [ -z "${labfile}" ]; then
     usage 'Parameter for labfile must be specified using option -l <string>'      
 fi
+### # check that labefile is not empty
+if [ -z "${curdir}" ]; then
+    usage 'Parameter for directory must be specified using option -d <string>'      
+fi
 
+##############################################################
+cd ${curdir}
+lokal=$(pwd | awk '{print $1}')
+source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
+###############################################################
+set -o nounset
+set -o errexit
 
 OS=$(uname -s)
 if [ $OS != "Linux" ]; then
@@ -69,8 +78,9 @@ fi
 
 nsnp=$(awk -v moggel=${tvd} 'BEGIN{FS=";"}{if ($2 == moggel) print $3}' $TMP_DIR/${labfile}.tvd | tee $TMP_DIR/${tvd}${labfile}GCforR | wc -l | awk '{print $1}')
 awk -v moggel=${tvd} 'BEGIN{FS=";"}{if ($2 == moggel) print $4$5}' $TMP_DIR/${labfile}.tvd > $TMP_DIR/${tvd}${labfile}ABforR
-Rscript ${BIN_DIR}/SNPeingangscheck.R ${PAR_DIR}/steuerungsvariablen.ctr.sh ${TMP_DIR}/${tvd}${labfile}ABforR ${TMP_DIR}/${tvd}${labfile}forR ${TMP_DIR}/${tvd}${labfile}SNPeingangscheck.out ${nsnp} 2>&1 > /dev/null &
-rm -f $TMP_DIR/${tvd}${labfile}ABforR $TMP_DIR/${tvd}${labfile}GCforR 
+#ls -trl $TMP_DIR/${tvd}${labfile}ABforR
+Rscript ${BIN_DIR}/SNPeingangscheck.R ${PAR_DIR}/steuerungsvariablen.ctr.sh ${TMP_DIR}/${tvd}${labfile}ABforR ${TMP_DIR}/${tvd}${labfile}GCforR ${TMP_DIR}/${tvd}${labfile}SNPeingangscheck.out ${nsnp} 2>&1 > /dev/null &
+
     
 echo " "
 RIGHT_END=$(date )

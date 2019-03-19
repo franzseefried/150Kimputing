@@ -1,10 +1,11 @@
 #!/bin/sh
-
+firstIMPUTATIONDIR=""
+secondIMPUTATIONDIR=/qualstorzws01/data_zws/snp/1000Kimputing
 #change GeneSeeks NEWDATA######################################
-GeneSeekdata_LD="Qualitas_BOVG50V02_20190118,Qualitas_BOVG50V02_20190116,Qualitas_BOVG50V02_20190114,Qualitas_BOVG50V02_20190111,Qualitas_BOVG50V02_20190110,Qualitas_BOVG50V02_20190106"
+GeneSeekdata_LD="Qualitas_BOVG50V02_20190311,Qualitas_BOVG50V02_20190308,Qualitas_BOVG50V02_20190307,Qualitas_BOVG50V02_20190306,Qualitas_BOVG50V02_20190304"
 GeneSeekdata_F250V1=""
-GeneSeekdata_150K="Qualitas_BOVUHDV03_20190117,Qualitas_BOVUHDV03_20190110"
-GeneSeekdata_850K="Qualitas_BOV770V01_20190106"
+GeneSeekdata_150K="Qualitas_BOVUHDV03_20190314,Qualitas_BOVUHDV03_20190310,Qualitas_BOVUHDV03_20190307"
+GeneSeekdata_850K="Qualitas_BOV770V01_20190307"
 GeneSeekdata_50K=""
 GeneSeekdata_80K=""
 # dbsystem benoetigt fuer pedigree-export
@@ -12,28 +13,26 @@ dbsystem=rapid
 #von wo sollen die historischen Genotypen gelesen werden: Archiv "A" oder die binearies aus dem oldrun "B". B is much faster
 ReadGenotypes=B
 #Runshortcuts
-old10run=2318
-old9run=2418
-old8run=2518
-old7run=2618
-old6run=2718
-old5run=2818
-old4run=2918
-old3run=0119
-old2run=0219
-oldrun=0319
+old10run=2518
+old9run=2618
+old8run=2718
+old7run=2818
+old6run=2918
+old5run=0119
+old4run=0219
+old3run=0319
+old2run=0419
+oldrun=0519
 #Imputation run MMYY
-run=0419
-#HDparameter  run shortcuts are as here in LD-Imputation######
-#FHDparameter run shortcuts are as here in LD-Imputation######
+run=0619
 #Datum Pedigree Abzug SHB und BVCH############################
-DatPEDIshb=20190216
-DatPEDIbvch=20190216
-DatPEDIvms=20190216
-DatPEDIjer=20190216
+DatPEDIshb=20190315
+DatPEDIbvch=20190315
+DatPEDIvms=20190318
+DatPEDIjer=20190315
 #shzv pedi: Names muss auf .txt enden!!!
-pedigreeSHZV=Ped_EGcom-20190215.txt
-blutfileSHZV=Rac_EGcom-20190215.txt
+pedigreeSHZV=Ped_EGcom-20190315.txt
+blutfileSHZV=Rac_EGcom-20190315.txt
 #Maildresse or responsible employee###########################
 MAILACCOUNT=franz.seefried@qualitasag.ch
 ##############################################################
@@ -73,7 +72,9 @@ AIMSAMPLESIZE=70
 #Imputationsstrategie: F dann werden fixe snps aus einer alten imputation gelesen (empfohlen fuer routineruns) / S dann werden neue SNP-selektiert
 snpstrat=F
 #folgt eine HD Imputation Y fuer yes, N fuer no###############
-HDfollows=N
+HDfollows=Y
+#Parameter if Crossvalidation in SVM Prediction should be applied YES / NO allowed
+ParCrossVal=NO
 #Untergenze Anteil geänderter Genotypen im Vgl zur letzen Imputation. Empfehlung geh nicht hoeher als 0.025
 propBad=0.025
 #No. of Chipstatus fuer die das aktuelle Imputationsergebnis mit dem letzen vergleichen werden soll: 3 d.h. alle 3 Status werden verglichen, 2 d.h. Status 0+1 wird verglichen, 1 d.h. nur Status 2 wird verglichen
@@ -106,16 +107,19 @@ gnrmcoeffTWINS=0.90
 #sign for sample pair selections EQABOVE fuer >=, BELOW fuer <, dann werden alle Tiere der elementzone selektiert die entweder drueber oder unter der gnrmcoeff liegen
 gnrmzone=EQABOVE
 #No of parallel R jobs fuer Eingangskontrolle
-numberOfParallelRJobs=$(nproc | awk '{print $1-0}')
+numberOfParallelRJobs=35
+#$(eval nproc|awk '{print $1-2}')
 #No of parallel Haplotyping jobs 
 numberOfParallelHAPLOTYPEJobs=10
 #No of parallel SingleGeneImputation jobs 
 numberOfParallelSIGEIMPJobs=5
-#Parameter if Crossvalidation in SVM Prediction should be applied YES / NO allowed
-ParCrossVal=NO
+#Parameter No of parallel mehdi jobs (Fimpute / SNP1101)
+numberOfParallelMEHDIJobs=25
+#$(eval nproc|awk '{printf "%.0f", ($1/2)+0.5}' | awk '{print $1}')
+#30
 #Maildresse zwsteam###########################
 MAILZWS="beat.bapst@qualitasag.ch;madeleine.berweger@qualitasag.ch;franz.seefried@qualitasag.ch;sophie.kunz@qualitasag.ch;urs.schuler@qualitasag.ch;mirjam.spengeler@qualitasag.ch;peter.vonrohr@qualitasag.ch;urs.schnyder@qualitasag.ch"
-#if you want to start a new SNP System:
+#if you want to start a new SNP System: info: now codes are in CDCB Reftab, here ist has been deveopped before this was the case, that's why it is redundant
 #Use intergenomics codes here!!
 #HDden aim
 NewChip1=139_V1
@@ -125,8 +129,11 @@ NewChip2=48_V1
 ARS12Name2=47843_BOVG50V1
 #parameter if genomewide imputation accuracy has to be evaluated
 evalImpAcc=Y
+#Parameter if LogRR and BAlleleFrq should be plotted for all single GeneTests -> usually should be N
+LogRRBAllelePot=N
 ##################################################
 #Do NOT change:
+IMPUTATIONFLAG=ImputationDensityLD150K
 #HD Imputation run
 hdrun=${HDoldrun}
 fhdrun=${FHDoldrun}
@@ -142,7 +149,7 @@ CLLRT=0.948
 HTRT=0.45
 GCSCR=0.12
 fixSNPdatum=2118
-HDfixSNPdatum=0116
+HDfixSNPdatum=0419
 VETDIAGfile=/qualstorzws01/data_zws/snp/150Kimputing/work/VETDIAGNOSTIK/Abort_${run}.csv
 SSNPSiGeTe=/qualstorzws01/data_zws/parameterfiles/Reftab_SNPs-GenMarker.txt
 #################################################################
@@ -163,6 +170,7 @@ BIGPAR_DIR=/qualstorzws01/data_zws/parameterfiles/
 BCP_DIR=/qualstorzws01/data_archiv/zws/150Kimputing
 BVCH_DIR=${DEUTZ_DIR}/sbzv/dsch/in
 CHCK_DIR=${ARCH_DIR}/checks
+CMP_DIR=${WRKF_DIR}/cmplr
 DIFR_DIR=${ARCH_DIR}/df
 DATA_DIR=${SNP_DIR}/data
 EINZELGEN_DIR=${SNP_DIR}/einzelgen/argus/import/Finalreportresults
@@ -181,10 +189,9 @@ GNA_DIR=${WRKF_DIR}/genabel
 GWAS_DIR=${MAIN_DIR}/gwas
 HADI_DIR=${MAIN_DIR}/hapdiv
 HOM_DIR=${MAIN_DIR}/homa
-HDD_DIR=${SNP_DIR}/HDimputing/work
-FHDD_DIR=${SNP_DIR}/FHDimputing/work
-HD_DIR=/qualstorzws01/data_tmp/zws/snp/HDimputing/work
-HDHIS_DIR=${SNP_DIR}/HDimputing/imphistory
+HDD_DIR=${SNP_DIR}/1000Kimputing/work
+HD_DIR=/qualstorzws01/data_tmp/zws/snp/1000Kimputing/work
+HDHIS_DIR=${SNP_DIR}/1000Kimputing/imphistory
 HIS_DIR=${MAIN_DIR}/imphistory
 IN_DIR=${SNP_DIR}/data/intern
 ITL_DIR=${ARCH_DIR}/format705International

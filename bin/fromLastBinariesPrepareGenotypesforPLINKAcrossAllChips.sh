@@ -8,44 +8,75 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
-set -o errexit
+### # function for reporting on console
+usage () {
+  local l_MSG=$1
+  echo "Usage Error: $l_MSG"
+  echo "Usage: $SCRIPT -b <string>"
+  echo "  where <string> specifies the breed with options bsw, hol or vms"
+  echo "Usage: $SCRIPT -c <string>"
+  echo "  where <string> specifies the Density: e.g. LD / HD"
+  echo "Usage: $SCRIPT -d <string>"
+  echo "  where <string> specifies the Imputation level: e.g. LD150KImputation"
+  exit 1
+}
+### check number of command line arguments
+NUMARGS=$#
+echo "Number of arguments: $NUMARGS"
+if [ $NUMARGS -lt 0 ]  ; then
+  usage 'No command line arguments specified'
+fi
+while getopts :b:c:d: FLAG; do
+  case $FLAG in
+    b) # set option "b"
+      export breed=$(echo $OPTARG | awk '{print toupper($1)}')
+      if [ ${breed} == "BSW" ] || [ ${breed} == "HOL" ] || [ ${breed} == "VMS" ]; then
+          echo ${breed} > /dev/null
+      else
+          usage "Breed not correct, must be specified: bsw / hol / vms using option -b <string>"
+          exit 1
+      fi
+      ;;
+    c) # set option "c"
+      export dichte=$(echo $OPTARG | awk '{print toupper($1)}')
+      if [ ${dichte} == "HD" ] || [ ${dichte} == "LD" ]; then
+          echo ${dichte} > /dev/null
+      else
+          usage "Dichte not correct, must be specified: bsw / hol / vms using option -b <string>"
+          exit 1
+      fi
+      ;;
+    d) # set option "d"
+      export SNPlevel=$(echo $OPTARG)
+      ;;
+     *) # invalid command line arguments
+      usage "Invalid command line argument $OPTARG"
+      ;;
+  esac
+done
+
+### # check that breed is not empty
+if [ -z "${breed}" ]; then
+      usage 'breed not specified, must be specified using option -b <string>'   
+fi
+if [ -z "${dichte}" ]; then
+      usage 'Dichte not specified, must be specified using option -c <string>'   
+fi
+if [ -z "${SNPlevel}" ]; then
+      usage 'code for SNPlevel not specified, must be specified using option -d <string>'   
+fi
 START_DIR=$(pwd)
-
-
-if [ -z $1 ]; then
-    echo "brauche den Code welche Rasse verarbeitet werden soll, 'BSW' oder 'HOL' oder 'VMS'"
-    exit 1
-elif [ ${1} == "BSW" ] || [ ${1} == "HOL" ]  || [ ${1} == "VMS" ]; then
-
-if [ ${1} == "BSW" ]; then
+set -o errexit
+set -o nounset
+if [ ${breed} == "BSW" ]; then
 	zofol=$(echo "bvch")
 fi
-if [ ${1} == "HOL" ]; then
+if [ ${breed} == "HOL" ]; then
 	zofol=$(echo "shb")
 fi
-if [ ${1} == "VMS" ]; then
-        zofol=$(echo "vms")
+if [ ${breed} == "VMS" ]; then
+    zofol=$(echo "vms")
 fi
-else 
-  echo "unbekannter Systemcode BSW VMS oder HOL erlaubt"
-  exit 1
-fi
-
-
-if [ -z $2 ]; then
-   echo "brauche den Code für die Chipdichte HD oder LD"
-   exit 1
-elif [ $2 == "LD" ] || [ $2 == "HD" ]; then
-   echo $2 > /dev/null
-   dichte=${2}
-else
-   echo "Der Code fuer die Chipdichte muss LD oder HD sein, ist aber ${2}"
-   exit 1
-fi
-
-
-set -o nounset
-breed=${1}
 
 #define last imputation timestamp
 #TimeStampLastImp=$(stat -c "%y" /qualstore03/data_archiv/zws/50Kimputing/${oldrun}/binaryfiles | awk '{print $1}' | sed 's/\-//g')
@@ -57,14 +88,14 @@ awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | awk 'BEGIN{FS=";
 
 
 #define breed loop
-colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD150K | awk '{print $1}')
+colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ${SNPlevel} | awk '{print $1}')
 colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
 
 
 CHIPS=$(awk -v cc=${colDENSITY} -v dd=${colNAME} -v densit=${dichte} 'BEGIN{FS=";"}{if( $cc == densit ) print $dd }' ${REFTAB_CHIPS})
 lgtC=$(echo ${CHIPS} | wc -w | awk '{print $1}')
 if [ ${lgtC} -eq 0 ]; then
-  echo "keie Chips angegeben in ${REFTAB_CHIPS} in Kolonne ImputationDensityLD150K "
+  echo "keie Chips angegeben in ${REFTAB_CHIPS} in Kolonne  ${IMPUTATIONFLAG} "
   exit 1
 fi
 
@@ -147,17 +178,17 @@ done
 
 
 echo "####################################"
-echo "Call function ${2}process now"
+echo "Call function ${dichte}process now"
 echo " "
 echo "Attention: I collect links that are younger than ${TimeStampLastImp}"
 echo " "
-${2}process
+${dichte}process
 echo "####################################"
 echo " "
 echo " "
 echo "####################################"
 echo " "
-echo "${2} ped files exist: postprocessing"
+echo "${dichte} ped files exist: postprocessing"
 echo " "
 echo "####################################"
 #loesche Tiere die in die Liste eingetragen worden sind dass sie unlinked worden sind. Achtung file aus dem OLDRUN da ids noch nicht upgedated sind
@@ -295,7 +326,7 @@ cd $START_DIR
 
 echo "####################################"
 echo " "
-echo "${2} union datasets within density"
+echo "${dichte} union datasets within density"
 echo ${CHIPS}
 echo " "
 echo "####################################"

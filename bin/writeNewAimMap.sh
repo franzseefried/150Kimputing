@@ -48,26 +48,26 @@ breed=${1}
 #ARS12Name2=47843_BOVG50V1
 
 echo "small overview"
-join -t' ' -o'1.1 1.2 2.2' -a1 -e'-' -1 1 -2 1 <(awk '{print $1,"HD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip1}_new_order.txt |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) <(awk '{print $1,"LD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip2}_new_order.txt | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) |\
-cut -d' ' -f2,3 | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} | uniq -c
+join -t' ' -o'1.1 1.2 2.2' -a1 -e'-' -1 1 -2 1 <(awk '{print $1,"HD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip1}_new_order.txt |sort -T ${SRT_DIR} -t' ' -k1,1) <(awk '{print $1,"LD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip2}_new_order.txt | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) |\
+cut -d' ' -f2,3 | sort -T ${SRT_DIR} | uniq -c
 
 echo "hole ARS1.2 koordinates"
 #nur autosomale SNP, nur SNP die in der neuen Map1 BTA && Pos haben, 
 #wenn LDpos neg und abs(pos) == posHD, dann nimm HDpos
-join -t' ' -o'1.1 1.2 2.2' -a1 -e'-' -1 1 -2 1 <(awk '{print $1,"HD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip1}_new_order.txt |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) <(awk '{print $1,"LD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip2}_new_order.txt | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) |\
-   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+join -t' ' -o'1.1 1.2 2.2' -a1 -e'-' -1 1 -2 1 <(awk '{print $1,"HD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip1}_new_order.txt |sort -T ${SRT_DIR} -t' ' -k1,1) <(awk '{print $1,"LD"}' $MAP_DIR/intergenomics/SNPindex_${NewChip2}_new_order.txt | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) |\
+   sort -T ${SRT_DIR} -t' ' -k1,1 |\
    join -t' ' -o1.1 1.2 1.3 2.2 2.3 -1 1 -2 1 -a1 -e'-' - <(awk 'BEGIN{FS="\t"}{print $2,$1,$4}' $MAP_DIR/UMC_marker_names_180910/9913_ARS1.2_${ARS12Name1}_marker_name_180910.map |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1)|\
-   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
+   sort -T ${SRT_DIR} -t' ' -k1,1 |\
    join -t' ' -o1.1 1.2 1.3 1.4 1.5 2.2 2.3 -1 1 -2 1 -a1 -e'-' - <(awk 'BEGIN{FS="\t"}{print $2,$1,$4}' $MAP_DIR/UMC_marker_names_180910/9913_ARS1.2_${ARS12Name2}_marker_name_180910.map |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1)|\
    awk '{if($4 != 0 && $5 > 0)print}' |\
-   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k4,4n -k5,5n |\
+   sort -T ${SRT_DIR} -t' ' -k4,4n -k5,5n |\
    tee $TMP_DIR/${breed}.newAimMap.1-33.txt |\
    awk '{if( $4 < 35 ) print}' |\
    awk '{if($7 == "-" || $7 > 0) print $0;if ($7 != "-" && ($5 == ((-1)*$7))) print $1,$2,$3,$4,$5,$4,$5}' > $TMP_DIR/${breed}.newAimMap.txt
    
 #check if there are SNPs with identical positions & BTAs but different names, remove them
-awk '{print $4"_"$5}' $TMP_DIR/${breed}.newAimMap.txt | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} | uniq -c | awk '{if($1 != 1) print $2}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} > $TMP_DIR/${breed}.identicalPos.txt
-awk '{print $1,$4"_"$5}' $TMP_DIR/${breed}.newAimMap.txt |sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 | join -t' ' -o'1.1 1.1' -1 2 -2 1 - $TMP_DIR/${breed}.identicalPos.txt > $TMP_DIR/${breed}.identicalPos.Names.txt
+awk '{print $4"_"$5}' $TMP_DIR/${breed}.newAimMap.txt | sort -T ${SRT_DIR} | uniq -c | awk '{if($1 != 1) print $2}' | sort -T ${SRT_DIR} > $TMP_DIR/${breed}.identicalPos.txt
+awk '{print $1,$4"_"$5}' $TMP_DIR/${breed}.newAimMap.txt |sort -T ${SRT_DIR}  -t' ' -k2,2 | join -t' ' -o'1.1 1.1' -1 2 -2 1 - $TMP_DIR/${breed}.identicalPos.txt > $TMP_DIR/${breed}.identicalPos.Names.txt
 nB=$(wc -l $TMP_DIR/${breed}.identicalPos.Names.txt | awk '{print $1}')
 if [ ${nB} -gt 0 ]; then echo "you are removing ${nB} SNPs having different names but identical positions / BTAs"; fi
 awk 'BEGIN{FS=" ";OFS=" "}{ \
@@ -81,10 +81,10 @@ echo "SNPID Chr BPPos chip_1 chip_2" | awk '{printf "%-53s%+6s%+10s%+15s%+10s\n"
 
    awk '{if($5 != "-") print $0}' $TMP_DIR/${breed}.newAimMap.txt | awk '{print $1,NR}' > $TMP_DIR/${breed}.HD.newmap.txt
    awk '{if($7 != "-") print $0}' $TMP_DIR/${breed}.newAimMap.txt | awk '{print $1,NR}' > $TMP_DIR/${breed}.LD.newmap.txt
-   join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 2.2' -1 1 -2 1 <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.newAimMap.txt) <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.HD.newmap.txt) |\
-   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 |\
-   join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 2.2' -a1 -e'0' -1 1 -2 1 - <(sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.LD.newmap.txt) |\
-   sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k4,4n -k5,5n |\
+   join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 2.2' -1 1 -2 1 <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.newAimMap.txt) <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.HD.newmap.txt) |\
+   sort -T ${SRT_DIR} -t' ' -k1,1 |\
+   join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8 2.2' -a1 -e'0' -1 1 -2 1 - <(sort -T ${SRT_DIR} -t' ' -k1,1 $TMP_DIR/${breed}.LD.newmap.txt) |\
+   sort -T ${SRT_DIR} -t' ' -k4,4n -k5,5n |\
    awk '{gsub("34","MT",$4);gsub("33","MT",$4);gsub("32","Y",$4);gsub("31","Y",$4);gsub("30","X",$4); print $1,$2,$3,$4,$5,$6,$7,$8,$9}' |\
    awk '{printf "%-53s%+6s%+10s%+15s%+10s\n", $1,$4,$5,$8,$9}' >> $HIS_DIR/${1}.RUN${fixSNPdatum}snp_info.txt
    
@@ -92,7 +92,7 @@ echo "SNPID Chr BPPos chip_1 chip_2" | awk '{printf "%-53s%+6s%+10s%+15s%+10s\n"
 
 
 
-awk '{if(NR > 1) print $2,$1,"0",$3}' $HIS_DIR/${1}.RUN${fixSNPdatum}snp_info.txt | sort -T ${SRT_DIR} -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 > $TMP_DIR/OVERALL.${breed}.zielmap
+awk '{if(NR > 1) print $2,$1,"0",$3}' $HIS_DIR/${1}.RUN${fixSNPdatum}snp_info.txt | sort -T ${SRT_DIR} -t' ' -k2,2 > $TMP_DIR/OVERALL.${breed}.zielmap
 
 rm -f $TMP_DIR/${breed}.identicalPos.txt
 rm -f $TMP_DIR/${breed}.identicalPos.Names.txt

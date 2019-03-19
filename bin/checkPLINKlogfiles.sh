@@ -35,12 +35,12 @@ else
        plinkcheck=1
 
     echo "look here where the problem was:......."
-    grep -i "error" $WORK_DIR/${razza}*.log | wc -l | awk '{print $1}' 
-    grep -i "error" $TMP_DIR/${razza}*.log | wc -l | awk '{print $1}'
-    grep -i "fail" $WORK_DIR/${razza}*.log | grep -v "after larger attempt" | wc -l | awk '{print $1}'
-    grep -i "fail" $TMP_DIR/${razza}*.log | grep -v "after larger attempt" | wc -l | awk '{print $1}'
-    grep -i "fatal" $WORK_DIR/${razza}*.log | wc -l | awk '{print $1}'
-    grep -i "fatal" $TMP_DIR/${razza}*.log | wc -l | awk '{print $1}'
+    grep -i "error" $WORK_DIR/${razza}*.log | wc -l | awk '{print "error WORK_DIR",$1}' 
+    grep -i "error" $TMP_DIR/${razza}*.log | wc -l | awk '{print "error TMP_DIR",$1}'
+    grep -i "fail" $WORK_DIR/${razza}*.log | grep -v "after larger attempt" | wc -l | awk '{print "fail WORK_DIR",$1}'
+    grep -i "fail" $TMP_DIR/${razza}*.log | grep -v "after larger attempt" | wc -l | awk '{print "fail TMP_DIR",$1}'
+    grep -i "fatal" $WORK_DIR/${razza}*.log | wc -l | awk '{print "fatal WORK_DIR",$1}'
+    grep -i "fatal" $TMP_DIR/${razza}*.log | wc -l | awk '{print "fatal TMP_DIR",$1}'
     echo " "
 
     fi 

@@ -9,6 +9,19 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
+#######Funktionsdefinition
+getColmnNrSemicl () {
+# $1: String der Spaltenueberschirft repraesentiert
+# $2: csv-File
+    colNr_=$(head -1 $2 | tr ';' '\n' | grep -n "^$1$" | awk -F":" '{print $1}')
+    if test -z $colNr_ ; then
+        echo "FEHLER: Spalte mit den Namen $1 existiert nicht in $2 --> PROGRAMMABBRUCH"
+        echo "... oder Trennzeichen in $2 ist nicht das Semikolon (;)"
+        exit 1
+    fi
+}
+##########################
+
 if [ -z $1 ]; then
     echo "brauche den Code fuer die Rasse: BSW oder HOL oder VMS "
     exit 1
@@ -126,16 +139,15 @@ exit 1
 fi
 done
 
-getColmnNr FwdGTpredictionToARGUS ${REFTAB_SiTeAr} ; colFORWARDARGUS=$colNr_
-getColmnNr CodeResultfile ${REFTAB_SiTeAr} ; colCode=$colNr_
-getColmnNr PredictionAlgorhithm ${REFTAB_SiTeAr} ; colPA=$colNr_
+getColmnNrSemicl FwdGTpredictionToARGUS ${REFTAB_SiTeAr} ; colFORWARDARGUS=$colNr_
+getColmnNrSemicl CodeResultfile ${REFTAB_SiTeAr} ; colCode=$colNr_
+getColmnNrSemicl PredictionAlgorhithm ${REFTAB_SiTeAr} ; colPA=$colNr_
 TestsToBeExtracted=$(awk -v a=${colEXG} -v b=${colGSB} 'BEGIN{FS=";"}{if($a == "Y" ) print $b}' ${REFTAB_SiTeAr} )
 for iTestsToBeExtracted in ${TestsToBeExtracted}; do
    algorithm=$(awk -v a=${colCode} -v b=${iTestsToBeExtracted} -v f=${algo} '{FS=";"} {if ($a == b) print $f}' ${REFTAB_SiTeAr})
    forwardToArgus=$(awk -v a=${colCode} -v b=${iTestsToBeExtracted} -v f=${colFORWARDARGUS} '{FS=";"} {if ($a == b) print $f}' ${REFTAB_SiTeAr})
    if [ ${forwardToArgus} == "Y"  ] && [ ! -s ${SNP_DIR}/einzelgen/argus/glossar/${iTestsToBeExtracted}.${algorithm}.Interpretation.txt ]; then echo "ERROR: GTprediction should be forwarded to ARGUS for ${iTestsToBeExtracted} but no Reference Table ${SNP_DIR}/einzelgen/argus/glossar/${iTestsToBeExtracted}.${algorithm}.Interpretation.txt exists";echo " "; exit 1; fi
 done
-
 
 
 

@@ -10,7 +10,7 @@ MarkerID;Kennung;Bezeichnung;GeneSeekBezeichnung;Testtyp;BezeichnungFinalReport;
 XXX;Pausch-WDR19-ARS;;;Haplotype;;BSW;6;58373887;75;0;Y;;Y;HAPLOTYPE;;;Pausch-WDR19-ARS;N
 XXX;Cord-BlackRed;;;Haplotype;;BSW;18;14704988;75;0;Y;;Y;HAPLOTYPE;;;Cord-BlackRed;N
 XXX;FALB;;;Haplotype;;HOL;5;57345300;75;0;Y;;Y;HAPLOTYPE;;;3bpDelPMELFALB;N
-37;ARA;Arachnomelie;Arachnomelia-BS;Gentest;Arachnomelia-BS;BSW;5;57316731;1000;0;Y;Y;Y;GENOMEWIDE;;Y;SUOXSNP;N
+37;ARA;Arachnomelie;Arachnomelia-BS;Gentest;Arachnomelia-BS;BSW;5;57316731;1000;0;Y;Y;Y;GENOMEWIDE;;;SUOXSNP;N
 106;P;Hornlos;POLLED;Haplotypen;;BSW;1;2400000;0;1;Y;;Y;SVM;linear;;POLLED202BPINDEL;N
 106;P;Hornlos;POLLED;Haplotypen;;HOL;1;2800000;0;1;Y;;Y;SVM;linear;;POLLED80KBDEL;N
 121;KK;Kappa_Kasein;Kappa_Casein;Gentest;;BSW,HOL;;;0;0;;;;;;;;
@@ -41,7 +41,7 @@ XXX;FALB;;;Haplotype;;HOL;5;57345300;75;0;Y;;Y;HAPLOTYPE;;;3bpDelPMELFALB;N
 181;FH2;Fleckvieh_Haplotype_2;FH2;Gentest;FH2;BSW;1;95685553;100;0;Y;;Y;SVM;linear;;FH2;Y
 182;FH4;Fleckvieh_Haplotype_4;FH4;Gentest;FH4;HOL;;;100;0;Y;;;;;;;N
 184;RD;Renale_Dysplasie;RD;Haplotypen;;BSW;24;20911932;100;0;Y;Y;;SVM;linear;;MOCOSSNP;Y
-186;BE;Gurt;;Haplotype;;BSW;3;118584000;0;1;Y;;;SVM;linear;;BELT4x6kbCNV;Y
+186;BE;Gurt;;Haplotype;;BSW;3;118608362;0;1;Y;;;SVM;linear;;BELT4x6kbCNV;Y
 187;BM;Blueem;;SVM;;BSW;6;70500000;0;1;Y;;;SVM;linear;;629-RYF;Y
 188;C313Y;Myostatin-C313Y;C313Y;Gentest;;BSW,HOL,VMS;;;0;0;Y;;;;;;;N
 189;nt419;Myostatin-NT419;NT419;Gentest;;BSW,HOL,VMS;;;0;0;Y;;;;;;;N

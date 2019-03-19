@@ -12,12 +12,12 @@ set -o nounset
 set -o errexit
 
 
-sort -u $WORK_DIR/animal.overall.info -o $WORK_DIR/animal.overall.info
+sort -T ${SRT_DIR} -u $WORK_DIR/animal.overall.info -o $WORK_DIR/animal.overall.info
 
 
 
 echo "Baue file für TVD->ID Umcodierung"
-awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2 | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$1}' | sort -u > $WORK_DIR/samplesheet.TVDzuID.umcod
+awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f1,2 | sed 's/ //g' | tr ';' ' ' | awk '{print $2,$1}' | sort -T ${SRT_DIR} -u > $WORK_DIR/samplesheet.TVDzuID.umcod
 
 echo "check files now"
 for folder in 50K 150K 850K LD80K; do
@@ -25,6 +25,7 @@ echo "check files now $folder"
 cd $EXT_DIR/${folder}
 for labfile in $( ls ); do
     echo $labfile
+
     awk '{ sub("\r$", ""); print }' ${labfile}  > $TMP_DIR/${labfile}.linux
     #finde Header
 	kopfz=$(head -20 $TMP_DIR/${labfile}.linux | cat -n | grep -i Allele1 | awk '{print $1}')
@@ -68,7 +69,7 @@ for labfile in $( ls ); do
 	    
 	    breed=$(head -1 $TMP_DIR/${labfile}.spalteTIER.tmp | cut -b1-3)
 	    digits=$(head -1 $TMP_DIR/${labfile}.spalteTIER.tmp | wc -c | awk '{print $1}')
-	    nSamplesImFile=$(sort -u $TMP_DIR/${labfile}.spalteTIER.tmp | wc -l | awk '{print $1}')
+	    nSamplesImFile=$(sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp | wc -l | awk '{print $1}')
     	#verteile die neuen Samples auf die Rassefolder an hand der ersten 3 bytes der sampleID + check if INTERBULLID 19 bytes lang ist
 	    head -1 $TMP_DIR/${labfile}.spalteTIER.tmp
         #echo $breed $digits ${nSamplesImFile}
@@ -77,16 +78,25 @@ for labfile in $( ls ); do
 		    if [ ${digits} == 20 ]; then
 			mv ${labfile} $EXT_DIR/BSW/${folder}/.
         		#hole sampleid fuer getid.sql
-			sort -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+			sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
 		    else
 			echo "oops ${labfile} hat falche SampleID InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
 			mv ${labfile} $EXT_DIR/refusedSamples/.
 		    fi
+                elif [ ${breed} == "JER" ]; then
+                    if [ ${digits} == 20 ]; then
+                        mv ${labfile} $EXT_DIR/BSW/${folder}/.
+                        #hole sampleid fuer getid.sql
+                        sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+                    else
+                        echo "oops ${labfile} hat falche SampleID InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
+                        mv ${labfile} $EXT_DIR/refusedSamples/.
+                    fi
 		elif [ ${breed} == "HOL" ] ; then
 		    if [ ${digits} == 20 ]; then
 			mv ${labfile} $EXT_DIR/HOL/${folder}/.
 		        #hole sampleid fuer getidHOL.sql
-			sort -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+			sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
 		    else
 			echo "oops ${labfile} hat falche SampleID: InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
 			mv ${labfile} $EXT_DIR/refusedSamples/.
@@ -95,7 +105,7 @@ for labfile in $( ls ); do
 		    if [ ${digits} == 20 ]; then
 			mv ${labfile} $EXT_DIR/HOL/${folder}/.
 		        #hole sampleid fuer getidHOL.sql
-			sort -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+			sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
 		    else
 			echo "oops ${labfile} hat falche SampleID: InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
 			mv ${labfile} $EXT_DIR/refusedSamples/.
@@ -104,7 +114,7 @@ for labfile in $( ls ); do
 		    if [ ${digits} == 20 ]; then
 			mv ${labfile} $EXT_DIR/HOL/${folder}/.
 		        #hole sampleid fuer getidHOL.sql
-			sort -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+			sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
 		    else
 			echo "oops ${labfile} hat falche SampleID: InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
 			mv ${labfile} $EXT_DIR/refusedSamples/.
@@ -113,7 +123,7 @@ for labfile in $( ls ); do
 		    if [ ${digits} == 20 ]; then
 			mv ${labfile} $EXT_DIR/VMS/${folder}/.
 		        #hole sampleid fuer getidHOL.sql
-			sort -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+			sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
 		    else
 			echo "oops ${labfile} hat falche SampleID: InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
 			mv ${labfile} $EXT_DIR/refusedSamples/.
@@ -122,7 +132,7 @@ for labfile in $( ls ); do
 		    if [ ${digits} == 20 ]; then
 			mv ${labfile} $EXT_DIR/VMS/${folder}/.
 		        #hole sampleid fuer getidHOL.sql
-			sort -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
+			sort -T ${SRT_DIR} -u $TMP_DIR/${labfile}.spalteTIER.tmp >> $TMP_DIR/${run}.allExternSamples.txt
 		    else
 			echo "oops ${labfile} hat falche SampleID: InterbullID zu kurz, Tier wird nicht verarbeitet. Neue Daten besorgen."
 			mv ${labfile} $EXT_DIR/refusedSamples/.
@@ -135,7 +145,7 @@ for labfile in $( ls ); do
 		echo "ooops habe mehrere Samples im file ${labfile}, file wird zu $EXT_DIR/refusedSamples/ kopiert"
 		mv ${labfile} $EXT_DIR/refusedSamples/.
 	    fi
-	    rm -f $TMP_DIR/${labfile}.linuxNEU $TMP_DIR/${labfile}.linux $TMP_DIR/${labfile}.spalteSNP.tmp $TMP_DIR/${labfile}.spalteTIER.tmp $TMP_DIR/${labfile}.spalteALLELA.tmp $TMP_DIR/${labfile}.spalteALLELB.tmp
+	    rm -f $TMP_DIR/${labfile}.spalteSNP.tmp $TMP_DIR/${labfile}.spalteTIER.tmp $TMP_DIR/${labfile}.spalteALLELA.tmp $TMP_DIR/${labfile}.spalteALLELB.tmp
 	    
 	fi
 done
@@ -144,13 +154,13 @@ done
 
 
 cd ${MAIN_DIR}
-externalBreedsIncoming=$(cut -b1-3 $TMP_DIR/${run}.allExternSamples.txt | sort -u | tr '\n' ' ' )
+externalBreedsIncoming=$(cut -b1-3 $TMP_DIR/${run}.allExternSamples.txt | sort -T ${SRT_DIR} -u | tr '\n' ' ' )
 #if ! test ${externalBreedsIncoming}; then
 echo "Start now famous wurschtleEXTERNEegalCHIPgenotypenFuerImputingZurecht.sh"
 for exB in ${externalBreedsIncoming} ; do
 if [ ${exB} == "RED" ] || [ ${exB} == "SIM" ]; then
 eB=HOL
-elif [ ${exB} == "BSW" ]; then
+elif [ ${exB} == "JER" ] || [ ${exB} == "BSW" ]; then
 eB=BSW 
 elif [ ${exB} == "AAN" ] || [ ${exB} == "LIM" ]; then
 eB=VMS 
@@ -159,7 +169,7 @@ eB=$(echo ${exB})
 fi
 $BIN_DIR/wurschtleEXTERNEegalCHIPgenotypenFuerImputingZurecht.sh ${eB} > $LOG_DIR/wurschtleEXTERNEegalCHIPgenotypenFuerImputingZurecht_${eB}.log
 echo " ";
-echo "Attention: check $LOG_DIR/wurschtleEXTERNEegalCHIPgenotypenFuerImputingZurecht_${eB}.log since it has its own logfile"
+echo "Attention: check $LOG_DIR/wurschtleEXTERNEegalCHIPgenotypenFuerImputingZurecht_....log since it has its own logfile"
 echo " ";
 done
 #else

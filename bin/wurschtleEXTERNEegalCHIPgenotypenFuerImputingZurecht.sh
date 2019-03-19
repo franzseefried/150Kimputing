@@ -33,7 +33,7 @@ done
     for labfile in $( ls ); do
 	echo $labfile
 	awk '{ sub("\r$", ""); print }' $EXT_DIR/${1}/${folder}/${labfile}  > $TMP_DIR/${labfile}.linux
-
+    ls -trl $TMP_DIR/${labfile}.linux
 #suche chip
 	nSNP=$(grep -i "num snps" $TMP_DIR/${labfile}.linux | awk '{print $3}')
 
@@ -94,7 +94,7 @@ done
 	    paste $TMP_DIR/${labfile}.spalteSNP.tmp $TMP_DIR/${labfile}.spalteTIER.tmp $TMP_DIR/${labfile}.spalteALLELA.tmp $TMP_DIR/${labfile}.spalteALLELB.tmp |\
                   awk '{print $1";"$2";"$3";"$4}' > $TMP_DIR/${labfile}.tmp
 
-	    rm -f $TMP_DIR/${labfile}.linux $TMP_DIR/${labfile}.linuxNEU $TMP_DIR/${labfile}.spalteSNP.tmp $TMP_DIR/${labfile}.spalteTIER.tmp $TMP_DIR/${labfile}.spalteALLELA.tmp $TMP_DIR/${labfile}.spalteALLELB.tmp
+	    
 	    $BIN_DIR/awk_umkodierungITBIDzuTVD $WORK_DIR/crossref.txt $TMP_DIR/${labfile}.tmp  | tee  $TMP_DIR/${labfile}.tvd | cut -d';' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u > $WORK_DIR/${labfile}.tiere
 	else
 	    echo "Habe keinen Header gefunden"
@@ -110,6 +110,7 @@ done
 	    echo "Umkodierung unvollstaendig $labfile"
 	    exit 1
 	else
+	    ls -trl $TMP_DIR/${labfile}.linux
 	    echo "Umkodierung vollstaendig"
 	    echo "Tier %badGCS" > $CHCK_DIR/${run}/gcscore.check.${labfile}
 	    echo "Tier %Callingrate" > $CHCK_DIR/${run}/callingrate.check.${labfile}
@@ -256,6 +257,7 @@ done
 # join mit der Overallmap, dabei auswahl der SNPs über $1, die overallmap wurde gebaut mit hdimputing/macheKreuztabelle_SNPchips.sh. 50K Daten werden nicht auf LD reduziert alles andere schon
 
 	    rm -f ${EXT_DIR}/${1}/${folder}/${labfile}*
+	    rm -f $TMP_DIR/${labfile}.*
 	done
     done
 

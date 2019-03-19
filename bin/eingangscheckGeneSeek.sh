@@ -198,7 +198,7 @@ for muni in ${runs_ani[@]}; do
     done
     sleep 10
   done
-  nohup ${BIN_DIR}/calcSampleParameters.sh -t ${muni} -l ${labfile} > $LOG_DIR/${muni}.${labfile}.eingangscheck.log 2>&1 &
+  nohup ${BIN_DIR}/calcSampleParameters.sh -t ${muni} -l ${labfile} -d ${MAIN_DIR} > $LOG_DIR/${muni}.${labfile}.eingangscheck.log 2>&1 &
   pid=$!
 #  echo $pid
   pids=(${pids[@]} $pid)
@@ -251,7 +251,7 @@ fi
 
 #########################################################
 echo "Loesche Tiere die Callrate, GCSore oder Heterozygotie nicht erfuellen"
-$BIN_DIR/awk_keepGoodSamplesOnly <(cat  $TMP_DIR/${labfile}.tiereTOremove | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | awk '{print $1" r"}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) <(awk 'BEGIN{FS=";"}{print $1,$2,$4,$5}' $TMP_DIR/${labfile}.tvd | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k2,2 -T ${SRT_DIR}) |\
+$BIN_DIR/awk_keepGoodSamplesOnly <(cat  $TMP_DIR/${labfile}.tiereTOremove | sort -T ${SRT_DIR} -T ${SRT_DIR} -u | awk '{print $1" r"}' | sort -T ${SRT_DIR} -T ${SRT_DIR} -t' ' -k1,1) <(awk 'BEGIN{FS=";"}{print $1,$2,$4,$5}' $TMP_DIR/${labfile}.tvd | sort -T ${SRT_DIR} -t' ' -k2,2) |\
         tee $LAB_DIR/${labfile}.tvd.toWorkWith | cut -d' ' -f2 | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T ${SRT_DIR} > $TMP_DIR/${labfile}.tiere.toWorkWith
 fi
 
@@ -266,9 +266,12 @@ fi
 
 #########################################################
 rm -f $WORK_DIR/${labfile}*
-rm -f $TMP_DIR/$TMP_DIR/*${labfile}*
+#rm -f $TMP_DIR/*${labfile}*
 rm -f $IN_DIR/${chip}/${labfile}
 rm -f $TMP_DIR/${labfile}.linux
+rm -f $TMP_DIR/*${labfile}*ABforR
+rm -f $TMP_DIR/*${labfile}*GCforR
+rm -f $TMP_DIR/*${labfile}*SNPeingangscheck.out
 done
 done
 

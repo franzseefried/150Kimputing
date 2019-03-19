@@ -9,8 +9,6 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 #######################################################
-#set -o nounset
-#set -o errexit
 
 ort=$(uname -a | awk '{print $1}' )
 if [ ${ort} == "Darwin" ]; then
@@ -47,7 +45,7 @@ echo " "
 echo "animallst aufbauen"
 for zofol in bvch shb vms; do
 for dicht in LD HD; do
-  colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD50K | awk '{print $1}')
+  colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ${IMPUTATIONFLAG} | awk '{print $1}')
   colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
   CHIPS=$(awk -v cc=${colDENSITY} -v dd=${colNAME} -v densit=${dicht} 'BEGIN{FS=";"}{if( $cc == densit ) print $dd }' ${REFTAB_CHIPS})
   for chip in ${CHIPS} ; do
@@ -57,7 +55,8 @@ for dicht in LD HD; do
   done
 done
 done | sort -T ${SRT_DIR} -u  > $WORK_DIR/animal.overall.lst
-
+echo "No of records after reading links"
+wc -l $WORK_DIR/animal.overall.lst
 
 cd ${MAIN_DIR}
 

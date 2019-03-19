@@ -25,9 +25,10 @@ getColmnNrSemicl () {
 ##########################
 
 (cat $WRK_DIR/BSWTypisierungsstatus${oldrun}.txt;
-    cat $WRK_DIR/HOLTypisierungsstatus${oldrun}.txt) > $WORK_DIR/Typisierungsstatuslastimputing.txt
-(cat ${HDD_DIR}/BSWTypisierungsstatus_HD-50K${oldrun}.txt;
-    cat ${HDD_DIR}/HOLTypisierungsstatus_HD-50K${oldrun}.txt) > $WORK_DIR/Typisierungsstatus_HD-50Klastimputing.txt
+    cat $WRK_DIR/HOLTypisierungsstatus${oldrun}.txt;
+    cat $WRK_DIR/VMSTypisierungsstatus${oldrun}.txt;) > $WORK_DIR/Typisierungsstatuslastimputing.txt
+#(cat ${HDD_DIR}/BSWTypisierungsstatus${oldrun}.txt;
+#    cat ${HDD_DIR}/HOLTypisierungsstatus${oldrun}.txt) > $WORK_DIR/Typisierungsstatuslastimputing.txt
 #rm -f ${HIS_DIR}/ReplacedAnimals.${run}.txt
 touch ${HIS_DIR}/ReplacedAnimals.${run}.txt
 cd $LAB_DIR
@@ -92,7 +93,7 @@ echo $labfile
   
   #define Chipdichte
   colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
-  colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD150K | awk '{print $1}')
+  colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ${IMPUTATIONFLAG} | awk '{print $1}')
   incomingdichte=$(awk -v cc=${colDENSITY} -v dd=${colNAME} -v ee=${chip} 'BEGIN{FS=";"}{if( $dd == ee ) print $cc }' ${REFTAB_CHIPS})
   #echo "$idanimal # ${existingDICHTE} # ${incomingdichte} ${chip}"
   #wenn neue incoming chipdichte gleich ist wie existing chipdichte, dann unlink

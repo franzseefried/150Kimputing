@@ -1,0 +1,28 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    FS=" " #separation character
+	}
+{
+    if(FILENAME==ARGV[1]){
+	if(NR>0){
+ 	    sub("\015$","",$(NF)) #avoid CR problem
+	    
+	    TVD[$1]=$2;	#weise $1 auf $5 zu
+	    hs[$1]=$7
+	}
+    }
+    else {
+	sub("\015$","",$(NF));
+	ID="0";
+	ID=TVD[$2]; 
+	haplostat="0";
+        haplostat=hs[$2]
+	if(ID!=""){
+	    print $1" "ID" "$3" "$4" "haplostat
+	}
+    }
+}
+
+
+

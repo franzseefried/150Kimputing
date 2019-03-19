@@ -55,7 +55,7 @@ for labfile in $(ls *toWorkWith) ; do
         bezarg=$(awk -v j=${i} '{FS=";"} {if ($6 == j )print $2}' ${REFTAB_SiTeAr})
         beztyp=$(awk -v j=${i} '{FS=";"} {if ($6 == j )print $5}' ${REFTAB_SiTeAr})
         rasseN=$(awk -v j=${i} '{FS=";"} {if ($6 == j )print $7}' ${REFTAB_SiTeAr})
-        
+        echo "${idd} ; ${bezarg} ; ${beztyp} ; ${rasseN}"
         if [[ "${rasseN}" == *"${breed}"* ]]; then
 #echo $labfile $i good
           $BIN_DIR/awk_codeSingleGenesForARGUS ${SNP_DIR}/einzelgen/argus/glossar/${i}GenotypeInterpretation.txt <(awk -v te=${i} '{if($1 == te) print $2";"$3$4}' ${EINZELGEN_DIR}/${run}/${breed}/${labfile}.single.gene) | awk 'BEGIN{FS=";"}{if($2 != "") print}' >> $ZIELDIR/${idd}.${bezarg}.${heute}.CH.${beztyp}.ImportGenmarker.dat

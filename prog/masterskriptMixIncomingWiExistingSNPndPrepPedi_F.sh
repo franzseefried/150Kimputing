@@ -56,7 +56,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 4
-$BIN_DIR/ableitenTypisierungsstatus.sh $1 2>&1  #> $LOG_DIR/ableitenTypisierungsstatus.log
+$BIN_DIR/ableitenTypisierungsstatus.sh -b $1 -d ${IMPUTATIONFLAG} 2>&1  #> $LOG_DIR/ableitenTypisierungsstatus.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 4"
@@ -76,7 +76,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 6
-$BIN_DIR/checkTiereMitGenotypOhnePedigree.sh $1 2>&1 #> $LOG_DIR/checkTiereMitGenotypOhnePedigree.${1}.log
+$BIN_DIR/checkTiereMitGenotypOhnePedigree.sh -b $1 -d ${IMPUTATIONFLAG} 2>&1 #> $LOG_DIR/checkTiereMitGenotypOhnePedigree.${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 6"
@@ -87,7 +87,7 @@ echo "----------------------------------------------------"
 ##################################
 echo Step 7
 for chden in HD LD; do
-$BIN_DIR/prepareMarkerfilesforPLINKAcrossAllChips.sh $1 ${chden} 2>&1  #> $LOG_DIR/prepareMarkerfilesforPLINKAcrossAllChips.${1}.log
+$BIN_DIR/prepareMarkerfilesforPLINKAcrossAllChips.sh -b $1 -c ${chden} -d ${IMPUTATIONFLAG} 2>&1  #> $LOG_DIR/prepareMarkerfilesforPLINKAcrossAllChips.${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 7"
@@ -101,7 +101,7 @@ echo Step 8
 if [ ${ReadGenotypes} == "A" ]; then
 echo "Read SNPs from Archive: you can go out for a drink. I need several hours"
 for chden in HD LD; do
-nohup $BIN_DIR/fromArchivePrepareGenotypesforPLINKAcrossAllChips.sh $1 ${chden} 2>&1 > $LOG_DIR/prepareGenotypesforPLINKAcrossAllChips.${1}.${chden}.log &
+nohup $BIN_DIR/fromArchivePrepareGenotypesforPLINKAcrossAllChips.sh -b $1 -c ${chden} -d ${IMPUTATIONFLAG} 2>&1 > $LOG_DIR/prepareGenotypesforPLINKAcrossAllChips.${1}.${chden}.log &
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 8"
@@ -113,7 +113,7 @@ fi
 if [ ${ReadGenotypes} == "B" ]; then
 echo "Read SNPs from ${oldrun} binary. -> I'm quite fast :-)"
 for chden in HD LD; do
-nohup $BIN_DIR/fromLastBinariesPrepareGenotypesforPLINKAcrossAllChips.sh $1 ${chden} 2>&1 > $LOG_DIR/prepareGenotypesforPLINKAcrossAllChips.${1}.${chden}.log &
+nohup $BIN_DIR/fromLastBinariesPrepareGenotypesforPLINKAcrossAllChips.sh -b $1 -c ${chden} -d ${IMPUTATIONFLAG} 2>&1 > $LOG_DIR/prepareGenotypesforPLINKAcrossAllChips.${1}.${chden}.log &
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 8"
@@ -126,7 +126,8 @@ echo "----------------------------------------------------"
 sleep 300
 ##################################
 echo Step 9
-$BIN_DIR/waitTillGenotypesHaveBeenPrepared.sh $1 2>&1 #> $LOG_DIR/prepareGenotypesforPLINKAcrossAllChips.${1}.log
+for chden in HD LD; do
+$BIN_DIR/waitTillGenotypesHaveBeenPrepared.sh -b $1 -c ${chden} -d ${IMPUTATIONFLAG} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 9"
@@ -134,10 +135,11 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
+done
 ##################################
 sleep 60
 echo Step 10
-$BIN_DIR/linuxPLINKwiFIXSNP.sh $1 2>&1 #> $LOG_DIR/linuxPLINKwiFIXSNP.${1}.log
+$BIN_DIR/linuxPLINKwiFIXSNP.sh $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 10a"
@@ -148,7 +150,7 @@ echo "----------------------------------------------------"
 ##################################
 echo Step 11
 #fuer imputation accuracy und falls alle frq basier die effektschaetzung laufe soll
-$BIN_DIR/calcAlleleFrq.sh $1 2>&1 #> $LOG_DIR/linuxPLINKwiFIXSNP.${1}.log
+$BIN_DIR/calcAlleleFrq.sh $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 11"
@@ -158,7 +160,7 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 12
-$BIN_DIR/barplotSNPtrend.sh $1 2>&1 #> $LOG_DIR/2bstartePCA.${1}.log
+$BIN_DIR/barplotSNPtrend.sh $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 12"
@@ -169,7 +171,7 @@ echo "----------------------------------------------------"
 ##################################
 if [ ${1} == "BSW" ] || [ ${1} == "HOL" ]; then
 echo Step 13
-$BIN_DIR/prepareMatingsForRiskMatingPlot.sh -b $1 2>&1 #> $LOG_DIR/2bstartePCA.${1}.log
+$BIN_DIR/prepareMatingsForRiskMatingPlot.sh -b $1 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 13"

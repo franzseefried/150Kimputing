@@ -100,12 +100,12 @@ done
 
 
 #add snps that are in the system but which are , delete den chip1 von oben
-colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ImputationDensityLD150K | awk '{print $1}')
+colDENSITY=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep ${IMPUTATIONFLAG} | awk '{print $1}')
 colNAME=$(head -1 ${REFTAB_CHIPS} | tr ';' '\n' | cat -n | grep QuagCode | awk '{print $1}')
 CHIPS=$(awk -v cc=${colDENSITY} -v dd=${colNAME} 'BEGIN{FS=";"}{if( $cc == "HD" ) print $dd }' ${REFTAB_CHIPS} | sed "s/${ncONE}//g")
 lgtC=$(echo ${CHIPS} | wc -w | awk '{print $1}')
 if [ ${lgtC} -eq 0 ]; then
-  echo "keie Chips angegeben in ${REFTAB_CHIPS} in Kolonne ImputationDensityLD150K "
+  echo "keie Chips angegeben in ${REFTAB_CHIPS} in Kolonne ${IMPUTATIONFLAG} "
   exit 1
 fi
 echo $CHIPS
