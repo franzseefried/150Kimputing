@@ -114,7 +114,7 @@ numberOfParallelHAPLOTYPEJobs=10
 #No of parallel SingleGeneImputation jobs 
 numberOfParallelSIGEIMPJobs=5
 #Parameter No of parallel mehdi jobs (Fimpute / SNP1101)
-numberOfParallelMEHDIJobs=25
+numberOfParallelMEHDIJobs=30
 #$(eval nproc|awk '{printf "%.0f", ($1/2)+0.5}' | awk '{print $1}')
 #30
 #Maildresse zwsteam###########################

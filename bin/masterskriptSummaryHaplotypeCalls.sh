@@ -52,20 +52,6 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
-if [ ${HDfollows} == "Y" ]; then
-echo "Baue Startfile fuer HDimputing auf $1"
-$BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh ${b} 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 3"
-        $BIN_DIR/sendErrorMail.sh $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh $1
-        exit 1
-fi
-else
-echo "Prep for HDimputation does NOT follow since Parameter HDfollows was set to ${HDfollows}"
-fi
-echo "----------------------------------------------------"
-##################################
 echo Step 5
 $BIN_DIR/sendFinishingMailWOarg2.sh ${SCRIPT} 2>&1
 err=$(echo $?)

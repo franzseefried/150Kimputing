@@ -8,7 +8,7 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
-numberOfParallelMEHDIJobs=$(eval nproc|awk '{printf "%.0f", ($1/2)+0.5}' | awk '{print $1}')
+#numberOfParallelMEHDIJobs=$(eval nproc|awk '{printf "%.0f", ($1/2)+0.5}' | awk '{print $1}')
 
 
 ### # function for reporting on console
@@ -99,8 +99,8 @@ fi
 set -o errexit
 set -o nounset
 
-echo "running runFimpute BTA ${BTA} for breed ${impacc}${breed}:"
-echo ${numberOfParallelMEHDIJobs}
+echo "running runFimpute BTA ${BTA} using ${numberOfParallelMEHDIJobs} No. of threads for breed ${impacc}${breed}:"
+
 
 
 (echo "title=\"${BTA} Imputation for ${impacc}${breed}\";"

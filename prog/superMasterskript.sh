@@ -164,7 +164,12 @@ echo "----------------------------------------------------"
 fi
 ##################################
 echo Step 12
-$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} N 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
+if [ ${1} == "BSW" ] || [ ${1} == "HOL" ] ; then
+MitEinzelgen=Y
+else
+MitEinzelgen=N
+fi
+$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} ${MitEinzelgen} 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler superMasterskript 12"
@@ -172,6 +177,7 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
+
 ##################################
 #this step is additional and helpfull when you want to clarify unclear MGS issues
 echo Step 13
@@ -185,23 +191,31 @@ fi
 echo "----------------------------------------------------"
 ##################################
 if [ ${1} != "VMS" ] && [ ${HDfollows} == "Y" ]; then
-echo Step 18 *****°°°°°Run HD Imputation via superMasterskript°°°°°*****
-cd ${secondIMPUTATIONDIR}
-nohup prog/superMasterskript.sh ${1} 2>&1 > log/superMasterskript_${1}.log &
-cd ${MAIN_DIR}
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
+  echo "Baue Startfile fuer HDimputing auf $1"
+  $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh ${b} 2>&1
+  err=$(echo $?)
+  if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 3"
+        $BIN_DIR/sendErrorMail.sh $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh $1
+        exit 1
+  fi
+  echo Step 14 *****°°°°°Run HD Imputation via superMasterskript°°°°°*****
+  cd ${secondIMPUTATIONDIR}
+  nohup prog/superMasterskript.sh ${1} 2>&1 > log/superMasterskript_${1}.log &
+  cd ${MAIN_DIR}
+  err=$(echo $?)
+  if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 18"
         $BIN_DIR/sendErrorMail.sh ${secondIMPUTATIONDIR} prog/superMasterskript.sh $1
         exit 1
-fi
-echo "----------------------------------------------------"
-else
-echo " "
-echo "No second imputation will follow"
+  fi
+  echo "----------------------------------------------------"
+  else
+  echo " "
+  echo "No second imputation will follow"
 fi
 ##################################
-echo Step 14
+echo Step 15
 $BIN_DIR/sendFinishingMailWOarg2.sh ${PROG_DIR}/${SCRIPT}
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then

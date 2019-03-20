@@ -9,13 +9,46 @@ lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 set -o errexit
+#define function to chek when parallel jobs are ready
+
+PRLLRUNcheck () {
+#echo ${1};
+existshot=N
+existresult=Y
+while [ ${existshot} != ${existresult} ]; do
+if test -s ${1}  ; then
+RIGHT_NOW=$(date +"%x %r %Z")
+existshot=Y
+fi
+done
+
+
+#echo "file to check  ${1}  exists ${RIGHT_NOW}, check if it is ready"
+shotcheck=same
+shotresult=unknown
+current=$(date +%s)
+while [ ${shotcheck} != ${shotresult} ]; do
+ lmod=$(stat -c %Y ${1} )
+ RIGHT_NOW=$(date +"%x %r %Z")
+ #echo $current $lmod
+ if [ ${lmod} > 120 ]; then
+    shotresult=same
+    #echo "${1} is ready now ${RIGHT_NOW}"
+ fi
+done
+
+}
+
+
+##############################################################
+
 
 if [ -z $1 ]; then
     echo "brauche den Code fuer die Rasse: BSW oder HOL oder VMS "
     exit 1
 elif [ $1 == 'BSW' ] || [ $1 == 'HOL' ]  || [ $1 == 'VMS' ]; then
 set -o nounset
-    breed=$(echo "$1")
+breed=$(echo "$1")
 
 
 #test if current system is identical with previous system
@@ -94,46 +127,97 @@ fi
 #sicherstellen dass jedes Tier nur 2x drin ist
     awk '{print $1}' $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} | sort | uniq -c | awk '{if($1 != 2) print $2,"N"}' > $TMP_DIR/${breed}LD.rm.tiere
     if ! test -s $TMP_DIR/${breed}LD.rm.tiere ;then
-       sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} > $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} 
+       sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr  $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} > $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} 
     else
        awk 'BEGIN{FS=" ";OFS=" "}{ \
          if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));ID[$1]=$2;}} \
          else {sub("\015$","",$(NF));FIMID=ID[$1]; \
-         if   (FIMID == "") {print $0}}}' $TMP_DIR/${breed}LD.rm.tiere $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr >  $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+         if   (FIMID == "") {print $0}}}' $TMP_DIR/${breed}LD.rm.tiere $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} |  sort -T ${SRT_DIR} -t' ' -k1,1 -k2,2nr >  $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
     fi
     
 
-    #run R here:
+    #run R here
+    wc -l $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
     rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.out
-    Rscript $BIN_DIR/readAndCompareFimputeResult_lineBYline.R ${PAR_DIR}/steuerungsvariablen.ctr.sh $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+    #aufteilen auf ${numerOfParallelRjobs} ACHTUNG geteilt durch 2, da jedes Tier 2x drin ist
+    noofpairs=$(wc -l $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} | awk '{print $1/2}')
+    noofani=$(wc -l $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun} | awk '{print $1}')
+    #achtung trick: immer + 0.5 damit immer auf die nachste ganzzahl aufgerundet wird und hier x2 da immer paare gelesen werden muessen
+    nAniPerRun=$(echo ${noofpairs} ${numberOfParallelRJobs} | awk '{printf "%.0f", (($1/$2)+0.5)}' | awk '{print $1*2}')
+    echo ${noofpairs} ${numberOfParallelRJobs} ${nAniPerRun}
+    n=0;
+    z=$(echo ${n} ${nAniPerRun} | awk -v m=${nAniPerRun} '{print 1+($1*m)}')
+    #pids=
+    #echo $z $noofani;
+    while [ ${noofani} -gt ${z} ] ; do
+       #echo "now starting ${n} loop";
+       startRow=$(echo "1 ${n} ${nAniPerRun}" | awk '{print $1+($2*$3)}')
+       endRow=$(echo "${n} 1 ${nAniPerRun}" | awk '{print ($1+$2)*$3}')
+       echo $n $startRow $endRow;
+       #cut the SNPs here using an script running in parallel for samples
+       nohup ${BIN_DIR}/readAndCompareFimputeResult_lineBYline.sh ${breed} ${startRow} ${endRow} ${n} ${vglfile} 2>&1 > $LOG_DIR/${SCRIPT}.${breed}.${n}.log  &
+       #pid=$!
+       #pids=(${pids[@]} $pid)
+       #echo ${pids[@]}
+       #update n and z
+       n=$(echo $n | awk '{print $1+1}')
+       z=$(echo ${n} ${nAniPerRun} | awk -v m=${nAniPerRun} '{print 1+($1*m)}')
+    done
+
+    echo " "
+    sleep 30;
+   #echo "Here ar the jobids of the stated Jobs"
+   #echo ${pids[@]}
+   #nJobs=$(echo ${pids[@]} | wc -w | awk '{print $1}')
+   #echo "Waiting till R jobs are finished"
+   #while [ $nJobs -gt 0 ]; do
+   #  pids_old=${pids[@]}
+   #  pids=
+   #  nJobs=0
+   #  for pid in ${pids_old[@]}; do
+   #    if kill -0 $pid > /dev/null 2>&1; then # kill -0 $pid ist true falls der Job noch laeuft
+   #      nJobs=$(($nJobs+1))
+   #      pids=(${pids[@]} $pid)
+   #    fi
+   #  done
+   #  sleep 30
+   #done
+   #echo "R Jobs are finished"
+    echo "check now if outfiles are ready"
+    for np in $(seq 0 $(echo "${n} 1" | awk '{print $1-$2}')); do
+        PRLLRUNcheck $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.${np}.out
+    done
+
+    echo " "
+    echo "collect all files from parallel runs now"
+    cat $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.[0-9]*.out  > $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.out
+
 
     (echo "Tier Run NdiffSNP_${run}_-_${oldrun} currentITBbreed currentAni_race_id Kurzname";
        sort -T ${SRT_DIR} -t' ' -k1,1 $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.out |\
        join -t' ' -o'1.1 1.2 1.3 2.2 2.4 2.3' -1 1 -2 1 -a1 -e'-' - <(awk '{ sub("\r$", ""); print }' $WORK_DIR/animal.overall.info | cut -d';' -f2,3,4,11 | sed 's/ //g' | tr ';' ' ' | awk '{print $1,substr($2,1,3),$3,$4}' | sort -T ${SRT_DIR} -t' ' -k1,1) |\
        sort -T ${SRT_DIR} -t' ' -k3,3nr  ) > $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst
 
-    echo "Check list $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst:"
-    echo "here are the top bad samples for ${vglfile}:"
-    nbad=$(awk -v BAD=${thresholdToBeBad} '{if($3 > BAD) print $1}' $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst | wc -l | awk '{print $1}' )
-    if [ ${nbad} -gt 10 ]; then
-       echo "Es gibt ${nbad} ${vglfile} Tiere mit mehr als ${readableProb}% GenotypMutationen im Vergleich zur ${oldrun} Imputation:"
-       nnbad=$(echo ${nbad} | awk '{print $1+5}')    
-       head -${nnbad}  $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst | awk '{printf "%-20s%-10s%+15s%+20s%+30s%+30s\n", $1,$2,$3,$4,$5,$6}'
-    else
-       echo "Es gibt mehr als 11 ${vglfile} Tiere mit mehr als ${readableProb}% GenotypMutationen im Vergleich zur ${oldrun} Imputation:"
-       head $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst | awk '{printf "%-20s%-10s%+15s%+20s%+30s%+30s\n", $1,$2,$3,$4,$5,$6}'
-    fi
-    rm -f $HIS_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+
+    nbad=$(awk -v BAD=${thresholdToBeBad} '{if($3 > BAD) print $1}' $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst | wc -l | awk '{print $1-1}' )
+    echo "Es hat ${nbad} ${vglfile} Tiere mit mehr als ${readableProb}% GenotypMutationen im Vergleich zur ${oldrun} Imputation $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst:" 
+    awk -v BAD=${thresholdToBeBad} '{if($3 > BAD) print $0}' $RES_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.lst  | awk '{printf "%-20s%-10s%+15s%+20s%+30s%+30s\n", $1,$2,$3,$4,$5,$6}'
+    echo " "
+    #wc -l $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.[0-9]*.out 
+    #wc -l $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.[0-9]
+    #wc -l $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.[0-9][0-9]
+    rm -f $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}.[0-9]*.out  
+    rm -f $CMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}*
     rm -f $CMP_DIR/${breed}.RUN${old3run}.result.${vglfile}.TVD
     done
  
-   rm -f $TMP_DIR/${breed}id1id2.reftab
-   rm -f $TMP_DIR/${breed}.imputierteLDtiere.schnittmenge
-   rm -f $TMP_DIR/${breed}.imputierteHDtiere.schnittmenge
-   rm -f $TMP_DIR/${breed}.imputierteUNGENOTYPEDtiere.schnittmenge
-   rm -f $TMP_DIR/${breed}.result.[0-9]
-   rm -f $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
-   rm -f $TMP_DIR/${breed}LD.rm.tiere
+    rm -f $TMP_DIR/${breed}id1id2.reftab
+    rm -f $TMP_DIR/${breed}.imputierteLDtiere.schnittmenge
+    rm -f $TMP_DIR/${breed}.imputierteHDtiere.schnittmenge
+    rm -f $TMP_DIR/${breed}.imputierteUNGENOTYPEDtiere.schnittmenge
+    rm -f $TMP_DIR/${breed}.result.[0-9]
+    rm -f $TMP_DIR/${breed}.IMPresult.${vglfile}.compare.RUN${run}.vs.RUN${oldrun}
+    rm -f $TMP_DIR/${breed}LD.rm.tiere
     
 else
     echo "komischer breedcode :-("
