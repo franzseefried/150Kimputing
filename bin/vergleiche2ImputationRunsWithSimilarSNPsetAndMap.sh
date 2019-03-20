@@ -22,21 +22,23 @@ existshot=Y
 fi
 done
 
-
+#https://unix.stackexchange.com/questions/49449/how-to-know-if-a-file-has-been-written-completely
 #echo "file to check  ${1}  exists ${RIGHT_NOW}, check if it is ready"
 shotcheck=same
 shotresult=unknown
 current=$(date +%s)
 while [ ${shotcheck} != ${shotresult} ]; do
- lmod=$(stat -c %Y ${1} )
- RIGHT_NOW=$(date +"%x %r %Z")
+# check if the file has been written a minimum of 3 minutes before
+ for f in $(find ${1} -type f -mmin +5); do
+# lmod=$(stat -c %Y ${1} )#
+# RIGHT_NOW=$(date +"%x %r %Z")
  #echo $current $lmod
- if [ ${lmod} > 120 ]; then
+# if [ ${lmod} > 120 ]; then
     shotresult=same
-    #echo "${1} is ready now ${RIGHT_NOW}"
- fi
+   # echo "${1} is ready now ${RIGHT_NOW}"
+ #fi
 done
-
+done
 }
 
 
