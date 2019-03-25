@@ -7,7 +7,8 @@ echo " "
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
-
+set -o errexit
+set -o nounset
 
 
 ${BIN_DIR}/archivierung.sh

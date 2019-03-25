@@ -2,10 +2,10 @@
 firstIMPUTATIONDIR=""
 secondIMPUTATIONDIR=/qualstorzws01/data_zws/snp/1000Kimputing
 #change GeneSeeks NEWDATA######################################
-GeneSeekdata_LD="Qualitas_BOVG50V02_20190311,Qualitas_BOVG50V02_20190308,Qualitas_BOVG50V02_20190307,Qualitas_BOVG50V02_20190306,Qualitas_BOVG50V02_20190304"
+GeneSeekdata_LD=""
 GeneSeekdata_F250V1=""
-GeneSeekdata_150K="Qualitas_BOVUHDV03_20190314,Qualitas_BOVUHDV03_20190310,Qualitas_BOVUHDV03_20190307"
-GeneSeekdata_850K="Qualitas_BOV770V01_20190307"
+GeneSeekdata_150K=""
+GeneSeekdata_850K=""
 GeneSeekdata_50K=""
 GeneSeekdata_80K=""
 # dbsystem benoetigt fuer pedigree-export
@@ -13,33 +13,33 @@ dbsystem=rapid
 #von wo sollen die historischen Genotypen gelesen werden: Archiv "A" oder die binearies aus dem oldrun "B". B is much faster
 ReadGenotypes=B
 #Runshortcuts
-old10run=2518
-old9run=2618
-old8run=2718
-old7run=2818
-old6run=2918
-old5run=0119
-old4run=0219
-old3run=0319
-old2run=0419
-oldrun=0519
+old10run=2618
+old9run=2718
+old8run=2818
+old7run=2918
+old6run=0119
+old5run=0219
+old4run=0319
+old3run=0419
+old2run=0519
+oldrun=0619
 #Imputation run MMYY
-run=0619
+run=0719
 #Datum Pedigree Abzug SHB und BVCH############################
-DatPEDIshb=20190315
-DatPEDIbvch=20190315
-DatPEDIvms=20190318
+DatPEDIshb=20190319
+DatPEDIbvch=20190321
+DatPEDIvms=20190321
 DatPEDIjer=20190315
 #shzv pedi: Names muss auf .txt enden!!!
-pedigreeSHZV=Ped_EGcom-20190315.txt
-blutfileSHZV=Rac_EGcom-20190315.txt
+pedigreeSHZV=Ped_EGcom-20190321.txt
+blutfileSHZV=Rac_EGcom-20190321.txt
 #Maildresse or responsible employee###########################
 MAILACCOUNT=franz.seefried@qualitasag.ch
 ##############################################################
 #folgt eine Effektschaetzung Y fuer yes, N fuer no############
 EFFESTfollows=N
 #Mailversand gegenueber Zuchtverband: normal Y, ausser z.b. in Testruns: N
-sendMails=N
+sendMails=Y
 #In case GWAS / Homozygosoty mapping / Lethal HPL analysis is used################
 #type of GWAS phenotype QUANTITATIVE or BINARY are allowed
 GWASPHEN=BINARY
@@ -107,7 +107,7 @@ gnrmcoeffTWINS=0.90
 #sign for sample pair selections EQABOVE fuer >=, BELOW fuer <, dann werden alle Tiere der elementzone selektiert die entweder drueber oder unter der gnrmcoeff liegen
 gnrmzone=EQABOVE
 #No of parallel R jobs fuer Eingangskontrolle
-numberOfParallelRJobs=35
+numberOfParallelRJobs=30
 #$(eval nproc|awk '{print $1-2}')
 #No of parallel Haplotyping jobs 
 numberOfParallelHAPLOTYPEJobs=10
@@ -143,7 +143,7 @@ crossreffileMV=Samplesheet_${oldrun}.txt
 crossreffile=Samplesheet_${run}.txt
 REFTAB_FiRepTest=/qualstorzws01/data_zws/snp/einzelgen/argus/glossar/GeneSeekSingleTestsInFinalReport.txt
 REFTAB_SiTeAr=/qualstorzws01/data_zws/snp/150Kimputing/parfiles/ReftabGenmarkerArgus.txt
-REFTAB_CHIPS=/qualstorzws01/data_zws/parameterfiles/CDCBchipCodes1seq.lst
+REFTAB_CHIPS=/qualstorzws01/data_zws/parameterfiles/CDCBchipCodes.lst
 ISAGPARENTAGESBOLIST=/qualstorzws01/data_zws/parameterfiles/GenoEx-PSE_SNP_List_Details_withOwnSNPnames.csv
 CLLRT=0.948
 HTRT=0.45

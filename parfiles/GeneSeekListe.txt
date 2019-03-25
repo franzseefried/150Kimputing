@@ -1,6 +1,6 @@
-GeneSeekdata_LD="Qualitas_BOVG50V02_20190318"
+GeneSeekdata_LD="Qualitas_BOVG50V02_20190321,Qualitas_BOVG50V02_20190320,Qualitas_BOVG50V02_20190318"
 GeneSeekdata_F250V1=""
-GeneSeekdata_150K=""
+GeneSeekdata_150K="Qualitas_BOVUHDV03_20190321"
 GeneSeekdata_850K=""
 GeneSeekdata_50K=""
 GeneSeekdata_80K=""

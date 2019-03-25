@@ -31,7 +31,7 @@ if [ $NUMARGS -lt 0 ]  ; then
   usage 'No command line arguments specified'
 fi
 
-while getopts :b:d:v: FLAG; do
+while getopts :b:d: FLAG; do
   case $FLAG in
     b) # set option "b"
       export breed=$(echo $OPTARG | awk '{print toupper($1)}')
@@ -53,10 +53,6 @@ while getopts :b:d:v: FLAG; do
       ;;
     d) # set option "s"
       export snp=$(echo $OPTARG)
-      ;;
-
-    v) # set option "s"
-      export crossval=$(echo $OPTARG| awk '{print toupper($1)}')
       ;;
 
     *) # invalid command line arguments

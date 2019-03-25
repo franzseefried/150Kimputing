@@ -35,7 +35,7 @@ $LOG_DIR/${1}.LogScreening.${run}.log
 
 since relevant information from $LOG_DIR is collected inside of this file.
 
-2) !!!Be Happy!!!... since you have achieved to finish 50Kimputing.
+2) !!!Be Happy!!!... since you have achieved to finish 150Kimputing.
 
 
 echo " "

@@ -189,7 +189,7 @@ echo "write summary complete"
 
 
 rm -f $TMP_DIR/${breed}.startanimallst.chips
-#rm -f $TMP_DIR/Run${run}.${breed}.chipmax
+rm -f $TMP_DIR/Run${run}.${breed}.chipmax
 rm -f $TMP_DIR/Run${run}.alleIDS_${breed}.txt
 fi
 

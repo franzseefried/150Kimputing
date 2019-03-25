@@ -1,5 +1,5 @@
 logFile            '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/renumPedLog'
-pediFile                  '/qualstore03/data_zws/pedigree/work/rh/UpdatedRenumMergedPedi_20190315.txt'
+pediFile                  '/qualstore03/data_zws/pedigree/work/rh/UpdatedRenumMergedPedi_20190319.txt'
 missingTVDIDCode          UUUUUUUUUUUUUU
 skipTiereMitFehlerhaftemGeburtsdatum    NO
 fehlerhaftePediRecFile    '/qualstorzws01/data_tmp/zws/snp/150Kimputing/tmp/cdh.fehPedRec'

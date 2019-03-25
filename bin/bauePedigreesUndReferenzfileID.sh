@@ -34,7 +34,7 @@ for breed in ${1}; do
 	    echo fehldendeElternFile /qualstore03/data_zws/pedigree/work/${rasse}/FehlendeEltern.txt  | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
 	    echo diffRrtdmPediItbPediFile /qualstore03/data_zws/pedigree/work/${rasse}/Diff_RRTDMPedi_ITBPedi.txt  | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
 	    echo missingTVDIDCode UUUUUUUUUUUUUU
-	    echo listeTiereFuerPedigree /qualstore03/data_tmp/zws/snp/50Kimputing/work/genotypisiert.itbid.${breed}  | sed "s/ \// \'\//g" | sed "s/\.BSW/\.BSW\'/g"
+	    echo listeTiereFuerPedigree ${WORK_DIR}/genotypisiert.itbid.${breed}  | sed "s/ \// \'\//g" | sed "s/\.BSW/\.BSW\'/g"
 	    echo idTypInListeTiereFuerPedigree itbid16
 	    echo nGenerationen 40
 	    echo mergedPediFile /qualstore03/data_zws/pedigree/work/${rasse}/mergedPedi_${DatPEDIbvch}.txt  | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
@@ -90,7 +90,7 @@ for breed in ${1}; do
 	    echo fehldendeElternFile /qualstore03/data_zws/pedigree/work/${rasse}/FehlendeEltern.txt  | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
 	    echo diffRrtdmPediItbPediFile /qualstore03/data_zws/pedigree/work/${rasse}/Diff_RRTDMPedi_ITBPedi.txt  | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
 	    echo missingTVDIDCode UUUUUUUUUUUUUU
-	    echo listeTiereFuerPedigree /qualstore03/data_tmp/zws/snp/50Kimputing/work/genotypisiert.itbid.${breed}  | sed "s/ \// \'\//g" | sed "s/\.HOL/\.HOL\'/g"
+	    echo listeTiereFuerPedigree ${WORK_DIR}/genotypisiert.itbid.${breed}  | sed "s/ \// \'\//g" | sed "s/\.HOL/\.HOL\'/g"
 	    echo idTypInListeTiereFuerPedigree itbid16
 	    echo nGenerationen 40
 	    echo uGAltersdifferenzElterNk 268
@@ -153,7 +153,7 @@ for breed in ${1}; do
 		echo sexFehlerFile  /qualstore03/data_zws/pedigree/work/${rasse}/geschlechtsfehler_imp_${rasse}.txt | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
 		echo altersdiskrepanzenFile /qualstore03/data_zws/pedigree/work/${rasse}/altersdiskrepanzen_imp_${rasse}.txt | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
 		echo fehldendeElternFile  /qualstore03/data_zws/pedigree/work/${rasse}/fehlendeEltern_imp_${rasse}.txt | sed "s/ \// \'\//g" | sed "s/\.txt/\.txt\'/g"
-		echo listeTiereFuerPedigree /qualstore03/data_tmp/zws/snp/50Kimputing/work/genotypisiert.itbid.${breed}   | sed "s/ \// \'\//g" | sed "s/\.VMS/\.VMS\'/g"
+		echo listeTiereFuerPedigree ${WORK_DIR}/genotypisiert.itbid.${breed}   | sed "s/ \// \'\//g" | sed "s/\.VMS/\.VMS\'/g"
 		echo idTypInListeTiereFuerPedigree itbid16
                 echo nGenerationen 40
                 echo uGAltersdifferenzElterNk 268

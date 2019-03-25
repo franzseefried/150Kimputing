@@ -49,34 +49,41 @@ if  [ ${ort} == "Darwin" ]; then
    $BIN_DIR/sendErrorMail.sh ${SCRIPT} $1
 elif [ ${ort} == "Linux" ]; then
 ##################################
-echo "Keyoutput from 7 for $1" > $WRK_DIR/${1}.LogScreening.${run}.log
+echo "#########################################################" > $WRK_DIR/${1}.LogScreening.${run}.log
+echo "Keyoutput from 7 for $1" >> $WRK_DIR/${1}.LogScreening.${run}.log
 cat $LOG_DIR/7masterskriptFimputeRunStandard_${1}.log | grep -v "nohup" | grep -v "file to check" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Keyoutput from SumUpComparison for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
 cat $LOG_DIR/${1}.SumUpComparison.log >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
-echo "Keyoutput from NewSameplSummary for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "Keyoutput from NewSamepleSummary for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
 cat $LOG_DIR/${1}.NewSampleSummary.log >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Keyoutput from FastCheckLOGfirectory for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
 $BIN_DIR/fastCheckLOGdirectory.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 if [ ${2} == "Y" ]; then
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Keyoutput from fastCheckSingleLocusHaplotyping for ${1} " >> $WRK_DIR/${1}.LogScreening.${run}.log
 $BIN_DIR/fastCheckSingleLocusHaplotyping.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 fi
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "count no of Result-Records comparing last two runs:" >> $WRK_DIR/${1}.LogScreening.${run}.log
 wc -l $HIS_DIR/${1}.RUN${oldrun}.IMPresult.tierlis >> $WRK_DIR/${1}.LogScreening.${run}.log
 wc -l $HIS_DIR/${1}.RUN${run}.IMPresult.tierlis >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Overview about Genotypes of single markers that will be stored in ARGUS" >> $WRK_DIR/${1}.LogScreening.${run}.log
 if [ "$(ls -A $DEUTZ_DIR/${zodr}/dsch/in/${run})" ]; then
 for filee in $(ls $DEUTZ_DIR/${zodr}/dsch/in/${run}/*.dat); do 
@@ -87,6 +94,7 @@ echo "directory $DEUTZ_DIR/${zodr}/dsch/in/${run} is empty ---> check" >> $WRK_D
 fi
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Count proportion of NULL and NOTOK results for each samplesheet:" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "Note: samples included in second youngest file in ${WRK_DIR}/previousSamplesheets without result will be feedbacked by NEW SAMPLE REQUIRED" >> $WRK_DIR/${1}.LogScreening.${run}.log
 for ifile in $(ls ${WRK_DIR}/previousSamplesheets/*.txt);do

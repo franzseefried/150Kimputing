@@ -7,7 +7,7 @@ date
 
 ##############################################################
 lokal=$(pwd | awk '{print $1}')
-source  /qualstore03/data_zws/snp/50Kimputing/parfiles/steuerungsvariablen.ctr.sh
+source  /qualstore03/data_zws/snp/150Kimputing/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 
 if [ -z $1 ]; then

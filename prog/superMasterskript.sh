@@ -118,6 +118,25 @@ if [ ${err} -gt 0 ]; then
 fi
 echo "----------------------------------------------------"
 ##################################
+echo Step 8b
+MitEinzelgen=N
+$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} ${MitEinzelgen} 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler superMasterskript 8b"
+        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptScreenLogfilesFast.sh ${1}
+        exit 1
+fi
+echo "----------------------------------------------------"
+$BIN_DIR/sendInfoMailToStartPrediction.sh 2>&1
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 8b"
+        $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/sendInfoMailToStartPrediction.sh
+        exit 1
+fi
+echo "----------------------------------------------------"
+##################################
 if [ ${1} == "BSW" ] || [ ${1} == "HOL" ] ; then
 echo Step 9
 nohup $PROG_DIR/masterskriptFimputeRunExplicit.sh ${1} 2>&1 > ${LOG_DIR}/9masterskriptFimputeRunExplicit_${1}.log 2>&1 &
@@ -177,7 +196,6 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-
 ##################################
 #this step is additional and helpfull when you want to clarify unclear MGS issues
 echo Step 13
@@ -192,7 +210,7 @@ echo "----------------------------------------------------"
 ##################################
 if [ ${1} != "VMS" ] && [ ${HDfollows} == "Y" ]; then
   echo "Baue Startfile fuer HDimputing auf $1"
-  $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh ${b} 2>&1
+  $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh ${1} 2>&1
   err=$(echo $?)
   if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 3"

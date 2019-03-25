@@ -79,7 +79,7 @@ if [ ${breed} == "VMS" ]; then
 fi
 
 #define last imputation timestamp
-#TimeStampLastImp=$(stat -c "%y" /qualstore03/data_archiv/zws/50Kimputing/${oldrun}/binaryfiles | awk '{print $1}' | sed 's/\-//g')
+#TimeStampLastImp=$(stat -c "%y" /qualstore03/data_archiv/zws/150Kimputing/${oldrun}/binaryfiles | awk '{print $1}' | sed 's/\-//g')
 TimeStampLastImp=$(stat -c "%y" $WRK_DIR/Run${oldrun}.alleIDS_${breed}.txt  | awk '{print $1}' | sed 's/\-//g')
 
 #idUmcodierung idanimal zu PediID

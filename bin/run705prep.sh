@@ -4,7 +4,7 @@ SCRIPT=`basename ${BASH_SOURCE[0]}`
 echo $RIGHT_NOW Start ${SCRIPT}
 echo " "
 ##############################################################
-cd /qualstore03/data_zws/snp/50Kimputing
+cd /qualstore03/data_zws/snp/150Kimputing
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
