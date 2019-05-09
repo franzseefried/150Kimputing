@@ -260,8 +260,9 @@ echo "check no of SNPs being uniq within labfile"
 SNPnUNIQ=$(awk '{if(NR > 1) print $2}' $CHCK_DIR/${run}/nSNPs.check.${labfile} | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR | wc -l | awk '{print $1}' )
 if [ ${SNPnUNIQ} != 1 ]; then
 echo " "
-echo "OOOPS $labfile includes samples which differ interms of No. of SNPs. This is not allowed: reject labfile and order new one in the lab"
-$BIN_DIR/sendAttentionMailAboutNoSNPsCheck.sh ${labfile}
+echo "OOOPS $labfile includes samples which differ in terms of No. of SNPs. This is not allowed: reject labfile and order new one in the lab"
+$MAIN_DIR/bin/sendAttentionMailAboutNoSNPsCheck.sh ${labfile}
+exit 1
 fi
 
 #########################################################

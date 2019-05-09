@@ -215,7 +215,7 @@ fi
 done
 done
 
-cd ${lokal}
+cd ${MAIN_DIR}
 echo " "
 RIGHT_END=$(date )
 echo $RIGHT_END Ende ${SCRIPT}

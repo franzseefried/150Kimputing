@@ -19,7 +19,9 @@ join -t' ' -o'1.1 1.2 1.3 2.2' -1 1 -2 1 - <(sort -t' ' -k1,1 $RES_DIR/RUN${run}
 sort -t' ' -k1,1 |\
 join -t' ' -o'1.1 1.2 1.3 1.4 2.2' -1 1 -2 1 - <(sort -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.MC1R.Fimpute.SVM) |\
 sort -t' ' -k1,1 |\
-join -t' ' -o'1.1 1.2 1.3 1.4 1.5' -1 1 -2 1 - <(awk 'BEGIN{FS=";"}{if($5 > 0.000) print $2" m"}' $TMP_DIR/${breed}.Blutanteile.mod | sort -t' ' -k1,1) |\
+join -t' ' -o'1.1 1.2 1.3 1.4 1.5 2.2' -1 1 -2 1 - <(sort -t' ' -k1,1 $RES_DIR/RUN${run}${breed}.3bpDelPMELFALB.Fimpute.HAPLOTYPE) |\
+sort -t' ' -k1,1 |\
+join -t' ' -o'1.1 1.2 1.3 1.4 1.5 1.6' -1 1 -2 1 - <(awk 'BEGIN{FS=";"}{if($5 > 0.000) print $2" m"}' $TMP_DIR/${breed}.Blutanteile.mod | sort -t' ' -k1,1) |\
 awk '{if      ($2 >= 1)                                   print $0,"variantred RED RH";
       else if ($2 == 0 && $3 <= 1 && $4 >= 0 && $5 == 0)  print $0,"black HOL HO";
       else if ($2 == 0 && $3 <= 1 && $4 >= 0 && $5 >= 0)  print $0,"black HOL RF";
@@ -28,7 +30,10 @@ awk '{if      ($2 >= 1)                                   print $0,"variantred R
       else if ($2 == 0 && $3 == 2 && $4 == 0 && $5 == 0)  print $0,"redwild RED RH";
       else if ($2 == 0 && $3 == 2 && $4 == 0 && $5 == 1)  print $0,"redwild RED RH";
       else if ($2 == 0 && $3 == 2 && $4 == 0 && $5 == 2)  print $0,"red RED RH";
-      else                                                print $0,"--- HOL --"}' )      > $RES_DIR/${breed}.PhenotypePrediction.CoatColour.txt
+      else                                                print $0,"--- HOL --"}' |\
+awk '{if($6 == 0) print $0,"fullcolour";
+      else if ($6 == 1) print $0,"diluted1";
+      else if ($6 == 2) print $0,"diluted2"}' )      > $RES_DIR/${breed}.PhenotypePrediction.CoatColour.txt
 
 
 

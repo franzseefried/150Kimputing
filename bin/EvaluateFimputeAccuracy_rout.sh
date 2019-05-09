@@ -198,21 +198,8 @@ awk 'NR>2 {print ((0.5*$5)+$6)*2}' $sta_c > ${TMP_DIR}/genecont.eval.${breed}.tx
 (echo "MAF"; awk 'NR>2 {print $8}' $sta_c) > ${TMP_DIR}/maf.eval.${breed}.txt
 (echo "MAF"; awk 'NR>2 {print $8}' $sta_c) > ${TMP_DIR}/maf_all.eval.${breed}.txt
 
-echo "# PARAMETER FILE    ">${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "NumAnim             $nanim">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "NumMarker           $nsnp">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "LogFile             '${TMP_DIR}/${breed}.eval.all.EvaluateFimputeOutput.log'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "In_Val_truegeno     '${TMP_DIR}/TrueGeno.eval.scen.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "In_Val_impgeno      '${TMP_DIR}/ImpGeno.eval.scen.${breed}.txt '">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "In_MAF              '${TMP_DIR}/maf.eval.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "In_MAF_ALL          '${TMP_DIR}/maf_all.eval.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "In_GeneContent      '${TMP_DIR}/genecont.eval.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "In_SNPInfo          '${info_c}'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "Out_CorrelationFile '${RES_DIR}/${breed}.eval.all.Ind_correlations.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "Out_CorrFileMAF '${RES_DIR}/${breed}.eval.all.MAF_correlations.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-echo "Out_CorrSNP                 '${RES_DIR}/${breed}.eval.all.SNP_correlations.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
 		
-${BIN_DIR}/EvalAnyFimptoFimp_regionalacc ${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
+Rscript ${BIN_DIR}/EvaluateIMPACC.R ${RES_DIR}/ $breed "all"  ${TMP_DIR}/ ${FIM_DIR}/
 
 
 
@@ -239,21 +226,9 @@ do
 	awk '{if($2=="B") $5=2*$4; else if($3=="B") $5=(1-$4)*2; print $5}'> ${TMP_DIR}/genecont_${a}.eval.${breed}.txt
 	head ${TMP_DIR}/genecont_${a}.eval.${breed}.txt
 
-	echo "# PARAMETER FILE    ">${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "NumAnim             $nanim">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "NumMarker           $nsnp">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "LogFile             '${TMP_DIR}/${breed}.eval.${a}.EvaluateFimputeOutput.log'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "In_Val_truegeno     '${TMP_DIR}/TrueGeno.eval.scen.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "In_Val_impgeno      '${TMP_DIR}/ImpGeno.eval.scen.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "In_MAF              '${TMP_DIR}/maf_${a}.eval.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "In_MAF_ALL          '${TMP_DIR}/maf_all_${a}.eval.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "In_GeneContent      '${TMP_DIR}/genecont_${a}.eval.${breed}.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "In_SNPInfo          '${info_c}'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "Out_CorrelationFile '${RES_DIR}/${breed}.eval.${a}.Ind_correlations.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "Out_CorrFileMAF '${RES_DIR}/${breed}.eval.${a}.MAF_correlations.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
-	echo "Out_CorrSNP                 '${RES_DIR}/${breed}.eval.${a}.SNP_correlations.txt'">>${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
+Rscript ${BIN_DIR}/EvaluateIMPACC.R ${RES_DIR}/ $breed $a  ${TMP_DIR}/ ${FIM_DIR}/
 
-	${BIN_DIR}/EvalAnyFimptoFimp_regionalacc ${TMP_DIR}/${breed}_EvaluateFimputeOutput.par
+
 done
 
 Rscript ${BIN_DIR}/Plot_Imputation_Accuracy_rout.R ${RES_DIR}/${breed}.eval.all. ${RES_DIR}/${breed}.eval.higher. ${RES_DIR}/${breed}.eval.lower. $vgl_cu $breed $PDF_DIR $chip

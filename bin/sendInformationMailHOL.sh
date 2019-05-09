@@ -6,11 +6,11 @@ date
 
 
 ##############################################################
-lokal="/qualstore03/data_zws/snp/50Kimputing"
+lokal="/qualstorzws01/data_zws/snp/150Kimputing"
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 
-mails=$(echo "genotype@holstein.ch alex.barenco@siwssherdbook.ch franz.seefried@qualitasag.ch madeleine.berweger@qualitasag.ch mirjam.spengeler@qualitasag.ch")
+mails=$(echo "martin.rust@braunvieh.ch genotype@holstein.ch alex.barenco@siwssherdbook.ch franz.seefried@qualitasag.ch madeleine.berweger@qualitasag.ch mirjam.spengeler@qualitasag.ch")
 
 breed=HOL
 

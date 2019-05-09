@@ -89,8 +89,8 @@ if [ ${DEFCNTRGRP} ==  "N" ]; then
 fi
 if [ ${DEFCNTRGRP} ==  "Y" ]; then
    #test if cases and controls are separated correctly
-   nCommonSamples=$(join -t' ' -o'1.1' -1 1 -2 1 <(awk '{print substr($0,1,14),"2"}' $GWAS_DIR/${breed}_${GWAStrait}_affectedAnimals.txt | sort -T ${SRT_DIR} -t' ' -k1,1) <(awk '{print substr($0,1,14),"2"}' $GWAS_DIR/${breed}_${GWAStrait}_controlAnimals.txt | sort -T ${SRT_DIR} -t' ' -k1,1) |wc -l | awk '{print $1}')
-   if [ ${nCommonSamples} -gt 0 ]; then echo "contro and cases have common samples -> ERROR"; exit 1; fi 
+   nCommonSamples=$(join -t' ' -o'1.1' -1 1 -2 1 <(awk '{print substr($0,1,14),"2"}' $GWAS_DIR/${breed}_${GWAStrait}_affectedAnimals.txt | sort -T ${SRT_DIR} -t' ' -k1,1) <(awk '{print substr($0,1,14),"0"}' $GWAS_DIR/${breed}_${GWAStrait}_controlAnimals.txt | sort -T ${SRT_DIR} -t' ' -k1,1) |wc -l | awk '{print $1}')
+   if [ ${nCommonSamples} -gt 0 ]; then echo "contro and cases have ; ${nCommonSamples} ; common samples -> ERROR"; exit 1; fi 
    echo " I take alle defined control group animals"
    #prepare phenotype file, achtung cases mit 2 kodiert. Ziel = 1 /2 . alle anderen ausser die cases werden 1 codiert. +  Dummy reliability und alle Tiere als referneztiere setzen
    (echo "ID Group Obs Rel" | awk '{printf "%-10s%-10s%-12s%-10s\n", $1,$2,$3,$4}';

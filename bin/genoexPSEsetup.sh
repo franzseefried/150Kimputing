@@ -13,8 +13,9 @@ set -o nounset
 set -o errexit
 
 
-outtime=$(date +"%x" | awk 'BEGIN{FS="/"}{print $2$1$3}')
 
+
+outtime=$(date +"%d%m%Y")
 #######Funktionsdefinition
 getColmnNrSemicl () {
 # $1: String der Spaltenueberschirft repraesentiert

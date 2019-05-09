@@ -167,7 +167,7 @@ for labfile in ${nS} ; do
            if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));GZW[$1]=$3;}} \
            else {sub("\015$","",$(NF));STAT="0";EBV=GZW[$1]; \
            if   (EBV != "") {print $3,EBV}}}' $TMP_DIR/${IDSAMPLE}.${bfileloc}.neugenoexpse.full $TMP_DIR/${IDPARENT}.${pbfileloc}.neugenoexpse.full | ${BIN_DIR}/awk_transpose.job > $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forAnalysis
-       
+       echo $IDSAMPLE $IDPARENT $SRT_DIR
        nCommonSNPs=$(awk '{print NF}' $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forAnalysis |sort -T ${SRT_DIR} -u)
        #ls -trl $TMP_DIR/${IDSAMPLE}.quartaer $TMP_DIR/${IDPARENT}.quartaer
        #(cat  $TMP_DIR/${IDSAMPLE}.quartaer; cat $TMP_DIR/${IDPARENT}.quartaer) | cut -d' ' -f2-  > $TMP_DIR/${IDSAMPLE}.${IDPARENT}.forCHecking

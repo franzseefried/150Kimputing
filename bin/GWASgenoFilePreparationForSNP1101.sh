@@ -196,14 +196,14 @@ if [ ${GWASpop} == "OB" ] || [ $GWASpop == "SI" ]; then
    awk 'BEGIN{FS=";";OFS=" "}{ \
      if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));PC[$2]=$3;}} \
      else {sub("\015$","",$(NF));PCI="0";PCI=PC[$5]; \
-     if   (PCI != "" && PCI > 0.70) {print $0}}}' ${TMP_DIR}/${breed}.Blutanteile.txt $TMP_DIR/ped_umcodierung.txt.${breed}.anml | tr ';' ' ' > $TMP_DIR/ped_umcodierung.txt.${breed}.llams
+     if   (PCI != "" && PCI > 0.60) {print $0}}}' ${TMP_DIR}/${breed}.Blutanteile.txt $TMP_DIR/ped_umcodierung.txt.${breed}.anml | tr ';' ' ' > $TMP_DIR/ped_umcodierung.txt.${breed}.llams
      join -t' ' -o'1.1 1.2' -1 2 -2 1 <(sort -T ${SRT_DIR} -t' ' -k2,2 -T $SRT_DIR $TMP_DIR/${breed}.LD50Kfimpute.tmp.snp1101) <(sort -T ${SRT_DIR} -t' ' -k1,1 -T $SRT_DIR $TMP_DIR/ped_umcodierung.txt.${breed}.llams) > $TMP_DIR/${breed}.snp1101.tail.pop.ani.lst
 fi
 if [ ${GWASpop} == "BV" ] || [ $GWASpop == "HO" ]; then
    awk 'BEGIN{FS=";";OFS=" "}{ \
      if(FILENAME==ARGV[1]){if(NR>0){sub("\015$","",$(NF));PC[$2]=$3;}} \
      else {sub("\015$","",$(NF));PCI="0";PCI=PC[$5]; \
-     if   (PCI != "" && PCI < 0.3) {print $0}}}' ${TMP_DIR}/${breed}.Blutanteile.txt $TMP_DIR/ped_umcodierung.txt.${breed}.smcl | tr ';' ' ' > $TMP_DIR/ped_umcodierung.txt.${breed}.small
+     if   (PCI != "" && PCI < 0.4) {print $0}}}' ${TMP_DIR}/${breed}.Blutanteile.txt $TMP_DIR/ped_umcodierung.txt.${breed}.smcl | tr ';' ' ' > $TMP_DIR/ped_umcodierung.txt.${breed}.small
      join -t' ' -o'1.1 1.2' -1 2 -2 1 <(sort -T ${SRT_DIR} -t' ' -k2,2 -T $SRT_DIR $TMP_DIR/${breed}.LD50Kfimpute.tmp.snp1101) <(sort -T ${SRT_DIR} -t' ' -k1,1 -T $SRT_DIR $TMP_DIR/ped_umcodierung.txt.${breed}.small) > $TMP_DIR/${breed}.snp1101.tail.pop.ani.lst
 fi
 

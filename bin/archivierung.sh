@@ -16,7 +16,7 @@ set -o nounset
 #loeschen LIMS einzelgenfiles
 rm -f ${LIMS_DIR}/*.csv
 
-echo $BCP_DIR/$${run}
+echo $BCP_DIR/${run}
 mkdir -p $BCP_DIR/${run}
 mkdir -p $BCP_DIR/${run}/log
 mkdir -p $BCP_DIR/${run}/parfiles

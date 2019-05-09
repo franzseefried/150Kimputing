@@ -48,11 +48,11 @@ if  [ ${ort} == "Darwin" ]; then
    $BIN_DIR/sendErrorMail.sh $SCRIPT $1
 elif [ ${ort} == "Linux" ]; then
    maschine=$(uname -a | awk '{print $2}'  | cut -d'.' -f1)
-   if [ ${maschine} != "castor" ]; then
-       echo "Due to R version issues and parallel computation you have to change to castor";
-       $BIN_DIR/sendErrorMail.sh $SCRIPT $1
-       exit 1
-   fi
+#   if [ ${maschine} != "castor" ]; then
+#       echo "Due to R version issues and parallel computation you have to change to castor";
+#       $BIN_DIR/sendErrorMail.sh $SCRIPT $1
+#       exit 1
+#   fi
 fi
 ##################################
 echo "Run stringdist R for GPsearch $1"

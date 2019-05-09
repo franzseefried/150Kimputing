@@ -2,9 +2,9 @@
 firstIMPUTATIONDIR=""
 secondIMPUTATIONDIR=/qualstorzws01/data_zws/snp/1000Kimputing
 #change GeneSeeks NEWDATA######################################
-GeneSeekdata_LD=""
+GeneSeekdata_LD="Qualitas_BOVG50V02_20190503,Qualitas_BOVG50V02_20190502,Qualitas_BOVG50V02_20190501,Qualitas_BOVG50V02_20190429,Qualitas_BOVG50V02_20190425,Qualitas_BOVG50V02_20190424,Qualitas_BOVG50V02_20190422"
 GeneSeekdata_F250V1=""
-GeneSeekdata_150K=""
+GeneSeekdata_150K="Qualitas_BOVUHDV03_20190502,Qualitas_BOVUHDV03_20190425"
 GeneSeekdata_850K=""
 GeneSeekdata_50K=""
 GeneSeekdata_80K=""
@@ -13,26 +13,27 @@ dbsystem=rapid
 #von wo sollen die historischen Genotypen gelesen werden: Archiv "A" oder die binearies aus dem oldrun "B". B is much faster
 ReadGenotypes=B
 #Runshortcuts
-old10run=2618
-old9run=2718
-old8run=2818
-old7run=2918
-old6run=0119
-old5run=0219
-old4run=0319
-old3run=0419
-old2run=0519
-oldrun=0619
+old10run=2918
+old9run=0119
+old8run=0219
+old7run=0319
+old6run=0419
+old5run=0519
+old4run=0619
+old3run=0719
+old2run=0819
+oldrun=0919
 #Imputation run MMYY
-run=0719
+run=1019
+#Intergenomix run was 0719
 #Datum Pedigree Abzug SHB und BVCH############################
-DatPEDIshb=20190319
-DatPEDIbvch=20190321
-DatPEDIvms=20190321
-DatPEDIjer=20190315
+DatPEDIshb=20190504
+DatPEDIbvch=20190504
+DatPEDIvms=20190507
+DatPEDIjer=20190504
 #shzv pedi: Names muss auf .txt enden!!!
-pedigreeSHZV=Ped_EGcom-20190321.txt
-blutfileSHZV=Rac_EGcom-20190321.txt
+pedigreeSHZV=Ped_EGcom-20190503.txt
+blutfileSHZV=Rac_EGcom-20190503.txt
 #Maildresse or responsible employee###########################
 MAILACCOUNT=franz.seefried@qualitasag.ch
 ##############################################################
@@ -45,13 +46,13 @@ sendMails=Y
 GWASPHEN=BINARY
 #only if case control study: Y or N are allowed. Be careful with N
 DEFCNTRGRP=Y
-GWAStrait=STRABISMUS
+GWAStrait=WHITE
 #density for animals used in GWAS: LD / HD are allowed
 GWASsetofANIS=LD
 #SNPset for gwas or HFT analyses: LD or HD are allowed
 HFTSNPSET=HD
 #GWAS is running using tail population definition: BV OB SI HO AN LI are allowed
-GWASpop=HO
+GWASpop=BV
 GWASmaf=0.02
 GWASgeno=0.05
 GWASmind=0.05
@@ -84,8 +85,8 @@ minchipstatus=0
 #grenze am wann suspekte Verwandtschaft anschlaegt
 maxAllowedRelship=0.2
 #Grenze Sexcheck Y-chr Test fuer beide Geschlechter urspuengliche Grenze YthrldM war bei 0.769, YthrldF war bei 0.221, dann kamen zu viele falch negative, darum Grenze erhoeht
-YthrldM=0.649
-YthrldF=0.550
+YthrldM=0.769
+YthrldF=0.221
 #Grenze Sexcheck PAR Test fuer beide Geschlechter
 PARthrld=50
 #ISAG200 callrate
@@ -128,15 +129,15 @@ ARS12Name1=139977_GGPHDV3
 NewChip2=48_V1
 ARS12Name2=47843_BOVG50V1
 #parameter if genomewide imputation accuracy has to be evaluated
-evalImpAcc=Y
+evalImpAcc=N
 #Parameter if LogRR and BAlleleFrq should be plotted for all single GeneTests -> usually should be N
 LogRRBAllelePot=N
 ##################################################
 #Do NOT change:
 IMPUTATIONFLAG=ImputationDensityLD150K
 #HD Imputation run
-hdrun=${HDoldrun}
-fhdrun=${FHDoldrun}
+#hdrun=${HDoldrun}
+#fhdrun=${FHDoldrun}
 #CrossReferenzfiles:
 crossreffileOLD=Samplesheet_${old10run}.txt
 crossreffileMV=Samplesheet_${oldrun}.txt
@@ -156,7 +157,7 @@ SSNPSiGeTe=/qualstorzws01/data_zws/parameterfiles/Reftab_SNPs-GenMarker.txt
 #Main-Directories do not change
 ARC_DIR=/qualstorzws01/data_archiv/zws/ogc
 ARCH_DIR=/qualstorzws01/data_archiv/SNP
-DEUTZ_DIR=/qualstore01/argus
+DEUTZ_DIR=/qualstorora01/argus
 MAIN_DIR=/qualstorzws01/data_zws/snp/150Kimputing
 WRKF_DIR=/qualstorzws01/data_tmp/zws/snp/150Kimputing
 SNP_DIR=/qualstorzws01/data_zws/snp

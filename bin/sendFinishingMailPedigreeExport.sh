@@ -6,8 +6,9 @@ date
 
 
 ##############################################################
+cd /qualstore03/data_zws/snp/150Kimputing
 lokal=$(pwd | awk '{print $1}')
-source  /qualstore03/data_zws/snp/50Kimputing/parfiles/steuerungsvariablen.ctr.sh
+source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 
 #mails=$(echo "franz.seefried@qualitasag.ch")

@@ -165,30 +165,35 @@ print(paste("Eine Grafik fuer ",PLOTARG," wurde erstellt",sep=""))
 
 
 ###################################################################
-#plot PLOTARG for each sample in the dataset
-#animals<-unique(data$TVD)
-#for (animal in animals){
-#   print(animal)
-#   s<-subset(data,TVD==animal)
-#   carrier<-as.numeric(unique(s$HPLSTT))
-#   if( carrier == 0 ){colplot<-c("black")}
-#   if( carrier == 1 ){colplot<-c("red")}
-#   if( carrier == 2 ){colplot<-c("blue")}
-#   LSTANIMAL<-merge(SNPlst,s,by.x="SNPname",by.y="SNP")
-#   ANIMALPLOT<-LSTANIMAL[,c(4,7)]
-#   #insert missing value code
-#   ANIMALPLOT[is.na(ANIMALPLOT[,])] <- c(-9)
-#   #print(paste(animal,dim(ANIMALPLOT)),sep="")
-#   bks<-as.numeric(levels(ANIMALPLOT$Bp)[c(T, rep(F, 9))])
-#   header <- paste( PLOTARG," for ",animal," colour: if homozygotes -> black, if carrier -> red, if homozygous-carrier -> blue.","Chromosom",chr,"_",BEG,"_",sto,"_",HPL, sep=" ")
-#   pdfname<-c(paste(dir,PLOTARG,"_",animal,"carrierstat",carrier,"_Chromosom",chr,"_",BEG,"_",sto,"_",HPL,".pdf", sep=""))
-#   pdf(file=pdfname,width=30,height=20)
-#       print(ggplot(ANIMALPLOT,aes(x=Bp,y=LogRR,group = 1)) +
-#              ylim(myylim) +
-#              geom_point(size=2.5,shape=21,color=colplot,fill=colplot) +
-#              ylab(PLOTARG) +
-#              theme(axis.text.x = element_text(angle=90)) +
-#              scale_x_discrete(breaks = bks) +
-#              labs(title=header))
-#   dev.off()
-#}   
+if (PLOTARG == "BAlleleF"){
+     #plot PLOTARG for each sample in the dataset
+     animals<-unique(data$TVD)
+     for (animal in animals){
+        print(animal)
+        s<-subset(data,TVD==animal)
+        carrier<-as.numeric(unique(s$HPLSTT))
+        if( carrier == 0 ){colplot<-c("black")}
+        if( carrier == 1 ){colplot<-c("red")}
+        if( carrier == 2 ){colplot<-c("blue")}
+        LSTANIMAL<-merge(SNPlst,s,by.x="SNPname",by.y="SNP")
+     #   print(names(LSTANIMAL))
+        ANIMALPLOT<-LSTANIMAL[,c(4,6)]
+     #   #insert missing value code
+        ANIMALPLOT[is.na(ANIMALPLOT[,])] <- c(-9)
+        #print(paste(animal,dim(ANIMALPLOT)),sep="")
+        header <- paste(PLOTARG," for ",animal," colour: if homozygotes -> black, if carrier -> red, if homozygous-carrier -> blue.","Chromosom",chr,"_",BEG,"_",sto,"_",HPL, sep=" ")
+        aout<-paste("BAlleleF",animal,"-GT",carrier,"-",sep="")
+        pdfname<-sub("BAlleleF{1}", aout, OUTFILE2)
+     #   print(pdfname)
+     #   pdfname<-c(paste(dir,PLOTARG,"_",animal,"carrierstat",carrier,"_Chromosom",chr,"_",BEG,"_",sto,"_",HPL,".pdf", sep=""))
+        pdf(file=pdfname,width=30,height=20)
+            print(ggplot(ANIMALPLOT,aes(x=Bp,y=Ballele,group = 1)) +
+                   ylim(myylim) +
+                   geom_point(size=2.5,shape=21,color=colplot,fill=colplot) +
+                   ylab(PLOTARG) +
+                   theme(axis.text.x = element_text(angle=90)) +
+                   scale_x_continuous(breaks = xseq) +
+                   labs(title=header))
+        dev.off()
+      }   
+}

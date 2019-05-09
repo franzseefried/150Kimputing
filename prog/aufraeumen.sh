@@ -47,4 +47,4 @@ done
 
 RIGHT_NOW=$(date )
 echo "endeeeeeeeeeeee"
-echo $RIGHT_END Ende ${SCRIPT}
+echo $RIGHT_NOW Ende ${SCRIPT}

@@ -85,13 +85,14 @@ done
 #process data now
 for rasse in $breedarray ; do
 #for rasse in BSW; do
-for labfile in $(ls ${rasse}*) ; do
+for labfile in $(ls ${rasse}*Qualitas*) ; do
    if [[ ${labfile} == *Qualitas* ]]; then
     ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | cut -d'-' -f2- )
     awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
-  else
-    ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | sed 's/\.built/ /g' | cut -d' ' -f1 | cut -d'-' -f2-)
-    awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
+  #externe SNP pipeline baut eine LDV3 Typisierung. daher ist der Sexcheck fuer externe SNP-Daten nicht repraesentativ und wurde 419 ausgebaut
+  #else
+  #  ll=$(echo $labfile | sed 's/\.tvd\.toWorkWith//g' | sed 's/\.built/ /g' | cut -d' ' -f1 | cut -d'-' -f2-)
+  #  awk '{print $2}' $labfile | sort -T ${SRT_DIR} -T ${SRT_DIR} -u -T $SRT_DIR > $TMP_DIR/${ll}.tiere.toWorkWithII
   fi
   nSNPfile=$(echo $CHCK_DIR/${run}/nSNPs.check.${ll} )
   ls -trl $nSNPfile
@@ -180,7 +181,7 @@ for labfile in $(ls ${rasse}*) ; do
     sleep 10
   done
   echo "-t ${muni} -l ${labfile} -f ${sexSTRAT} -g ${gesecode}"
-  nohup ${BIN_DIR}/runSexCheck.sh -t ${muni} -l ${labfile} -f ${sexSTRAT} -g ${gesecode} > $LOG_DIR/${muni}.${labfile}.SEXCHECK.log 2>&1 &
+  nohup ${BIN_DIR}/runSexCheck.sh -t ${muni} -l ${labfile} -f ${sexSTRAT} -g ${gesecode} -p ${lokal}/parfiles/steuerungsvariablen.ctr.sh > $LOG_DIR/${muni}.${labfile}.SEXCHECK.log 2>&1 &
   pid=$!
 #  echo $pid
   pids=(${pids[@]} $pid)
@@ -201,7 +202,7 @@ rm -f $TMP_DIR/*.tiere.toWorkWithII
 #sammeln aller die den sexhcheck nicht erfuellen und schreiben der ergebnisliste
 cd ${MAIN_DIR}
 awk 'BEGIN{FS=";";OFS=";"}{if($7 == "Y") print $0}'  ${TMP_DIR}/*.sexcheck >> ${ZOMLD_DIR}/${run}.BADsexCheck.lst
-cd ${lokal}
+
 echo " "
 RIGHT_END=$(date )
 echo $RIGHT_END Ende ${SCRIPT}

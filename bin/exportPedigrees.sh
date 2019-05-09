@@ -141,7 +141,7 @@ elif  [ ${breed} == "VMS" ]; then
      echo "pnNoNOk;0"; 
      echo "pnNoStillgelegt;1";
      echo "pnIgnoreOKCode;0";
-     echo "pnIgnoreHbRInc;0";
+     echo "pnIgnoreHbRInc;1";
      echo "pnOutSektion;0";
      echo "pnOutRasseCode;0";
      echo "pnGenmarker;0";) > ${DEUTZ_DIR}/sbzv/dsch/in/ExportPedigree.vms.gs.par

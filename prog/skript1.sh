@@ -28,6 +28,8 @@ elif [ ${ort} == "Linux" ]; then
     linkaufloesung="/qualstore03"
   elif [ ${maschine} == "castor" ]; then
     linkaufloesung="/qualstorzws01"
+  elif [ ${maschine} == "speer" ]; then
+    linkaufloesung="/qualstorzws01"
   elif [ ${maschine} == "eiger" ]; then
     linkaufloesung="/qualstorzws01"
   else

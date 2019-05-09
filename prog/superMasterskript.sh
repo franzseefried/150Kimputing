@@ -128,7 +128,7 @@ if [ ${err} -gt 0 ]; then
         exit 1
 fi
 echo "----------------------------------------------------"
-$BIN_DIR/sendInfoMailToStartPrediction.sh 2>&1
+$BIN_DIR/sendInfoMailToStartPrediction.sh ${1} 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
         echo "ooops Fehler 8b"
@@ -154,7 +154,7 @@ cd ../einzelgen
 prog/masterskriptProcessDataFiles.sh -b ${1} 2>&1 > ${LOG_DIR}/10masterskriptEinzelgenPipeline_${1}.log 
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        cd ../50Kimputing
+        cd ../150Kimputing
         echo "ooops Fehler superMasterskript 10"
         $BIN_DIR/sendErrorMail.sh einzelgen/masterskriptProcessDataFiles.sh $1
         exit 1
@@ -162,7 +162,7 @@ fi
 prog/masterskriptBringResultsToCustomers.sh -b ${1} 2>&1 >> ${LOG_DIR}/10masterskriptEinzelgenPipeline_${1}.log 
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        cd ../50Kimputing
+        cd ../150Kimputing
         echo "ooops Fehler superMasterskript 10"
         $BIN_DIR/sendErrorMail.sh einzelgen/masterskriptProcessDataFiles.sh $1
         exit 1
@@ -182,27 +182,12 @@ fi
 echo "----------------------------------------------------"
 fi
 ##################################
-echo Step 12
-if [ ${1} == "BSW" ] || [ ${1} == "HOL" ] ; then
-MitEinzelgen=Y
-else
-MitEinzelgen=N
-fi
-$PROG_DIR/masterskriptScreenLogfilesFast.sh ${1} ${MitEinzelgen} 2>&1 > ${LOG_DIR}/13masterskriptScreenLogfilesFast_${1}.log
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler superMasterskript 12"
-        $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptScreenLogfilesFast.sh ${1}
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
 #this step is additional and helpfull when you want to clarify unclear MGS issues
-echo Step 13
+echo Step 12
 $PROG_DIR/masterskriptGPsearch1.sh ${1} 2>&1 > ${LOG_DIR}/14masterskriptGPsearch1_${1}.log
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler superMasterskript 13"
+        echo "ooops Fehler superMasterskript 12"
         $BIN_DIR/sendErrorMail.sh $PROG_DIR/masterskriptGPsearch1.sh ${1}
         exit 1
 fi
@@ -213,7 +198,7 @@ if [ ${1} != "VMS" ] && [ ${HDfollows} == "Y" ]; then
   $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh ${1} 2>&1
   err=$(echo $?)
   if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 3"
+        echo "ooops Fehler 13"
         $BIN_DIR/sendErrorMail.sh $BIN_DIR/quickVerarbeiteGENOMEwide-imputierte-TiereAlsStartfuerHDimputing.sh $1
         exit 1
   fi

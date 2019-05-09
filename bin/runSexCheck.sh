@@ -4,12 +4,12 @@ SCRIPT=`basename ${BASH_SOURCE[0]}`
 echo $RIGHT_NOW Start ${SCRIPT}
 echo " "
 ##############################################################
-lokal=$(pwd | awk '{print $1}')
-source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
+#lokal=$(pwd | awk '{print $1}')
+#source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
 set -o nounset
 set -o errexit
-cd ${LAB_DIR}
+
 ### # function for reporting on console
 usage () {
   local l_MSG=$1
@@ -22,7 +22,9 @@ usage () {
   echo "  where <string> specifies the functionname for the sexcheck"
   echo "Usage: $SCRIPT -g <string>"
   echo "  where <string> specifies the geneseek name of the chip"
-  exit 1
+  echo "Usage: $SCRIPT -p <string>"
+  echo "  where <string> specifies the paramaterfile" 
+exit 1
 }
 
 ### check number of command line arguments
@@ -32,7 +34,7 @@ if [ $NUMARGS -lt 0 ]  ; then
   usage 'No command line arguments specified'
 fi
 
-while getopts :t:l:f:g: FLAG; do
+while getopts :t:l:f:g:p: FLAG; do
   case $FLAG in
     t) # set option "t"
       export tvd=$(echo $OPTARG | awk '{print toupper($1)}')
@@ -50,6 +52,9 @@ while getopts :t:l:f:g: FLAG; do
       ;;
     g) # set option "g"
       export geneseekname=$(echo $OPTARG )
+      ;;
+    p) # set option "g"
+      export prfl=$(echo $OPTARG )
       ;;
     *) # invalid command line arguments
       usage "Invalid command line argument $OPTARG"
@@ -77,7 +82,8 @@ if [ -z "${geneseekname}" ]; then
     usage 'Parameter for imap must be specified using option -g <string>'
     exit 1
 fi
-
+source  ${prfl}
+cd ${LAB_DIR}
 OS=$(uname -s)
 if [ $OS != "Linux" ]; then
 echo "oooops :-( ....Change to a Linux-Server. You are not on a Linux Server, but this is required"

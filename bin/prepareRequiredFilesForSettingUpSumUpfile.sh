@@ -100,7 +100,7 @@ awk '{print $1,$2}' $TMP_DIR/${breed}.externeSNPHD.lst;) | sort -T ${SRT_DIR} -u
 counter=$(echo $counter | awk '{print $1+1}')
 #snpTwincheck files doppelt lesen da twin1 twin2 im readfile sind
 (awk '{print $1,$2}' $RES_DIR/${breed}.SNPtwins.${run}.txt
-  awk '{print $1,$2}' $RES_DIR/${breed}.SNPtwins.${run}.txt) > $TMP_DIR/smpg${breed}/#${counter}#${breed}snptwins.${run}.txt
+  awk '{print $2,$1}' $RES_DIR/${breed}.SNPtwins.${run}.txt) > $TMP_DIR/smpg${breed}/#${counter}#${breed}snptwins.${run}.txt
 counter=$(echo $counter | awk '{print $1+1}')
 awk '{print $1,$3}' $RES_DIR/${breed}.GenomicFcoefficient.${run}.txt | sort -T ${SRT_DIR} -t' ' -k1,1 > $TMP_DIR/smpg${breed}/#${counter}#${breed}.${run}.genF
 counter=$(echo $counter | awk '{print $1+1}')

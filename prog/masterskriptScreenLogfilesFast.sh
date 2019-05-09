@@ -75,6 +75,10 @@ echo "Keyoutput from fastCheckSingleLocusHaplotyping for ${1} " >> $WRK_DIR/${1}
 $BIN_DIR/fastCheckSingleLocusHaplotyping.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo " " >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo "Look if homozygous samples are amoung new samples"
+$BIN_DIR/fastCheckNewHomozygousFromGTprediction.sh ${1} >> $WRK_DIR/${1}.LogScreening.${run}.log
+echo " "
+echo " "
 fi
 echo "#########################################################" >> $WRK_DIR/${1}.LogScreening.${run}.log
 echo "count no of Result-Records comparing last two runs:" >> $WRK_DIR/${1}.LogScreening.${run}.log

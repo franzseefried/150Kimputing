@@ -304,7 +304,7 @@ join -t' ' -o'1.1 1.2' -v1 -1 1 -2 1 <(awk '{if($2 == 0) print $1,"Y"}' $HIS_DIR
 counter=$(echo $counter | awk '{print $1+1}')
 #snpTwincheck files doppelt lesen da twin1 twin2 im readfile sind
 (awk '{print $1,$2}' $RES_DIR/${breed}.SNPtwins.${run}.txt
-  awk '{print $1,$2}' $RES_DIR/${breed}.SNPtwins.${run}.txt) > $TMP_DIR/smllg${breed}/#${counter}#${breed}snptwins.${run}.txt
+  awk '{print $2,$1}' $RES_DIR/${breed}.SNPtwins.${run}.txt) > $TMP_DIR/smllg${breed}/#${counter}#${breed}snptwins.${run}.txt
 counter=$(echo $counter | awk '{print $1+1}')
 for srun in ${run} ${oldrun} ${old2run} ${old3run} ${old4run} ${old5run} ${old6run} ${old7run} ${old8run} ${old9run}; do
 sed 's/\;/ /g' ${ZOMLD_DIR}/${srun}.BADsexCheck.lst ;

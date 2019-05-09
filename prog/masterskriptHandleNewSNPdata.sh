@@ -107,21 +107,23 @@ fi
 echo "----------------------------------------------------"
 ##################################
 echo Step 8
-$BIN_DIR/sendInfoMailToContinue.sh 2>&1
-err=$(echo $?)
-if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 8"
-        $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/sendInfoMailToContinue.sh
-        exit 1
-fi
-echo "----------------------------------------------------"
-##################################
-echo Step 9
+cd ${MAIN_DIR}
 $BIN_DIR/sexCheck.sh 2>&1
 err=$(echo $?)
 if [ ${err} -gt 0 ]; then
-        echo "ooops Fehler 9"
+        echo "ooops Fehler 8"
         $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/sexCheck.sh
+        exit 1
+fi
+echo "----------------------------------------------------"
+cd ${MAIN_DIR}
+##################################
+echo Step 9
+$BIN_DIR/sendInfoMailToContinue.sh 2>&1
+err=$(echo $?)
+if [ ${err} -gt 0 ]; then
+        echo "ooops Fehler 9"
+        $BIN_DIR/sendErrorMailWOarg2.sh $BIN_DIR/sendInfoMailToContinue.sh
         exit 1
 fi
 echo "----------------------------------------------------"

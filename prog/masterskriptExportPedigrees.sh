@@ -52,7 +52,7 @@ end_msg () {
 start_msg
 
 ##############################################################
-cd /qualstore03/data_zws/snp/50Kimputing
+cd /qualstore03/data_zws/snp/150Kimputing
 lokal=$(pwd | awk '{print $1}')
 source  ${lokal}/parfiles/steuerungsvariablen.ctr.sh
 ###############################################################
